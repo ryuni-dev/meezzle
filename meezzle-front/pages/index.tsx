@@ -1,11 +1,21 @@
 import type { NextPage } from "next";
 import { GlobalStyle } from "../styles/Globalstyle";
+import Navbar from "../components/common/Navbar";
+import LandingPageFooter from "../components/landingPage/beforeLogin/LandingPageFooter";
+import LandingPageIntro from "../components/landingPage/beforeLogin/LandingPageIntro";
 
-const Home: NextPage = () => {
+import { useRecoilState } from "recoil";
+import { LoginState } from "../components/states/states";
+
+const Home: NextPage = ({}) => {
+    const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState);
+
     return (
         <>
             <GlobalStyle />
-            <h1>Hello world</h1>
+            <Navbar />
+            {!isLoggedIn && <LandingPageIntro />}
+            {!isLoggedIn && <LandingPageFooter />}
         </>
     );
 };
