@@ -6,18 +6,20 @@ import LandingPageIntro from "../components/landingPage/beforeLogin/LandingPageI
 
 import { useRecoilState } from "recoil";
 import { LoginState } from "../components/states/states";
+import LandingPageSection from "../components/landingPage/afterLogin/LandingPageSection";
 
 const Home: NextPage = ({}) => {
-    const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState);
+  const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState);
 
-    return (
-        <>
-            <GlobalStyle />
-            <Navbar />
-            {!isLoggedIn && <LandingPageIntro />}
-            {!isLoggedIn && <LandingPageFooter />}
-        </>
-    );
+  return (
+    <>
+      <GlobalStyle />
+      <Navbar />
+      {!isLoggedIn && <LandingPageIntro />}
+      {!isLoggedIn && <LandingPageFooter />}
+      <LandingPageSection />
+    </>
+  );
 };
 
 export default Home;

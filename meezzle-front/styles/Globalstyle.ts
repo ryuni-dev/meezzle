@@ -28,10 +28,4 @@ export const GlobalStyle = createGlobalStyle`
       background: black;
     } */
   }
-
-  @font-face {
-  font-family: "Pretendard";
-  font-weight: 400;
-  src: url("/fonts/Pretendard-Medium.woff") format("truetype");
-  }
 `;
