@@ -1,14 +1,12 @@
 import type { NextComponentType } from "next"
-import styled from 'styled-components';
-import { H2, Input } from "../../../styled-components/StyledCreate";
+import InputText from "../InputText";
+import TextBlackMedium from "../../common/TextBlackMedium";
 
 const EventName: NextComponentType = (props: any)=> {
     return (
         <>
-            <H2>
-                이벤트 명
-            </H2>
-            <Input placeholder="이벤트 명을 입력해 주세요"></Input>
+            <TextBlackMedium text='이벤트 명'></TextBlackMedium>
+            <InputText text='이벤트 명을 입력해 주세요.'></InputText>
         </>
     );
 }
