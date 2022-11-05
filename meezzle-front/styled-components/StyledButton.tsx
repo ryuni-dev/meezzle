@@ -4,7 +4,7 @@ export const Button = styled.button`
   display: block;
   margin-left: auto;
   margin-right: auto;
-  width: 343px;
+  width: 90%;
   height: 59px;
   text-align: center;
   font-family: "Pretendard";
