@@ -9,17 +9,17 @@ import { LoginState } from "../components/states/states";
 import LandingPageSection from "../components/landingPage/afterLogin/LandingPageSection";
 
 const Home: NextPage = ({}) => {
-  const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState);
+    const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState);
 
-  return (
-    <>
-      <GlobalStyle />
-      <Navbar />
-      {!isLoggedIn && <LandingPageIntro />}
-      {!isLoggedIn && <LandingPageFooter />}
-      <LandingPageSection />
-    </>
-  );
+    return (
+        <>
+            <GlobalStyle />
+            <Navbar />
+            {!isLoggedIn && <LandingPageIntro />}
+            {!isLoggedIn && <LandingPageFooter />}
+            {isLoggedIn && <LandingPageSection />}
+        </>
+    );
 };
 
 export default Home;
