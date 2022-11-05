@@ -13,7 +13,14 @@ import { inputStage } from "../states/eventCreate";
 import EventDay from "../components/event/Create/EventDay";
 import Btn from "../components/common/Btn";
 
-
+const Footer = styled.div`
+    display: flex;
+    width: 100%;
+    height: 90px;
+    margin-top: 1rem;
+    position : fixed;
+    bottom : 0;
+`
 const StageManager = (stage: number): JSX.Element => {
     switch(stage) {
         case 0:
@@ -94,13 +101,9 @@ const CreatePage: NextPage = () => {
             <EventCreate>
                 {StageManager(stage)}
             </EventCreate>
+            <Footer>
             <Btn click={ChangeStage} text={BtnText[stage]}></Btn>
-
-                {/* <EventCreate>
-                    {SettingPages(pageState)}
-                </EventCreate>
-                <DecreaseBtn></DecreaseBtn>
-                <IncreaseBtn></IncreaseBtn> */}
+            </Footer>
         </>
         )
 };
