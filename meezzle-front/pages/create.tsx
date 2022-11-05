@@ -1,6 +1,8 @@
 import type { NextPage } from "next";
 import { useRecoilState } from "recoil";
 import styled from 'styled-components';
+import { CSSTransition } from 'react-transition-group' 
+
 
 import EventCreate from "../components/event/Create/EventCreate";
 import EventDate from "../components/event/Create/EventDay";
@@ -31,7 +33,9 @@ const StageManager = (stage: number): JSX.Element => {
         case 1: 
             return (
                 <>
+                <CSSTransition in={true}  timeout={500}>
                     <EventDate></EventDate>
+                </CSSTransition>
                     <EventName></EventName>
                 </>
             )
@@ -72,15 +76,6 @@ const StageManager = (stage: number): JSX.Element => {
     }
 } 
 
-const Input = ():JSX.Element => {
-    return (
-        <>
-        </>
-    )
-}
-
-
-
 const CreatePage: NextPage = () => {
     const BtnText = [
         '요일 선택하러 가기',
@@ -91,11 +86,13 @@ const CreatePage: NextPage = () => {
     ]
     
     const [stage, setStage] = useRecoilState(inputStage);
+
     const ChangeStage = () => {
-        if(stage < 4) {
+        if(stage < 5) {
             setStage((stage) => stage+1);
         }
     }
+
     return (
         <>
             <EventCreate>
