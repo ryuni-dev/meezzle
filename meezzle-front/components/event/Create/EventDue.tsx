@@ -6,6 +6,7 @@ import DivRow from "../CreateElement/DivRow";
 import TextBlackMedium from "../../common/TextBlackMedium";
 import { useState } from "react";
 import TextGraySmall from "../../common/TextGraySmall";
+import ContainerInput from "../CreateElement/ContainerInput";
 
 
 const DatePickerDiv = styled.div`
@@ -36,7 +37,7 @@ const EventDue: NextComponentType = ()=> {
 
 
     return (
-        <>
+        <ContainerInput>
             <TextBlackMedium text='마감일 및 마감 시간'></TextBlackMedium>
             <TextGraySmall text='입력 마감일 및 마감 시간을 입력해주세요.'></TextGraySmall>
             <DivRow>
@@ -45,7 +46,7 @@ const EventDue: NextComponentType = ()=> {
                     dateFormat="yyyy년 MM월 dd일"
                     selected={startDate}
                     onChange={(date:Date) => setStartDate(date)}
-                />
+                    />
                 </DatePickerDiv>
                 <DatePickerDiv>
                     <DatePickerCumstom
@@ -60,12 +61,7 @@ const EventDue: NextComponentType = ()=> {
                     />
                 </DatePickerDiv>
             </DivRow>
-            {/* <DateContainer>
-                <InputDate type="date" id="currentMonth" date-placeholder="시작 날짜"></InputDate>
-                <DateSelectText>~</DateSelectText>
-                <InputDate type="date" id="currentMonth"></InputDate>
-            </DateContainer> */}
-        </>
+        </ContainerInput>
     );
 }
 

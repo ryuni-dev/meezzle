@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import DivRow from "../CreateElement/DivRow";
 import TextBlackMedium from "../../common/TextBlackMedium";
 import TextGraySmall from "../../common/TextGraySmall";
+import ContainerInput from "../CreateElement/ContainerInput";
 
 
 const DayText = styled.text`
@@ -42,7 +43,7 @@ const DayBox = styled.div`
 const EventDay: NextComponentType = ()=> {
     const weekArr = ["일", "월", "화", "수", "목", "금", "토"];
     return (
-        <>
+        <ContainerInput>
             <TextBlackMedium text='이벤트 요일'></TextBlackMedium>
             <TextGraySmall text='원하는 요일을 선택해 주세요. 드래그로 선택 가능해요.'></TextGraySmall>
 
@@ -56,7 +57,7 @@ const EventDay: NextComponentType = ()=> {
                         </>
                     )}
             </DivRow>
-        </>
+        </ContainerInput>
     );
 }
 

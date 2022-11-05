@@ -4,7 +4,7 @@ const Div = styled.div`
     display: flex;
     flex-direction: row;
     width: 100%;
-    height: 48px;
+    height: auto;
     margin-top: 1.5rem;
 `
 type Props = {

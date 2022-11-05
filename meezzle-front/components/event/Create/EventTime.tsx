@@ -8,6 +8,7 @@ import DivRow from "../CreateElement/DivRow";
 import TextBlackMedium from "../../common/TextBlackMedium";
 import TextGraySmall from "../../common/TextGraySmall";
 import { useState } from "react";
+import ContainerInput from "../CreateElement/ContainerInput";
 
 const TextGrayMedium = styled.text`
     font-family: 'Pretendard';
@@ -55,8 +56,8 @@ const EventTime: NextComponentType = ()=> {
     const [startDate, setStartDate] = useState(new Date());
 
     return (
-        <>
-            <TextBlackMedium text='이벤트 명'></TextBlackMedium>
+        <ContainerInput>
+            <TextBlackMedium text='시간'></TextBlackMedium>
             <TextGraySmall text='선택할 수 있는 시간대를 입력해주세요.(24시간 기준)'></TextGraySmall>
             <DivRow>
                 <DatePickerDiv>
@@ -86,7 +87,7 @@ const EventTime: NextComponentType = ()=> {
                     />
                 </DatePickerDiv>
             </DivRow>
-        </>
+        </ContainerInput>
     );
 }
 

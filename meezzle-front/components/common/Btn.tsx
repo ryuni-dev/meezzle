@@ -7,6 +7,7 @@ const Button = styled.button`
 
     background: #3278DE;
     border-radius: 15px;
+    border: 0;
     
     font-family: 'Pretendard';
     font-style: normal;
@@ -18,18 +19,22 @@ const Button = styled.button`
     letter-spacing: -0.011em;
 
     /* white */
-
     color: #FFFFFF;
-
     margin: 1rem;
+
+    // &:hover {
+    //     background: #97B0D6
+    //     transition: color 0.3;  
+    // }
 `
-type Props = {
+type BtnProps = {
     text: string
+    click(): void
 }
 
-const Btn= ({text}: Props) => {
+const Btn= ({text, click}: BtnProps) => {
     return (
-        <Button type='button'>{text}</Button>
+        <Button onClick={click} type='button'>{text}</Button>
     )
 }
 
