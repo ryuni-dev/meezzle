@@ -6,10 +6,6 @@ import plus from "../../../public/assets/plus.svg";
 import Image from "next/image";
 import { EventBox } from "./EventBox";
 
-// interface Props {
-//     events: object;
-// }
-
 const LandingPageSection: NextComponentType = () => {
   const events = [
     { key: 1, title: "미미 긴급 회의", userNum: 5 },

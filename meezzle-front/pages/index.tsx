@@ -5,7 +5,7 @@ import LandingPageFooter from "../components/landingPage/beforeLogin/LandingPage
 import LandingPageIntro from "../components/landingPage/beforeLogin/LandingPageIntro";
 import Image from "next/image";
 import { useRecoilState } from "recoil";
-import { LoginState } from "../components/states/states";
+import { LoginState, useLogin } from "../components/states/states";
 import LandingPageSection from "../components/landingPage/afterLogin/LandingPageSection";
 import { useState, useRef, useEffect } from "react";
 import profile from "../public/assets/profile.png";
@@ -13,12 +13,14 @@ import { LoginBox } from "../styled-components/StyledLoginBox";
 
 const Home: NextPage = ({}) => {
   const [visible, setVisible] = useState<Boolean>(false);
-  const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState);
+  const [isLoggedIn, setIsLoggedIn] = useLogin();
 
+  // 프로필 클릭 시 메뉴 나오기
   const handleCilck = () => {
     setVisible(visible ? false : true);
   };
 
+  // 임시 로그인 / 로그아웃 상태 변경
   const handleLogin = () => {
     setIsLoggedIn(!isLoggedIn);
   };
@@ -36,6 +38,7 @@ const Home: NextPage = ({}) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [menuRef]);
+
   return (
     <>
       <GlobalStyle />
