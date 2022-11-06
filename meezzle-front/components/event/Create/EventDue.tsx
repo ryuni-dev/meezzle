@@ -47,8 +47,10 @@ const EventDue: NextComponentType = ()=> {
                 <DatePickerDiv>
                 <DatePickerCumstom
                     dateFormat="yyyy년 MM월 dd일"
+                    locale={ko}   
                     selected={dueDate}
                     onChange={(date:Date) => setDueDate(date)}
+                    minDate={new Date()}
                     />
                 </DatePickerDiv>
                 <DatePickerDiv>
