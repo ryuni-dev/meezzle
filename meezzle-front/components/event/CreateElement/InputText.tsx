@@ -6,6 +6,20 @@ const Input = styled.input`
     border-radius: 10px;
     border: 1px solid #E2E2E2;
 
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 150%;
+    /* identical to box height, or 18px */
+
+    letter-spacing: -0.011em;
+
+    /* gray300 */
+
+    color: #333333;
+    text-indent: 15px;
+
     ::placeholder {
         font-family: 'Pretendard';
         font-style: normal;
@@ -27,11 +41,13 @@ const Input = styled.input`
 `
 
 type Props = {
-    text: string
+    placeholder: string,
+    input: string,
+    OnChange(e:React.ChangeEvent<HTMLInputElement>): void
 }
-const InputText= ({text}: Props) => {
+const InputText= ({placeholder, input, OnChange}: Props) => {
     return (
-        <Input placeholder={text}></Input>
+        <Input placeholder={placeholder} value={input} onChange={OnChange}></Input>
     )
 }
 

@@ -6,6 +6,21 @@ const InputLarge = styled.textarea`
     border-radius: 10px;
     border: 1px solid #E2E2E2;
 
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 150%;
+    /* identical to box height, or 18px */
+
+    letter-spacing: -0.011em;
+
+    /* gray300 */
+
+    color: #333333;
+    text-indent: 15px;
+    line-height: 40px;
+
     ::placeholder {
         font-family: 'Pretendard';
         font-style: normal;
@@ -28,11 +43,13 @@ const InputLarge = styled.textarea`
     margin-top: 8px;
 `
 type Props = {
-    text: string
+    placeholder: string,
+    input: string,
+    OnChange(e:React.FormEvent<HTMLTextAreaElement>): void
 }
-const InputTextLarge= ({text}: Props) => {
+const InputTextLarge= ({placeholder, input, OnChange}: Props) => {
     return (
-        <InputLarge placeholder={text}></InputLarge>
+        <InputLarge placeholder={placeholder} value={input} onChange={OnChange}></InputLarge>
     )
 }
 

@@ -2,13 +2,16 @@ import type { NextComponentType } from "next"
 import styled from 'styled-components';
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css';
-
+import { ko } from "date-fns/locale";
+import setHours from "date-fns/setHours";
+import setMinutes from "date-fns/setMinutes";
 
 import DivRow from "../CreateElement/DivRow";
 import TextBlackMedium from "../../common/TextBlackMedium";
 import TextGraySmall from "../../common/TextGraySmall";
-import { useState } from "react";
 import ContainerInput from "../CreateElement/ContainerInput";
+import { useRecoilState } from "recoil";
+import { eventEndTime, eventStartTime } from "../../../states/eventCreate";
 
 const TextGrayMedium = styled.text`
     font-family: 'Pretendard';
@@ -53,7 +56,8 @@ const DatePickerCumstom = styled(DatePicker)`
 `
 
 const EventTime: NextComponentType = ()=> {
-    const [startDate, setStartDate] = useState(new Date());
+    const [startTime, setStartTime] = useRecoilState(eventStartTime);
+    const [endTime, setEndTime] = useRecoilState(eventEndTime);
 
     return (
         <ContainerInput>
@@ -62,28 +66,31 @@ const EventTime: NextComponentType = ()=> {
             <DivRow>
                 <DatePickerDiv>
                     <DatePickerCumstom
-                    selected={startDate}
-                    onChange={(date:Date) => setStartDate(date)}
+                    locale={ko}   
+                    selected={startTime}
+                    onChange={(time:Date) => setStartTime(time)}
                     showTimeSelect
                     showTimeSelectOnly
-                    
                     timeIntervals={30}
                     placeholderText="시작 시간"
                     timeCaption="시작 시간"
-                    dateFormat="h:mm aa"
+                    dateFormat="H시 mm분 시작"
                     />
                 </DatePickerDiv>
                 <TextGrayMedium>~</TextGrayMedium>
                 <DatePickerDiv>
                     <DatePickerCumstom
-                    selected={startDate}
-                    onChange={(date:Date) => setStartDate(date)}
+                    locale={ko}   
+                    selected={endTime}
+                    onChange={(time:Date) => setEndTime(time)}
                     showTimeSelect
                     showTimeSelectOnly
                     timeIntervals={30}
                     placeholderText="마감 시간"
                     timeCaption="마감 시간"
-                    dateFormat="h:mm aa"
+                    dateFormat="H시 mm분 마감"
+                    minTime={startTime}
+                    maxTime={setHours(setMinutes(new Date(), 30), 23)}
                     />
                 </DatePickerDiv>
             </DivRow>

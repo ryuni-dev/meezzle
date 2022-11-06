@@ -1,9 +1,4 @@
-import type { NextComponentType } from "next"
-import { useRecoilState } from "recoil";
 import styled from 'styled-components';
-import { inputStage } from "../../../states/eventCreate";
-import Btn from "../../common/Btn";
-import ContainerInput from "../CreateElement/ContainerInput";
 import Header from "../CreateElement/Header";
 
 const Container = styled.div`

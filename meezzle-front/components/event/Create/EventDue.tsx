@@ -1,12 +1,16 @@
 import type { NextComponentType } from "next"
+import { useRecoilState } from "recoil";
+
 import styled from 'styled-components';
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css';
+import { ko } from "date-fns/locale";
+
 import DivRow from "../CreateElement/DivRow";
 import TextBlackMedium from "../../common/TextBlackMedium";
-import { useState } from "react";
 import TextGraySmall from "../../common/TextGraySmall";
 import ContainerInput from "../CreateElement/ContainerInput";
+import { eventDueDate, eventDueTime } from "../../../states/eventCreate";
 
 
 const DatePickerDiv = styled.div`
@@ -32,9 +36,8 @@ const DatePickerCumstom = styled(DatePicker)`
     text-indent: 15px;
 `
 const EventDue: NextComponentType = ()=> {
-    const [startDate, setStartDate] = useState(new Date());
-    const [startTime, setStartTime] = useState(new Date());
-
+    const [dueDate, setDueDate] = useRecoilState(eventDueDate);
+    const [dueTime, setDueTime] = useRecoilState(eventDueTime);
 
     return (
         <ContainerInput>
@@ -44,20 +47,21 @@ const EventDue: NextComponentType = ()=> {
                 <DatePickerDiv>
                 <DatePickerCumstom
                     dateFormat="yyyy년 MM월 dd일"
-                    selected={startDate}
-                    onChange={(date:Date) => setStartDate(date)}
+                    selected={dueDate}
+                    onChange={(date:Date) => setDueDate(date)}
                     />
                 </DatePickerDiv>
                 <DatePickerDiv>
                     <DatePickerCumstom
-                    selected={startTime}
-                    onChange={(date:Date) => setStartTime(date)}
+                    locale={ko}   
+                    selected={dueTime}
+                    onChange={(time:Date) => setDueTime(time)}
                     showTimeSelect
                     showTimeSelectOnly
                     timeIntervals={30}
                     placeholderText="마감일"
                     timeCaption="마감 시간"
-                    dateFormat="h:mm aa"
+                    dateFormat="마감 시간 : H시 mm분"
                     />
                 </DatePickerDiv>
             </DivRow>

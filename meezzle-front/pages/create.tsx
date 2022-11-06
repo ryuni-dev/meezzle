@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import { useRecoilState } from "recoil";
-import styled from 'styled-components';
-import { CSSTransition } from 'react-transition-group' 
+import styled, { keyframes } from 'styled-components';
+// import { CSSTransition } from 'react-transition-group' 
 
 
 import EventCreate from "../components/event/Create/EventCreate";
@@ -14,6 +14,7 @@ import { inputStage } from "../states/eventCreate";
 
 import EventDay from "../components/event/Create/EventDay";
 import Btn from "../components/common/Btn";
+import { useState } from "react";
 
 const Footer = styled.div`
     display: flex;
@@ -23,6 +24,21 @@ const Footer = styled.div`
     position : fixed;
     bottom : 0;
 `
+
+// const Move = keyframes` 
+// from {
+//   transform: translateY(0%);
+// }
+// to {
+//   transform: translateY(10%);
+// }
+//   `;
+
+// const TransitionDiv = styled.div`
+//     animation: ${Move} 1s linear forwards infinite;
+//     // transition: all 0.6s ease-out;
+
+// `
 const StageManager = (stage: number): JSX.Element => {
     switch(stage) {
         case 0:
@@ -33,10 +49,10 @@ const StageManager = (stage: number): JSX.Element => {
         case 1: 
             return (
                 <>
-                <CSSTransition in={true}  timeout={500}>
-                    <EventDate></EventDate>
-                </CSSTransition>
+                <EventDate></EventDate>
+
                     <EventName></EventName>
+
                 </>
             )
             break;
@@ -44,8 +60,10 @@ const StageManager = (stage: number): JSX.Element => {
             return (
                 <>
                     <EventTime></EventTime>
+
                     <EventDate></EventDate>
                     <EventName></EventName>
+
                 </>
             ) 
             break;
@@ -53,9 +71,11 @@ const StageManager = (stage: number): JSX.Element => {
             return (
                 <>
                     <EventDue></EventDue>
+
                     <EventTime></EventTime>
                     <EventDate></EventDate>
                     <EventName></EventName>
+
                 </>
             ) 
             break;
@@ -63,6 +83,7 @@ const StageManager = (stage: number): JSX.Element => {
             return (
                 <>
                     <EventExplain></EventExplain>
+
                     <EventDue></EventDue>
                     <EventTime></EventTime>
                     <EventDay></EventDay>
@@ -86,6 +107,7 @@ const CreatePage: NextPage = () => {
     ]
     
     const [stage, setStage] = useRecoilState(inputStage);
+    // const [animation, setAnimation] = useState(false);
 
     const ChangeStage = () => {
         if(stage < 5) {
