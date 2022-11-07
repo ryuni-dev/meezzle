@@ -110,12 +110,8 @@ const CreatePage: NextPage = () => {
     const name = useRecoilValue(eventName);
     const [disable, setDisable] = useRecoilState(btnDisable);
     // const [animation, setAnimation] = useState(false);
-    useEffect(() => {
-        console.log(disable)
-    },[disable]);
 
     const ChangeStage = () => {
-        console.log(disable)
         if(stage < 5) {
             setStage((stage) => stage+1);
         }

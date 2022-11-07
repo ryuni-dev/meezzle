@@ -10,7 +10,12 @@ const EventName: NextComponentType = (props: any)=> {
     const setDisable = useSetRecoilState(btnDisable);
     const OnChange = (e:React.ChangeEvent<HTMLInputElement>): void => {
         setName(e.target.value);
-        setDisable(false);
+        if(e.target.value === ''){
+            setDisable(true);
+        }
+        else {
+            setDisable(false);
+        }
     }
     return (
         <ContainerInput>

@@ -1,5 +1,5 @@
 import type { NextComponentType } from "next"
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 
 import { eventExplain } from "../../../states/eventCreate";
 import InputTextLarge from "../CreateElement/InputTextLarge";
@@ -11,6 +11,7 @@ import ContainerInput from "../CreateElement/ContainerInput";
 const EventExplain: NextComponentType = ()=> {
     const [explain, setExplain] = useRecoilState(eventExplain);
     const OnChange = (e:React.FormEvent<HTMLTextAreaElement>): void => {
+        
         setExplain(e.currentTarget.value)
     }
     return (
