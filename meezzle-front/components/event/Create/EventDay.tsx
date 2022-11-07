@@ -184,7 +184,9 @@ const EventDay: NextComponentType = ()=> {
             <DivRow>
                     {weekArr.map((week, index) => 
                         <>
-                            <DayContainer>
+                            <DayContainer 
+                                onMouseUp={TouchEndEvent} 
+                                onTouchEnd={TouchEndEvent}>
                             <DayText>{week}</DayText>
                             <DayBox 
                                 key={index} 
