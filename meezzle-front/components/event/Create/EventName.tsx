@@ -2,13 +2,15 @@ import type { NextComponentType } from "next"
 import InputText from "../CreateElement/InputText";
 import TextBlackMedium from "../../common/TextBlackMedium";
 import ContainerInput from "../CreateElement/ContainerInput";
-import { useRecoilState } from "recoil";
-import { eventName } from "../../../states/eventCreate";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { btnDisable, eventName } from "../../../states/eventCreate";
 
 const EventName: NextComponentType = (props: any)=> {
     const [name, setName] = useRecoilState(eventName);
+    const setDisable = useSetRecoilState(btnDisable);
     const OnChange = (e:React.ChangeEvent<HTMLInputElement>): void => {
-        setName(e.target.value)
+        setName(e.target.value);
+        setDisable(false);
     }
     return (
         <ContainerInput>

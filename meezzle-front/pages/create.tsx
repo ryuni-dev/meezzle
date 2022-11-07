@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import styled, { keyframes } from 'styled-components';
 // import { CSSTransition } from 'react-transition-group' 
 
@@ -10,11 +10,11 @@ import EventDue from "../components/event/Create/EventDue";
 import EventExplain from "../components/event/Create/EventExplain";
 import EventName from "../components/event/Create/EventName";
 import EventTime from "../components/event/Create/EventTime";
-import { inputStage } from "../states/eventCreate";
+import { btnDisable, eventName, inputStage } from "../states/eventCreate";
 
 import EventDay from "../components/event/Create/EventDay";
 import Btn from "../components/common/Btn";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Footer = styled.div`
     display: flex;
@@ -107,9 +107,15 @@ const CreatePage: NextPage = () => {
     ]
     
     const [stage, setStage] = useRecoilState(inputStage);
+    const name = useRecoilValue(eventName);
+    const [disable, setDisable] = useRecoilState(btnDisable);
     // const [animation, setAnimation] = useState(false);
+    useEffect(() => {
+        console.log(disable)
+    },[disable]);
 
     const ChangeStage = () => {
+        console.log(disable)
         if(stage < 5) {
             setStage((stage) => stage+1);
         }
@@ -121,7 +127,7 @@ const CreatePage: NextPage = () => {
                 {StageManager(stage)}
             </EventCreate>
             <Footer>
-            <Btn click={ChangeStage} text={BtnText[stage]}></Btn>
+            <Btn Click={ChangeStage} text={BtnText[stage]}></Btn>
             </Footer>
         </>
         )

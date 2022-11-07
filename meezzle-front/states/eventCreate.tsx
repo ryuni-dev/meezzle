@@ -42,3 +42,8 @@ export const eventExplain = atom({
     key: `eventExplain/${v1()}`,
     default: '',
 });
+
+export const btnDisable = atom({
+    key: `eventExplain/${v1()}`,
+    default: true,
+});

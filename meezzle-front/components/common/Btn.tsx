@@ -1,10 +1,16 @@
+import { useRecoilState, useRecoilValue } from 'recoil';
 import styled from 'styled-components';
+import { btnDisable } from '../../states/eventCreate';
+
+interface Props {
+    disable: boolean;
+}
 
 const Button = styled.button`
     width: 343px;
     height: 59px;
 
-    background: #3278DE;
+    background: ${(props:Props) => (props.disable) ?  "#E2E2E2": "#3278DE"};
     border-radius: 15px;
     border: 0;
     
@@ -28,12 +34,13 @@ const Button = styled.button`
 `
 type BtnProps = {
     text: string
-    click(): void
+    Click(): void
 }
 
-const Btn= ({text, click}: BtnProps) => {
+const Btn= ({text, Click}: BtnProps) => {
+    const isDisable = useRecoilValue(btnDisable);
     return (
-        <Button onClick={click} type='button'>{text}</Button>
+        <Button type='button' disable={isDisable} disabled={isDisable} onClick={Click} >{text}</Button>
     )
 }
 
