@@ -107,13 +107,16 @@ const EventDay: NextComponentType = ()=> {
     const UpdateCurrent = (e:React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>, start: string, end: string) => {
         if(click){
             setEnd(end)
-            setCurr(CalcLinear({start, end}));
+            setCurr(curr => CalcLinear({start, end}));
         }
     }
     const TouchStartEvent = useCallback((
         e:React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>
         ): void => {
             // e.preventDefault();
+            document.body.style.overflow="hidden";
+            document.body.style.touchAction="none";
+            
             setClick(() => true)
             console.log(e.currentTarget.getAttribute('data-day'));
             const targetElement = e.currentTarget.getAttribute("data-day");
@@ -151,7 +154,8 @@ const EventDay: NextComponentType = ()=> {
             ? setSelected([...selected, ...curr]) 
             : setSelected(selected.filter(se => !curr.includes(se))))
         : null;
-
+        document.body.style.overflow="";
+        document.body.style.touchAction="";
         setCurr([]);
         setClick(false);
         setRemoveMode(false);
