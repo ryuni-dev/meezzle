@@ -6,6 +6,8 @@ import TextBlackMedium from "../../common/TextBlackMedium";
 import TextGraySmall from "../../common/TextGraySmall";
 import ContainerInput from "../CreateElement/ContainerInput";
 import { useCallback, useEffect, useState } from "react";
+import { useRecoilState } from "recoil";
+import { eventDayCurrent, eventDaySelected } from "../../../states/eventDayBox";
 
 
 const DayText = styled.text`
@@ -92,11 +94,11 @@ const CalcLinear = (linear:LinearProps): number[] => {
 const EventDay: NextComponentType = ()=> {
     const weekArr = ["일", "월", "화", "수", "목", "금", "토"];
     const [click, setClick] = useState<boolean>();
-    const [selected, setSelected] = useState<number[]>([]);
     const [start, setStart] = useState<string>();
     const [end, setEnd] = useState<string>();
     const [removeMode, setRemoveMode] = useState<boolean>(false);
-    const [curr, setCurr] = useState<number[]>([]);
+    const [selected, setSelected] = useRecoilState(eventDaySelected);
+    const [curr, setCurr] = useRecoilState(eventDayCurrent);
 
     useEffect(() => {
         // console.log(selected)
