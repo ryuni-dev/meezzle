@@ -16,7 +16,7 @@ const EventExplain: NextComponentType = ()=> {
     }
     return (
         <ContainerInput>
-            <TextBlackMedium text='이벤트 명'></TextBlackMedium>
+            <TextBlackMedium text='설명'></TextBlackMedium>
             <TextGraySmall text='이벤트에 대한 설명을 적어주세요.'></TextGraySmall>
             <InputTextLarge placeholder="내용을 입력해주세요." input={explain} OnChange={OnChange}></InputTextLarge>
         </ContainerInput>
