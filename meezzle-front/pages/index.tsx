@@ -9,6 +9,7 @@ import profile from "../public/assets/profile.png";
 import { useLogin } from "../states/login";
 import { LoginBox } from "../styled-components/StyledLoginBox";
 import { GlobalStyle } from "../styles/Globalstyle";
+import Head from "next/head";
 
 const Home: NextPage = ({}) => {
     const [visible, setVisible] = useState<Boolean>(false);
@@ -43,6 +44,9 @@ const Home: NextPage = ({}) => {
 
     return (
         <>
+            <Head>
+                <title>Home | meezzle</title>
+            </Head>
             <GlobalStyle />
             <Navbar>
                 <Image src={profile} alt="profile" onClick={handleCilck} />
