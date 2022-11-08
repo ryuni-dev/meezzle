@@ -47,3 +47,8 @@ export const btnDisable = atom({
     key: `eventExplain/${v1()}`,
     default: true,
 });
+
+export const inputFocus = atom({
+    key: `inputFocus/${v1()}`,
+    default: [],
+});

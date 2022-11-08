@@ -37,12 +37,15 @@ const Input = styled.input`
     }
     :focus {
         outline: none;
+        border-color: #3278DE;
+        transition: 0.5s;
     }
 `
 
 type Props = {
     placeholder: string,
     input: string,
+    // inputRef: React.RefObject<HTMLInputElement> | null | undefined,
     OnChange(e:React.ChangeEvent<HTMLInputElement>): void
 }
 const InputText= ({placeholder, input, OnChange}: Props) => {

@@ -10,8 +10,9 @@ import DivRow from "../CreateElement/DivRow";
 import TextBlackMedium from "../../common/TextBlackMedium";
 import TextGraySmall from "../../common/TextGraySmall";
 import ContainerInput from "../CreateElement/ContainerInput";
-import { useRecoilState } from "recoil";
-import { eventEndTime, eventStartTime } from "../../../states/eventCreate";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { eventEndTime, eventStartTime, inputFocus, inputStage } from "../../../states/eventCreate";
+import { useRef } from "react";
 
 const TextGrayMedium = styled.text`
     font-family: 'Pretendard';
@@ -58,6 +59,9 @@ const DatePickerCumstom = styled(DatePicker)`
 const EventTime: NextComponentType = ()=> {
     const [startTime, setStartTime] = useRecoilState(eventStartTime);
     const [endTime, setEndTime] = useRecoilState(eventEndTime);
+    const stage = useRecoilValue(inputStage);
+    const focus = useRecoilValue(inputFocus);
+    const inputRef = useRef<HTMLElement[]>(focus); 
 
     return (
         <ContainerInput>
@@ -75,6 +79,7 @@ const EventTime: NextComponentType = ()=> {
                     placeholderText="시작 시간"
                     timeCaption="시작 시간"
                     dateFormat="H시 mm분 시작"
+                    ref={inputRef}
                     />
                 </DatePickerDiv>
                 <TextGrayMedium>~</TextGrayMedium>

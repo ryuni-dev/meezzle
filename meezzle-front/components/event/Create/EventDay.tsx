@@ -1,15 +1,21 @@
 import type { NextComponentType } from "next"
 import styled from 'styled-components';
-
-import DivRow from "../CreateElement/DivRow";
+ 
 import TextBlackMedium from "../../common/TextBlackMedium";
 import TextGraySmall from "../../common/TextGraySmall";
 import ContainerInput from "../CreateElement/ContainerInput";
-import { useCallback, useEffect, useState } from "react";
-import { useRecoilState } from "recoil";
+import React, { useCallback, useEffect, useState } from "react";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { eventDayCurrent, eventDaySelected } from "../../../states/eventDayBox";
+import { btnDisable } from "../../../states/eventCreate";
 
-
+const DaysRow = styled.div`
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: auto;
+    margin-top: 1.5rem;
+`
 const DayText = styled.text`
     font-family: 'Pretendard';
     font-style: normal;
@@ -69,7 +75,7 @@ interface LinearProps {
     end: string;
 }
 const CalcLinear = (linear:LinearProps): number[] => {
-    console.log(linear)
+    // console.log(linear)
     const Items: number[] = [];
     if(linear.start === null || linear.end === null){
         return Items;
@@ -93,62 +99,108 @@ const CalcLinear = (linear:LinearProps): number[] => {
 
 const EventDay: NextComponentType = ()=> {
     const weekArr = ["일", "월", "화", "수", "목", "금", "토"];
-    const [click, setClick] = useState<boolean>();
-    const [start, setStart] = useState<string>();
-    const [end, setEnd] = useState<string>();
+    const [click, setClick] = useState<boolean>(false);
+    const [start, setStart] = useState<string>('');
+    const [end, setEnd] = useState<string>('');
     const [removeMode, setRemoveMode] = useState<boolean>(false);
     const [selected, setSelected] = useRecoilState(eventDaySelected);
     const [curr, setCurr] = useRecoilState(eventDayCurrent);
 
+    const setDisable = useSetRecoilState(btnDisable);
+
+    const IsDisable = () => {
+        if(selected.length === 0){
+            setDisable(true);
+        }
+        else {
+            setDisable(false);
+        }
+    }
+    IsDisable();
+
     useEffect(() => {
         // console.log(selected)
-    },[selected, curr]);
+    },[selected, curr, removeMode]);
 
-    const UpdateCurrent = (e:React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>, start: string, end: string) => {
+    const UpdateCurrent = (start: string, end: string) => {
         if(click){
             setEnd(end)
-            setCurr(curr => CalcLinear({start, end}));
+            setCurr([...CalcLinear({start, end})]);
+            // console.log('cur: ', curr);
+            // setCurr(...new Set(curr));
         }
     }
     const TouchStartEvent = useCallback((
         e:React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>
         ): void => {
-            // e.preventDefault();
             document.body.style.overflow="hidden";
             document.body.style.touchAction="none";
-            
+            document.body.style.userSelect="none";
+
             setClick(() => true)
-            console.log(e.currentTarget.getAttribute('data-day'));
-            const targetElement = e.currentTarget.getAttribute("data-day");
-            setStart(targetElement);
-            selected.find(s => parseInt(start) === s) ? setRemoveMode(true) : setRemoveMode(false);
-            setEnd(targetElement);
-            UpdateCurrent(e, start, targetElement)
+
+            try{
+                const targetElement = e.currentTarget.getAttribute("data-day");
+                setStart(targetElement);
+                // console.log('st', start)
+                selected.find(s => parseInt(start) === s) ? setRemoveMode(true) : setRemoveMode(false);
+                console.log(removeMode)
+                setEnd(targetElement);
+                UpdateCurrent(start, targetElement)
+            }
+            catch{
+                console.log('getAtrribute Error!');
+            }
             // 여기서 뭔가 오류가 있음
     },
     [click, start, end, removeMode, selected]);
 
+    const ClickEvent = (e: React.MouseEvent, index: number) => {
+        try{
+            const targetElement = e.currentTarget.getAttribute("data-day");
+            console.log(selected.find(s => parseInt(targetElement) === s))
+            if(selected.find(s => parseInt(targetElement) === s)){
+                setSelected(selected.filter(se => se !== (index+1)))
+            }
+            else {
+                setSelected([...selected, index+1])
+            }
+        }
+        catch{
+            console.log('getAtrribute Error!');
+        }
+    }
     const MouseMoveEvent = useCallback((
         e:React.MouseEvent<HTMLDivElement>): void => {
-            const targetElement = e.currentTarget.getAttribute("data-day");
-            UpdateCurrent(e, start, targetElement);
+            try {
+                const targetElement = e.currentTarget.getAttribute("data-day");
+                UpdateCurrent(start, targetElement);
+            }
+            catch{
+                console.log('getAtrribute Error!');
+            }
     },
     [end, curr, click, start]);
 
     const TouchMoveEvent = useCallback((
         e:React.TouchEvent<HTMLDivElement>): void => {
-            // e.preventDefault();
-            const { touches } = e;
-            if (touches && touches.length != 0) {
-                const { clientX, clientY } = touches[0]
-                const targetElement = document.elementFromPoint(clientX, clientY).getAttribute("data-day");
-                UpdateCurrent(e, start, targetElement);
-            }            
+            try{
+                const { touches } = e;
+                if (touches && touches.length != 0) {
+                    const { clientX, clientY } = touches[0]
+                    const targetElement:any = document.elementFromPoint(clientX, clientY).getAttribute("data-day");
+                    if((parseInt(targetElement) > 0) && (parseInt(targetElement) < 8)){
+                        UpdateCurrent(start, targetElement);
+                    }
+                }            
+            }
+            catch{
+                console.log('getAtrribute Error!');
+            }
     },
     [end, curr, click, start]);
-    const TouchEndEvent = useCallback((
-        e:React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>
-        ): void => {
+
+    const TouchEndEvent = useCallback((): void => {
         click ? 
         (!removeMode
             ? setSelected([...selected, ...curr]) 
@@ -156,11 +208,18 @@ const EventDay: NextComponentType = ()=> {
         : null;
         document.body.style.overflow="";
         document.body.style.touchAction="";
-        setCurr([]);
+        // document.body.style.userSelect="";
+        IsDisable();
+        setCurr([...[]]);
+        // setSelected(Array.from(new Set(selected)))
+        // console.log(Array.from(new Set(selected)))
+        // setSelected([...Array.from(new Set(selected))]);
+        // console.log('se', selected);
         setClick(false);
         setRemoveMode(false);
     },
     [selected, curr, click, removeMode]);
+
 
     const FindCurrent = (idx: number): boolean => {
         if(curr.find(c => c === idx)){
@@ -173,33 +232,42 @@ const EventDay: NextComponentType = ()=> {
 
     const FindSelected = (idx: number): boolean => {
         if (selected.find(s => s === idx)){
+            // console.log('find: ', idx);
             return true;
         }
         else {
             return false;
         }
     };
+    useEffect(()=> {
+        TouchEndEvent();
+    },[selected]);
 
     return (
         <ContainerInput>
             <TextBlackMedium text='이벤트 요일'></TextBlackMedium>
             <TextGraySmall text='원하는 요일을 선택해 주세요. 드래그로 선택 가능해요.'></TextGraySmall>
 
-            <DivRow>
-                    {weekArr.map((week, index) => 
+            <DaysRow
+                onMouseUp={TouchEndEvent} 
+                onTouchEnd={TouchEndEvent}
+            >
+                    {weekArr.map((week:string, index:number) => 
                         <>
                             <DayContainer 
                                 onMouseUp={TouchEndEvent} 
                                 onTouchEnd={TouchEndEvent}>
                             <DayText>{week}</DayText>
                             <DayBox 
-                                key={index} 
-                                data-day={index}
+                                key={index + 1} 
+                                data-day={index + 1}
                                 selected={
-                                    FindSelected(index)
+                                    // selected.find(s => s === index) || false
+                                    FindSelected(index + 1)
                                 }
                                 current={
-                                    FindCurrent(index)
+                                    // curr.find(c => c === index) || false
+                                    FindCurrent(index + 1)
                                 }
                                 removeMode={removeMode}
                                 onMouseDown={TouchStartEvent}
@@ -209,11 +277,12 @@ const EventDay: NextComponentType = ()=> {
                                 onTouchMove={TouchMoveEvent}
                                 onTouchEnd={TouchEndEvent}
                                 onTouchCancel={TouchEndEvent}
+                                onClick={(e)=> {ClickEvent(e, index)}}
                                 ></DayBox>
                             </DayContainer>
                         </>
                     )}
-            </DivRow>
+            </DaysRow>
         </ContainerInput>
     );
 }

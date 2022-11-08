@@ -10,11 +10,11 @@ import EventDue from "../components/event/Create/EventDue";
 import EventExplain from "../components/event/Create/EventExplain";
 import EventName from "../components/event/Create/EventName";
 import EventTime from "../components/event/Create/EventTime";
-import { btnDisable, eventName, inputStage } from "../states/eventCreate";
+import { btnDisable, eventName, inputFocus, inputStage } from "../states/eventCreate";
 
 import EventDay from "../components/event/Create/EventDay";
 import Btn from "../components/common/Btn";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const Footer = styled.div`
     display: flex;
@@ -25,25 +25,30 @@ const Footer = styled.div`
     bottom : 0;
 `
 
-// const Move = keyframes` 
-// from {
-//   transform: translateY(0%);
-// }
-// to {
-//   transform: translateY(10%);
-// }
-//   `;
+const Move = keyframes` 
+from {
+  transform: translateY(0%);
+}
+to {
+  transform: translateY(10%);
+}
+  `;
 
-// const TransitionDiv = styled.div`
-//     animation: ${Move} 1s linear forwards infinite;
-//     // transition: all 0.6s ease-out;
+const TransitionDiv = styled.div`
+    animation: ${Move} 1s linear forwards infinite;
+    // transition: all 0.6s ease-out;
+`
 
-// `
+const FocusTransitionDiv = styled.div`
+    transition: 0.6s ease-out;
+`
 const StageManager = (stage: number): JSX.Element => {
     switch(stage) {
         case 0:
             return (
-                <EventName></EventName>
+                <FocusTransitionDiv>
+                    <EventName></EventName>
+                </FocusTransitionDiv>
             )
             break;
         case 1: 
@@ -110,11 +115,13 @@ const CreatePage: NextPage = () => {
     const name = useRecoilValue(eventName);
     const [disable, setDisable] = useRecoilState(btnDisable);
     // const [animation, setAnimation] = useState(false);
-
+    // const focus = useRecoilValue(inputFocus)
+    // const inputRef = useRef<HTMLElement[]>(focus); 
     const ChangeStage = () => {
         if(stage < 5) {
             setStage((stage) => stage+1);
         }
+        // inputRef.current[stage].focus();
     }
 
     return (

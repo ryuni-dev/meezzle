@@ -39,6 +39,8 @@ const InputLarge = styled.textarea`
     }
     :focus {
         outline: none;
+        border-color: #3278DE;
+        transition: 0.5s;
     }
     margin-top: 8px;
 `
@@ -49,7 +51,7 @@ type Props = {
 }
 const InputTextLarge= ({placeholder, input, OnChange}: Props) => {
     return (
-        <InputLarge placeholder={placeholder} value={input} onChange={OnChange}></InputLarge>
+        <InputLarge placeholder={placeholder} value={input} onChange={OnChange} autoFocus></InputLarge>
     )
 }
 
