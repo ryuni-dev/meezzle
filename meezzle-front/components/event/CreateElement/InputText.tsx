@@ -1,3 +1,4 @@
+import React from 'react';
 import styled from 'styled-components';
 
 const Input = styled.input`
@@ -45,13 +46,13 @@ const Input = styled.input`
 type Props = {
     placeholder: string,
     input: string,
-    // inputRef: React.RefObject<HTMLInputElement> | null | undefined,
     OnChange(e:React.ChangeEvent<HTMLInputElement>): void
+    OnKeyPress?(e: React.KeyboardEvent<HTMLInputElement>): void
 }
-const InputText= ({placeholder, input, OnChange}: Props) => {
+const InputText= React.forwardRef<HTMLInputElement, Props>(({placeholder, input, OnChange, OnKeyPress}, ref) => {
     return (
-        <Input placeholder={placeholder} value={input} onChange={OnChange}></Input>
+        <Input placeholder={placeholder} value={input} onChange={OnChange} ref={ref} onKeyPress={OnKeyPress}></Input>
     )
-}
+})
 
 export default InputText

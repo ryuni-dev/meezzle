@@ -42,65 +42,7 @@ const TransitionDiv = styled.div`
 const FocusTransitionDiv = styled.div`
     transition: 0.6s ease-out;
 `
-const StageManager = (stage: number): JSX.Element => {
-    switch(stage) {
-        case 0:
-            return (
-                <FocusTransitionDiv>
-                    <EventName></EventName>
-                </FocusTransitionDiv>
-            )
-            break;
-        case 1: 
-            return (
-                <>
-                <EventDate></EventDate>
 
-                    <EventName></EventName>
-
-                </>
-            )
-            break;
-        case 2: 
-            return (
-                <>
-                    <EventTime></EventTime>
-
-                    <EventDate></EventDate>
-                    <EventName></EventName>
-
-                </>
-            ) 
-            break;
-        case 3:
-            return (
-                <>
-                    <EventDue></EventDue>
-
-                    <EventTime></EventTime>
-                    <EventDate></EventDate>
-                    <EventName></EventName>
-
-                </>
-            ) 
-            break;
-        case 4:
-            return (
-                <>
-                    <EventExplain></EventExplain>
-
-                    <EventDue></EventDue>
-                    <EventTime></EventTime>
-                    <EventDay></EventDay>
-                    <EventName></EventName>
-                </>
-            ) 
-            break;
-        default:
-            return <EventName></EventName>;
-            break;
-    }
-} 
 
 const CreatePage: NextPage = () => {
     const BtnText = [
@@ -112,16 +54,76 @@ const CreatePage: NextPage = () => {
     ]
     
     const [stage, setStage] = useRecoilState(inputStage);
-    const name = useRecoilValue(eventName);
-    const [disable, setDisable] = useRecoilState(btnDisable);
-    // const [animation, setAnimation] = useState(false);
-    // const focus = useRecoilValue(inputFocus)
-    // const inputRef = useRef<HTMLElement[]>(focus); 
+    const nameRef = useRef<HTMLInputElement>();
+    // const explainRef = useRef<HTMLTextAreaElement>();
+
+    const StageManager = (stage: number): JSX.Element => {
+        switch(stage) {
+            case 0:
+                return (
+                    <FocusTransitionDiv>
+                        <EventName inputRef={nameRef}></EventName>
+                    </FocusTransitionDiv>
+                )
+                break;
+            case 1: 
+                return (
+                    <>
+                    <EventDate></EventDate>
+    
+                        <EventName></EventName>
+    
+                    </>
+                )
+                break;
+            case 2: 
+                return (
+                    <>
+                        <EventTime></EventTime>
+    
+                        <EventDate></EventDate>
+                        <EventName></EventName>
+    
+                    </>
+                ) 
+                break;
+            case 3:
+                return (
+                    <>
+                        <EventDue></EventDue>
+    
+                        <EventTime></EventTime>
+                        <EventDate></EventDate>
+                        <EventName></EventName>
+    
+                    </>
+                ) 
+                break;
+            case 4:
+                return (
+                    <>
+                        <EventExplain></EventExplain>
+    
+                        <EventDue></EventDue>
+                        <EventTime></EventTime>
+                        <EventDay></EventDay>
+                        <EventName></EventName>
+                    </>
+                ) 
+                break;
+            default:
+                return <EventName></EventName>;
+                break;
+        }
+    } 
+    useEffect(()=> {
+        nameRef.current?.focus();
+    },[]);
+
     const ChangeStage = () => {
         if(stage < 5) {
-            setStage((stage) => stage+1);
+            setStage((st) => st + 1);
         }
-        // inputRef.current[stage].focus();
     }
 
     return (

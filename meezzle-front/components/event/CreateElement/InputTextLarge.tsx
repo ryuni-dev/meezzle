@@ -1,3 +1,4 @@
+import React from 'react';
 import styled from 'styled-components';
 
 const InputLarge = styled.textarea`
@@ -49,7 +50,8 @@ type Props = {
     input: string,
     OnChange(e:React.FormEvent<HTMLTextAreaElement>): void
 }
-const InputTextLarge= ({placeholder, input, OnChange}: Props) => {
+
+const InputTextLarge = ({placeholder, input, OnChange}: Props) => {
     return (
         <InputLarge placeholder={placeholder} value={input} onChange={OnChange} autoFocus></InputLarge>
     )

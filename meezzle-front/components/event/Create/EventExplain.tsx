@@ -7,13 +7,12 @@ import TextBlackMedium from "../../common/TextBlackMedium";
 import TextGraySmall from "../../common/TextGraySmall";
 import ContainerInput from "../CreateElement/ContainerInput";
 
-
-const EventExplain: NextComponentType = ()=> {
+const EventExplain = ()=> {
     const [explain, setExplain] = useRecoilState(eventExplain);
-    const OnChange = (e:React.FormEvent<HTMLTextAreaElement>): void => {
-        
+    const OnChange = (e:React.FormEvent<HTMLTextAreaElement>): void => { 
         setExplain(e.currentTarget.value)
     }
+
     return (
         <ContainerInput>
             <TextBlackMedium text='설명'></TextBlackMedium>

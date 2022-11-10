@@ -1,17 +1,19 @@
-import type { NextComponentType } from "next"
 import InputText from "../CreateElement/InputText";
 import TextBlackMedium from "../../common/TextBlackMedium";
 import ContainerInput from "../CreateElement/ContainerInput";
 import { useRecoilState, useSetRecoilState } from "recoil";
-import { btnDisable, eventName } from "../../../states/eventCreate";
+import { btnDisable, eventName, inputStage } from "../../../states/eventCreate";
 import { useEffect, useRef } from "react";
 // import useFocus from "../../../hooks/useFocus";
 
-const EventName: NextComponentType = (props: any)=> {
+interface Props {
+    inputRef?: any;
+}
+
+const EventName = ({inputRef}: Props)=> {
     const [name, setName] = useRecoilState(eventName);
-    const setDisable = useSetRecoilState(btnDisable);
-    // const { ref, isFocused, setIsFocused } = useFocus(false);
-    // const inputFocus = useRef<HTMLInputElement>(null);
+    const [disable, setDisable] = useRecoilState(btnDisable);
+    const setStage = useSetRecoilState(inputStage);
 
     const OnChange = (e:React.ChangeEvent<HTMLInputElement>): void => {
         setName(e.target.value);
@@ -23,12 +25,21 @@ const EventName: NextComponentType = (props: any)=> {
             setDisable(false);
         }
     }
+
+    const OnKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if((e.key === 'Enter') && (!disable)) {
+            setStage((st) => st + 1);
+        }
+    }
+
+
     return (
         <ContainerInput>
             <TextBlackMedium text='이벤트 명'></TextBlackMedium>
-            <InputText placeholder='이벤트 명을 입력해 주세요.' input={name} OnChange={OnChange}></InputText>
+            <InputText placeholder='이벤트 명을 입력해 주세요.' input={name} OnChange={OnChange} ref={inputRef} OnKeyPress={OnKeyPress}></InputText>
         </ContainerInput>
     );
 }
+
 
 export default EventName;

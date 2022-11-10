@@ -125,6 +125,7 @@ const EventDay: NextComponentType = ()=> {
     const UpdateCurrent = (start: string, end: string) => {
         if(click){
             setEnd(end)
+            //@ts-ignore
             setCurr([...CalcLinear({start, end})]);
             // console.log('cur: ', curr);
             // setCurr(...new Set(curr));
@@ -141,11 +142,14 @@ const EventDay: NextComponentType = ()=> {
 
             try{
                 const targetElement = e.currentTarget.getAttribute("data-day");
+                //@ts-ignore
                 setStart(targetElement);
                 // console.log('st', start)
                 selected.find(s => parseInt(start) === s) ? setRemoveMode(true) : setRemoveMode(false);
                 console.log(removeMode)
+                //@ts-ignore
                 setEnd(targetElement);
+                //@ts-ignore
                 UpdateCurrent(start, targetElement)
             }
             catch{
@@ -158,11 +162,14 @@ const EventDay: NextComponentType = ()=> {
     const ClickEvent = (e: React.MouseEvent, index: number) => {
         try{
             const targetElement = e.currentTarget.getAttribute("data-day");
+            //@ts-ignore
             console.log(selected.find(s => parseInt(targetElement) === s))
+            //@ts-ignore
             if(selected.find(s => parseInt(targetElement) === s)){
                 setSelected(selected.filter(se => se !== (index+1)))
             }
             else {
+                //@ts-ignore
                 setSelected([...selected, index+1])
             }
         }
@@ -174,6 +181,7 @@ const EventDay: NextComponentType = ()=> {
         e:React.MouseEvent<HTMLDivElement>): void => {
             try {
                 const targetElement = e.currentTarget.getAttribute("data-day");
+                //@ts-ignore
                 UpdateCurrent(start, targetElement);
             }
             catch{
@@ -188,6 +196,7 @@ const EventDay: NextComponentType = ()=> {
                 const { touches } = e;
                 if (touches && touches.length != 0) {
                     const { clientX, clientY } = touches[0]
+                    //@ts-ignore
                     const targetElement:any = document.elementFromPoint(clientX, clientY).getAttribute("data-day");
                     if((parseInt(targetElement) > 0) && (parseInt(targetElement) < 8)){
                         UpdateCurrent(start, targetElement);
