@@ -12,6 +12,7 @@ type ViewTableProps = {
 const ViewTable = ({ info }: ViewTableProps, r: number) => {
     const [rows, setRows] = useState<ReactNode[]>([]);
     const [head, setHead] = useState<ReactNode[]>([]);
+    const [time, setTime] = useState<ReactNode[]>([]);
 
     useEffect(() => {
         const makeRows = (info: any, r: number) => {
@@ -22,9 +23,7 @@ const ViewTable = ({ info }: ViewTableProps, r: number) => {
                             <TimeBlock
                                 col={info.col.length}
                                 key={(idx + 1) * 100 + r}
-                            >
-                                {(idx + 1) * 100 + r}
-                            </TimeBlock>
+                            ></TimeBlock>
                         );
                     })}
                 </div>
@@ -38,17 +37,14 @@ const ViewTable = ({ info }: ViewTableProps, r: number) => {
                 return <td key={idx}>{e}</td>;
             })
         );
+        for (let i = 0; i <= 24; i++) {
+            setTime((time) => [...time, <p>{i}:00</p>]);
+        }
     }, []);
 
     return (
         <Container>
-            <Time>
-                <p>오전 12:00</p>
-                <p>1:00</p>
-                <p>2:00</p>
-                <p>3:00</p>
-                <p>4:00</p>
-            </Time>
+            <Time>{time}</Time>
             <Table>
                 <TableHead>{head}</TableHead>
                 <TableBody>{rows}</TableBody>
@@ -60,15 +56,15 @@ const ViewTable = ({ info }: ViewTableProps, r: number) => {
 export default ViewTable;
 
 const Container = styled.div`
-    width: 90%;
-    background-color: blue;
+    width: 97%;
     margin: 0 auto;
-    font-family: ;
+    font-weight: 300;
+    font-family: "Pretendard";
 `;
 
 const Table = styled.div`
     display: inline-block;
-    width: 88%;
+    width: 86%;
     vertical-align: top;
 `;
 
@@ -98,14 +94,20 @@ const TableBody = styled.div`
 const TimeBlock = styled.span<{ col: number }>`
     display: block;
     width: ${(props) => (props.col ? `${100 / props.col}%` : "10%")};
+    height: 13px;
     text-align: center;
     border: 0.5px solid black;
 `;
 
 const Time = styled.div`
     display: inline-block;
-    width: 12%;
-    background-color: red;
+    width: 13%;
     font-size: 9px;
-    margin-top: 14px;
+    margin-top: 5px;
+    text-align: right;
+    margin-right: 3px;
+
+    & > p {
+        margin-bottom: 16px;
+    }
 `;
