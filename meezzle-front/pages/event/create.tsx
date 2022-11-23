@@ -1,22 +1,20 @@
 import type { NextPage } from "next";
 import { useRecoilState } from "recoil";
 import styled, { keyframes } from 'styled-components';
-// import { CSSTransition } from 'react-transition-group' 
 
+import { useEffect, useRef } from "react";
 
 import EventCreate from "../../components/event/Create/EventCreate";
-import EventDate from "../../components/event/Create/EventDay";
-import EventDue from "../../components/event/Create/EventDue";
-import EventExplain from "../../components/event/Create/EventExplain";
 import EventName from "../../components/event/Create/EventName";
-import EventTime from "../../components/event/Create/EventTime";
-import { inputStage } from "../../states/eventCreate";
-
 import EventDay from "../../components/event/Create/EventDay";
-import Btn from "../../components/common/Btn";
-import { useEffect, useRef } from "react";
+import EventTime from "../../components/event/Create/EventTime";
+import EventDue from "../../components/event/Create/EventDue";
 import EventColor from "../../components/event/Create/EventColor";
+import EventExplain from "../../components/event/Create/EventExplain";
+import Btn from "../../components/common/Btn";
+import { inputStage } from "../../states/eventCreate";
 import LinkBtn from "../../components/common/LinkBtn";
+
 
 
 const Body = styled.div`
@@ -89,8 +87,7 @@ const CreatePage: NextPage = () => {
             case 1: 
                 return (
                     <>
-                    <EventDate></EventDate>
-    
+                        <EventDay></EventDay>
                         <EventName></EventName>
     
                     </>
@@ -100,7 +97,7 @@ const CreatePage: NextPage = () => {
                     <>
                         <EventTime></EventTime>
     
-                        <EventDate></EventDate>
+                        <EventDay></EventDay>
                         <EventName></EventName>
     
                     </>
@@ -111,7 +108,7 @@ const CreatePage: NextPage = () => {
                         <EventDue></EventDue>
     
                         <EventTime></EventTime>
-                        <EventDate></EventDate>
+                        <EventDay></EventDay>
                         <EventName></EventName>
     
                     </>

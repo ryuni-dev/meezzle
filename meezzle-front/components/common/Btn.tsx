@@ -1,6 +1,4 @@
-import Link from 'next/link';
-import { forwardRef } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import { btnDisable } from '../../states/eventCreate';
 
@@ -46,7 +44,6 @@ const Btn = ({text, Click}:BtnProps) => {
     return (
             <Button type='button' disable={isDisable} disabled={isDisable} onClick={Click}>{text}</Button>
     )
-    }
-
+}
 
 export default Btn

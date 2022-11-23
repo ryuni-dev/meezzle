@@ -11,7 +11,7 @@ const Container = styled.div`
     margin: 0px;
     width: 100%;
     height: 100%;
-    margin-bottom: 100px;
+    margin-bottom: 3%;
     `
 const BodyDiv = styled.div`
     display: flex;

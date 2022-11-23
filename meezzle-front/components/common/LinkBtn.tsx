@@ -1,9 +1,5 @@
 import Link from 'next/link';
-import { forwardRef } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
 import styled from 'styled-components';
-import { btnDisable } from '../../states/eventCreate';
-
 interface Props {
     disable: boolean;
 }
@@ -13,7 +9,7 @@ const Button = styled.button`
     width: 85%;
     height: 59px;
 
-    background: ${(props:Props) => (props.disable) ?  "#E2E2E2": "#3278DE"};
+    background: #3278DE;
     border-radius: 15px;
     border: 0;
     
@@ -39,18 +35,15 @@ const Button = styled.button`
 interface BtnProps {
     text: string;
     href: string;
-    Click(): void;
+    Click?(): void;
 }
 
 const LinkBtn = ({text, href, Click}:BtnProps) => {
-    const isDisable = useRecoilValue(btnDisable);
     return (
         <Link href={href} prefetch>
-            <Button type='button' disable={isDisable} disabled={isDisable} onClick={Click}>{text}</Button>
+            <Button type='button' onClick={Click}>{text}</Button>
         </Link>
-
     )
-    }
-
+}
 
 export default LinkBtn
