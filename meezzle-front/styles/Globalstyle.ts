@@ -9,6 +9,7 @@ export const GlobalStyle = createGlobalStyle`
       Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   }
 
+
   a {
     color: inherit;
     text-decoration: none;
@@ -19,13 +20,12 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   @media (prefers-color-scheme: dark) {
-    html {
+    /* html {
       color-scheme: dark;
-    }
-    body {
+    } */
+    /* body {
       color: white;
       background: black;
-    }
+    } */
   }
-
 `;

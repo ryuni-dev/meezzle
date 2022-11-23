@@ -18,8 +18,7 @@ const ColorCheckBox = styled.input.attrs({ type: 'radio' })<ColorProps>`
     border-radius: 100%;
     margin-right: 0.5rem;
     border: 4px double ${(props) => props.color};
-    background-color: ${(props) => props.color}
-    };
+    background-color: ${(props) => props.color};
 
     &:checked {
         appearance: none;

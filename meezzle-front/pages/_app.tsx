@@ -1,4 +1,5 @@
 import "../styles/Globalstyle.ts";
+import "../public/fonts/pretendard.css";
 import type { AppProps } from "next/app";
 import { RecoilRoot } from "recoil";
 import Head from "next/head";
