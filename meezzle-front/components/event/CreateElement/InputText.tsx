@@ -55,5 +55,6 @@ const InputText= React.forwardRef<HTMLInputElement, Props>(({placeholder, input,
         <Input placeholder={placeholder} value={input} onChange={OnChange} ref={ref} onKeyPress={OnKeyPress}></Input>
     )
 })
+InputText.displayName = "InputText";
 
 export default InputText
