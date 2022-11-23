@@ -4,19 +4,19 @@ import styled, { keyframes } from 'styled-components';
 // import { CSSTransition } from 'react-transition-group' 
 
 
-import EventCreate from "../components/event/Create/EventCreate";
-import EventDate from "../components/event/Create/EventDay";
-import EventDue from "../components/event/Create/EventDue";
-import EventExplain from "../components/event/Create/EventExplain";
-import EventName from "../components/event/Create/EventName";
-import EventTime from "../components/event/Create/EventTime";
-import { inputStage } from "../states/eventCreate";
+import EventCreate from "../../components/event/Create/EventCreate";
+import EventDate from "../../components/event/Create/EventDay";
+import EventDue from "../../components/event/Create/EventDue";
+import EventExplain from "../../components/event/Create/EventExplain";
+import EventName from "../../components/event/Create/EventName";
+import EventTime from "../../components/event/Create/EventTime";
+import { inputStage } from "../../states/eventCreate";
 
-import EventDay from "../components/event/Create/EventDay";
-import Btn from "../components/common/Btn";
+import EventDay from "../../components/event/Create/EventDay";
+import Btn from "../../components/common/Btn";
 import { useEffect, useRef } from "react";
-import EventColor from "../components/event/Create/EventColor";
-import LinkBtn from "../components/common/LinkBtn";
+import EventColor from "../../components/event/Create/EventColor";
+import LinkBtn from "../../components/common/LinkBtn";
 
 
 const Body = styled.div`
