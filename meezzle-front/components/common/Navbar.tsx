@@ -24,11 +24,11 @@ const Navbar = ({ children }: NavbarProps) => {
 export default Navbar;
 
 const Nav = styled.nav`
-    margin-top: 40px;
+    margin-top: 25px;
     height: 40px;
-    margin-bottom: 2px;
+    // margin-bottom: 2px;
     line-height: 42px;
-    margin-bottom: 22px;
+    // margin-bottom: 22px;
     user-select: none;
     -webkit-touch-callout: none;
     -webkit-user-select: none;

@@ -158,7 +158,7 @@ const CreatePage: NextPage = () => {
 
     return (
         <Body>
-            <EventCreate>
+            <EventCreate text="이벤트 생성">
                 {StageManager(stage)}
             </EventCreate>
             <Footer>

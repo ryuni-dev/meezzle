@@ -13,6 +13,7 @@ import EventColor from "../../../components/event/Create/EventColor";
 import EventExplain from "../../../components/event/Create/EventExplain";
 
 import LinkBtn from "../../../components/common/LinkBtn";
+import Navbar from "../../../components/common/Navbar";
 
 
 const Body = styled.div`
@@ -43,8 +44,12 @@ const ReviseEvent: NextPage = () => {
     // });
 
     return (
+        <>
+        <Navbar>
+            <></>
+        </Navbar>
         <Body>
-            <EventCreate>
+            <EventCreate text="이벤트 수정">
                 <EventName></EventName>
                 <EventDay></EventDay>
                 <EventTime></EventTime>
@@ -56,6 +61,7 @@ const ReviseEvent: NextPage = () => {
                 <LinkBtn text="수정 완료!" href="/"></LinkBtn>
             </Footer>
         </Body>
+        </>
         )
 };
 
