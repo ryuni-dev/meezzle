@@ -38,15 +38,19 @@ const Button = styled.button`
 `
 interface BtnProps {
     text: string;
+    href: string;
     Click(): void;
 }
 
-const Btn = ({text, Click}:BtnProps) => {
+const LinkBtn = ({text, href, Click}:BtnProps) => {
     const isDisable = useRecoilValue(btnDisable);
     return (
+        <Link href={href} prefetch>
             <Button type='button' disable={isDisable} disabled={isDisable} onClick={Click}>{text}</Button>
+        </Link>
+
     )
     }
 
 
-export default Btn
+export default LinkBtn
