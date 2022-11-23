@@ -16,7 +16,7 @@ const LandingPageSection: NextComponentType = () => {
     return (
         <>
             <ButtonContainer>
-                <Link href="/create">
+                <Link href="/event/create">
                     <Button>
                         <Image src={plus} alt="plus" />
                         <p>이벤트 생성하기</p>
