@@ -164,7 +164,7 @@ const CreatePage: NextPage = () => {
             <Footer>
                 {stage !== 5
                 ? <Btn Click={ChangeStage} text={BtnText[stage]}></Btn>
-                : <LinkBtn Click={ChangeStage} text={BtnText[stage]} href="/"></LinkBtn>
+                : <LinkBtn Click={ChangeStage} text={BtnText[stage]} href="/" color={true}></LinkBtn>
                 }
             </Footer>
         </Body>

@@ -32,8 +32,9 @@ const Footer = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
     width: 100%;
-    height: 90px;
+    height: 120px;
     margin-left: 12%;
     margin-right: 0px;
 `
@@ -58,7 +59,8 @@ const ReviseEvent: NextPage = () => {
                 <EventExplain></EventExplain>
             </EventCreate>
             <Footer>
-                <LinkBtn text="수정 완료!" href="/"></LinkBtn>
+                <LinkBtn text="수정 완료!" href="/" color={true}></LinkBtn>
+                <LinkBtn text="< 이전으로 돌아가기" href="/" color={false}></LinkBtn>
             </Footer>
         </Body>
         </>
