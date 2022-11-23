@@ -22,9 +22,7 @@ const ViewTable = ({ info }: ViewTableProps, r: number) => {
                             <TimeBlock
                                 col={info.col.length}
                                 key={(idx + 1) * 100 + r}
-                            >
-                                {(idx + 1) * 100 + r}
-                            </TimeBlock>
+                            ></TimeBlock>
                         );
                     })}
                 </div>
@@ -61,7 +59,6 @@ export default ViewTable;
 
 const Container = styled.div`
     width: 90%;
-    background-color: blue;
     margin: 0 auto;
 `;
 
@@ -97,6 +94,7 @@ const TableBody = styled.div`
 const TimeBlock = styled.span<{ col: number }>`
     display: block;
     width: ${(props) => (props.col ? `${100 / props.col}%` : "10%")};
+    height: 13px;
     text-align: center;
     border: 0.5px solid black;
 `;
@@ -104,7 +102,6 @@ const TimeBlock = styled.span<{ col: number }>`
 const Time = styled.div`
     display: inline-block;
     width: 12%;
-    background-color: red;
     font-size: 9px;
     margin-top: 14px;
 `;
