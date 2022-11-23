@@ -37,13 +37,13 @@ const DayContainer = styled.div`
     align-items: center;
     text-align: center;
     height: 72px;
-    weight: 45px;
+    weight: 40px;
     margin-right: 0.3rem;
 `
 
 const DayBox = styled.div`
-    width: 45px;
-    height: 47px;
+    width: 40px;
+    height: 40px;
     /* gray100 */
     border: 1px solid #E2E2E2;
     border-radius: 5px;

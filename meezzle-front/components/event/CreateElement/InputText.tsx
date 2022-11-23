@@ -2,11 +2,12 @@ import React from 'react';
 import styled from 'styled-components';
 
 const Input = styled.input`
-    width: 343px;
+    width: 85vw;
+    max-width: 340px;
     height: 48px;
     border-radius: 10px;
     border: 1px solid #E2E2E2;
-
+    // margin: 10%;
     font-family: 'Pretendard';
     font-style: normal;
     font-weight: 400;

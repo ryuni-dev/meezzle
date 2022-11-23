@@ -15,12 +15,12 @@ export const eventName = atom({
 
 export const eventStartTime = atom({
     key: `eventStartTime/${v1()}`,
-    default: setHours(setMinutes(new Date(), 0), 0)
+    default: setHours(setMinutes(new Date(), 0), 9)
 });
 
 export const eventEndTime = atom({
     key: `eventEndTime/${v1()}`,
-    default: setHours(setMinutes(new Date(), 30), 23)
+    default: setHours(setMinutes(new Date(), 0), 22)
 });
 
 export const eventDueDate = atom({
@@ -51,4 +51,9 @@ export const btnDisable = atom({
 export const inputFocus = atom({
     key: `inputFocus/${v1()}`,
     default: [],
+});
+
+export const eventColor = atom({
+    key: `eventColor/${v1()}`,
+    default: '#FFE86D',
 });

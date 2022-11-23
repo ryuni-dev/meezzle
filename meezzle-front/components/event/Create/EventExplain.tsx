@@ -1,5 +1,4 @@
-import type { NextComponentType } from "next"
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 
 import { eventExplain } from "../../../states/eventCreate";
 import InputTextLarge from "../CreateElement/InputTextLarge";

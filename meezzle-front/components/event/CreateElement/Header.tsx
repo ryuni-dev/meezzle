@@ -4,11 +4,11 @@ import TextBlackLarge from '../../common/TextBlackLarge';
 const DivH1 = styled.div`
     display: flex;
 
-    width: 375px;
+    width: 100%;
     height: 44px;
     align-items: center;
     margin-top: 44px;
-    margin-left: 16px;
+    padding-left: 6%;
 
 `
 type Props = {

@@ -3,9 +3,11 @@ import Header from "../CreateElement/Header";
 
 const Container = styled.div`
     display: flex;
-
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
     padding: 0px;
+    padding-left: 8.5%;
     margin: 0px;
     width: 100%;
     height: 100%;
@@ -15,10 +17,12 @@ const BodyDiv = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
-    width: 375px;
+    align-items: center;
+
+    width: 100%;
     height: auto;
     // margin-top: 20px;
-    margin-left: 16px;
+    padding-left: 16px;
 `
 type EventCreateProps = {
     children: JSX.Element | JSX.Element[]

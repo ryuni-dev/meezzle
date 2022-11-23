@@ -35,14 +35,13 @@ const TextGrayMedium = styled.text`
     padding-bottom: 16px;
 `
 const DatePickerDiv = styled.div`
-    width: 160px;
+    width: 40%;
 `
 const DatePickerCumstom = styled(DatePicker)`
-    width: 160px;
+    width: 100%;
     height: 48px;
     background: #FFFFFF;
     /* gray100 */
-
     border: 1px solid #E2E2E2;
     border-radius: 10px;
     font-family: 'Pretendard';
@@ -59,9 +58,8 @@ const DatePickerCumstom = styled(DatePicker)`
 const EventTime: NextComponentType = ()=> {
     const [startTime, setStartTime] = useRecoilState(eventStartTime);
     const [endTime, setEndTime] = useRecoilState(eventEndTime);
-    const stage = useRecoilValue(inputStage);
-    const focus = useRecoilValue(inputFocus);
-    const inputRef = useRef<HTMLElement[]>(focus); 
+    // const stage = useRecoilValue(inputStage);
+    // const focus = useRecoilValue(inputFocus);
 
     return (
         <ContainerInput>
@@ -79,7 +77,6 @@ const EventTime: NextComponentType = ()=> {
                     placeholderText="시작 시간"
                     timeCaption="시작 시간"
                     dateFormat="H시 mm분 시작"
-                    ref={inputRef}
                     />
                 </DatePickerDiv>
                 <TextGrayMedium>~</TextGrayMedium>

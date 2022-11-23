@@ -7,7 +7,8 @@ interface Props {
 }
 
 const Button = styled.button`
-    width: 343px;
+    max-width: 340px;
+    width: 85%;
     height: 59px;
 
     background: ${(props:Props) => (props.disable) ?  "#E2E2E2": "#3278DE"};
@@ -25,7 +26,8 @@ const Button = styled.button`
 
     /* white */
     color: #FFFFFF;
-    margin: 1rem;
+    // margin: 1rem;
+    margin-right: 8%;
 
     // &:hover {
     //     background: #97B0D6

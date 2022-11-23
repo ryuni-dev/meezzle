@@ -2,7 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 
 const InputLarge = styled.textarea`
-    width: 343px;
+    width: 85vw;;
+    max-width: 340px;
     height: 153px;
     border-radius: 10px;
     border: 1px solid #E2E2E2;
