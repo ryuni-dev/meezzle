@@ -63,6 +63,7 @@ const Container = styled.div`
     width: 90%;
     background-color: blue;
     margin: 0 auto;
+    font-family: ;
 `;
 
 const Table = styled.div`
