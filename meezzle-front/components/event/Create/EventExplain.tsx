@@ -1,14 +1,23 @@
-import type { NextComponentType } from "next"
-import styled from 'styled-components';
-import { GrayText, H2, InputLarge } from "../../../styled-components/StyledCreate";
+import { useRecoilState } from "recoil";
 
-const EventExplain: NextComponentType = ()=> {
+import { eventExplain } from "../../../states/eventCreate";
+import InputTextLarge from "../CreateElement/InputTextLarge";
+import TextBlackMedium from "../../common/TextBlackMedium";
+import TextGraySmall from "../../common/TextGraySmall";
+import ContainerInput from "../CreateElement/ContainerInput";
+
+const EventExplain = ()=> {
+    const [explain, setExplain] = useRecoilState(eventExplain);
+    const OnChange = (e:React.FormEvent<HTMLTextAreaElement>): void => { 
+        setExplain(e.currentTarget.value)
+    }
+
     return (
-        <>
-            <H2>설명</H2>
-            <GrayText>이벤트에 대한 설명을 적어주세요.</GrayText>
-            <InputLarge placeholder="내용을 입력해주세요."></InputLarge>
-    </>
+        <ContainerInput>
+            <TextBlackMedium text='설명'></TextBlackMedium>
+            <TextGraySmall text='이벤트에 대한 설명을 적어주세요.'></TextGraySmall>
+            <InputTextLarge placeholder="내용을 입력해주세요." input={explain} OnChange={OnChange}></InputTextLarge>
+        </ContainerInput>
     );
 }
 
