@@ -24,14 +24,15 @@ const BodyDiv = styled.div`
     // margin-top: 20px;
     padding-left: 16px;
 `
-type EventCreateProps = {
-    children: JSX.Element | JSX.Element[]
+interface EventCreateProps {
+    text: string;
+    children: JSX.Element | JSX.Element[];
 }
 
-const EventCreate = ({children}: EventCreateProps)=> {
+const EventCreate = ({text, children}: EventCreateProps)=> {
     return (
         <Container>
-            <Header text='이벤트 생성'>
+            <Header text={text}>
             </Header>
             <BodyDiv>
                 {children}
