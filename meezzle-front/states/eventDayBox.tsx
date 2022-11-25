@@ -3,7 +3,7 @@ import { v1 } from "uuid";
 
 export const eventDaySelected = atom({
     key: `EventDayClick/${v1()}`,
-    default: [-1],
+    default: [2,3, 6, 7],
 });
 
 export const eventDayCurrent = atom({

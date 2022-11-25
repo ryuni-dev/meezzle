@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import { eventDaySelected } from '../../../states/eventDayBox';
@@ -14,7 +15,7 @@ const DayContainer = styled.div`
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    max-width: 450px;
+    max-width: 320px;
     width: 80%
     height: auto;
 `
@@ -22,8 +23,8 @@ const Day = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 40px;
-    height: 40px;
+    width: 42px;
+    height: 42px;
     color : ${(props:Props) => {
             if(props.nowDay) {
                 return "#FFFFFF";
@@ -64,7 +65,7 @@ interface BtnProps {
 
 const DayBar = () => {
     const [now, setNow] = useRecoilState(voteNow);
-    const selectedDay= useRecoilValue(eventDaySelected);
+    const [selectedDay, setSelectedDay] = useRecoilState(eventDaySelected);
     const days = ['일', '월', '화', '수', '목', '금', '토'];
 
     const FindSelected = (idx: number): boolean => {
@@ -96,6 +97,7 @@ const DayBar = () => {
             console.log('getAtrribute Error!');
         }
     }
+
     return (
         <DayContainer>
             {days.map((day: string, index:number) => 

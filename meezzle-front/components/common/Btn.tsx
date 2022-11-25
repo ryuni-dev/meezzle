@@ -4,6 +4,7 @@ import { btnDisable } from '../../states/eventCreate';
 
 interface Props {
     disable: boolean;
+    isColor: boolean | true;
 }
 
 const Button = styled.button`
@@ -11,7 +12,20 @@ const Button = styled.button`
     width: 85%;
     height: 59px;
 
-    background: ${(props:Props) => (props.disable) ?  "#E2E2E2": "#3278DE"};
+    background: ${(props:Props) => {
+        if(props.isColor){
+            if(props.disable) {
+                return "#E2E2E2";
+            }
+            else {
+                return "#3278DE";
+            }
+        }
+        else{
+            return "#ffffff";
+        }
+    }};
+
     border-radius: 15px;
     border: 0;
     
@@ -25,9 +39,9 @@ const Button = styled.button`
     letter-spacing: -0.011em;
 
     /* white */
-    color: #FFFFFF;
+    color: ${(props:Props) => props.isColor ? "#FFFFFF" : "#8D8D8D;"};
     // margin: 1rem;
-    margin-right: 8%;
+    // margin-right: 8%;
 
     // &:hover {
     //     background: #97B0D6
@@ -36,13 +50,18 @@ const Button = styled.button`
 `
 interface BtnProps {
     text: string;
-    Click(): void;
+    useDisable?: boolean | false;
+    color: boolean;
+    Click?(): void;
 }
 
-const Btn = ({text, Click}:BtnProps) => {
-    const isDisable = useRecoilValue(btnDisable);
+const Btn = ({text, useDisable, color, Click}:BtnProps) => {
+    let isDisable = false;
+    if(useDisable){
+        isDisable = useRecoilValue(btnDisable);
+    }
     return (
-            <Button type='button' disable={isDisable} disabled={isDisable} onClick={Click}>{text}</Button>
+            <Button type='button' disable={isDisable} disabled={isDisable} onClick={Click} isColor={color}>{text}</Button>
     )
 }
 

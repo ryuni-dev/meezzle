@@ -25,7 +25,7 @@ const Button = styled.button`
     /* white */
     color: ${(props:Props) => props.isColor ? "#FFFFFF" : "#8D8D8D;"};
     // margin: 1rem;
-    margin-right: 8%;
+    // margin-right: 8%;
 
     // &:hover {
     //     background: #97B0D6

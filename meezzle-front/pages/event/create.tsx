@@ -163,7 +163,7 @@ const CreatePage: NextPage = () => {
             </EventCreate>
             <Footer>
                 {stage !== 5
-                ? <Btn Click={ChangeStage} text={BtnText[stage]}></Btn>
+                ? <Btn Click={ChangeStage} text={BtnText[stage]} useDisable={true} color={true}></Btn>
                 : <LinkBtn Click={ChangeStage} text={BtnText[stage]} href="/" color={true}></LinkBtn>
                 }
             </Footer>
