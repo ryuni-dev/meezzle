@@ -1,26 +1,15 @@
 import type { NextPage } from "next";
-import { useRecoilState, useRecoilValue } from "recoil";
-import styled, { keyframes } from 'styled-components';
-// import { CSSTransition } from 'react-transition-group' 
-
-
-import EventCreate from "../../../components/event/Create/EventCreate";
-import EventName from "../../../components/event/Create/EventName";
-import EventDay from "../../../components/event/Create/EventDay";
-import EventTime from "../../../components/event/Create/EventTime";
-import EventDue from "../../../components/event/Create/EventDue";
-import EventColor from "../../../components/event/Create/EventColor";
-import EventExplain from "../../../components/event/Create/EventExplain";
+import { useRecoilState } from "recoil";
+import styled from 'styled-components';
 
 import LinkBtn from "../../../components/common/LinkBtn";
 import Navbar from "../../../components/common/Navbar";
 import DayBar from "../../../components/event/Vote/DayBar";
 import { voteNow } from "../../../states/eventVote";
 import { eventDaySelected } from "../../../states/eventDayBox";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import TimeSelect from "../../../components/event/Vote/TimeSelect";
 import Btn from "../../../components/common/Btn";
-
 
 const Body = styled.div`
     display: flex;

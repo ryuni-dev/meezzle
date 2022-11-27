@@ -15,6 +15,7 @@ const Button = styled.button`
     background: ${(props:Props) => {
         if(props.isColor){
             if(props.disable) {
+                console.log("AA");
                 return "#E2E2E2";
             }
             else {
@@ -39,7 +40,22 @@ const Button = styled.button`
     letter-spacing: -0.011em;
 
     /* white */
-    color: ${(props:Props) => props.isColor ? "#FFFFFF" : "#8D8D8D;"};
+    color: ${(props:Props) => {
+        if(props.isColor){
+            if(props.disable) {
+                console.log("AA");
+                return "#8D8D8D";
+            }
+            else {
+                return "#ffffff";
+            }
+        }
+        else{
+                return "#8D8D8D";
+        }
+    }};
+    
+    ${(props:Props) => props.isColor ? "#FFFFFF" : "#8D8D8D;"};
     // margin: 1rem;
     // margin-right: 8%;
 

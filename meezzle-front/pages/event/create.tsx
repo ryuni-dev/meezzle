@@ -40,7 +40,7 @@ const Footer = styled.div`
     width: 100%;
     height: 90px;
     margin-top: 1rem;
-    margin-left: 10%;
+    // margin-left: 10%;
     margin-right: 0px;
     position : fixed;
     bottom : 0;

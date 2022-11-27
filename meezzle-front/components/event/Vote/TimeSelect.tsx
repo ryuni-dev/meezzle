@@ -304,11 +304,9 @@ const TimeSelect: NextComponentType = ()=> {
                         key={nowDay * 100 + index}
                         data-time={nowDay * 100 + index}
                         selected={
-                            // selected.find(s => s === index) || false
                             FindSelected(nowDay * 100 + index)
                         }
                         current={
-                            // curr.find(c => c === index) || false
                             FindCurrent(nowDay * 100 + index)
                         }
                         removeMode={removeMode}
@@ -338,11 +336,9 @@ const TimeSelect: NextComponentType = ()=> {
                         key={nowDay * 100 + index+12}
                         data-time={nowDay * 100 + index+12}
                         selected={
-                            // selected.find(s => s === index) || false
                             FindSelected(nowDay * 100 + index+12)
                         }
                         current={
-                            // curr.find(c => c === index) || false
                             FindCurrent(nowDay * 100 + index+12)
                         }
                         removeMode={removeMode}
@@ -373,11 +369,9 @@ const TimeSelect: NextComponentType = ()=> {
                         key={nowDay * 100 + index+24}
                         data-time={nowDay * 100 + index+24}
                         selected={
-                            // selected.find(s => s === index) || false
                             FindSelected(nowDay * 100 + index+24)
                         }
                         current={
-                            // curr.find(c => c === index) || false
                             FindCurrent(nowDay * 100 + index+24)
                         }
                         removeMode={removeMode}
@@ -407,11 +401,9 @@ const TimeSelect: NextComponentType = ()=> {
                         key={nowDay * 100 + index+36}
                         data-time={nowDay * 100 + index+36}
                         selected={
-                            // selected.find(s => s === index) || false
                             FindSelected(nowDay * 100 + index+36)
                         }
                         current={
-                            // curr.find(c => c === index) || false
                             FindCurrent(nowDay * 100 + index+36)
                         }
                         removeMode={removeMode}
@@ -427,49 +419,7 @@ const TimeSelect: NextComponentType = ()=> {
                     </>
                 )}
             </RowDiv>
-
-
         </Container>
-        // <ContainerInput>
-        //     <TextBlackMedium text='이벤트 요일'></TextBlackMedium>
-        //     <TextGraySmall text='원하는 요일을 선택해 주세요. 드래그로 선택 가능해요.'></TextGraySmall>
-
-        //     <DaysRow
-        //         onMouseUp={TouchEndEvent} 
-        //         onTouchEnd={TouchEndEvent}
-        //     >
-        //             {weekArr.map((week:string, index:number) => 
-        //                 <>
-        //                     <DayContainer 
-        //                         onMouseUp={TouchEndEvent} 
-        //                         onTouchEnd={TouchEndEvent}>
-        //                     <DayText>{week}</DayText>
-        //                     <DayBox 
-        //                         key={index + 1} 
-        //                         data-day={index + 1}
-        //                         selected={
-        //                             // selected.find(s => s === index) || false
-        //                             FindSelected(index + 1)
-        //                         }
-        //                         current={
-        //                             // curr.find(c => c === index) || false
-        //                             FindCurrent(index + 1)
-        //                         }
-        //                         removeMode={removeMode}
-        //                         onMouseDown={TouchStartEvent}
-        //                         onMouseMove={MouseMoveEvent}
-        //                         onMouseUp={TouchEndEvent}
-        //                         onTouchStart={TouchStartEvent}
-        //                         onTouchMove={TouchMoveEvent}
-        //                         onTouchEnd={TouchEndEvent}
-        //                         onTouchCancel={TouchEndEvent}
-        //                         onClick={(e)=> {ClickEvent(e, index)}}
-        //                         ></DayBox>
-        //                     </DayContainer>
-        //                 </>
-        //             )}
-        //     </DaysRow>
-        // </ContainerInput>
     );
 }
 
