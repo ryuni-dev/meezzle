@@ -13,6 +13,11 @@ const LandingPageFooter: NextComponentType = () => {
 export default LandingPageFooter;
 
 const Footer = styled.footer`
-    margin-top: 20px;
-    height: 134px;
+    width: 95%;
+    max-width: 340px;
+    // margin-top: 20px;
+    // height: 134px;
+    margin-bottom: 20px;
+    position : fixed;
+    bottom : 0;
 `;
