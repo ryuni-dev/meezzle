@@ -2,7 +2,7 @@ import { NextPage } from "next";
 import { useEffect, useState } from "react";
 import ViewTable from "../../../components/event/View/ViewTable";
 import Navbar from "../../../components/common/Navbar";
-import shareNav from "../public/assets/shareNav.svg";
+import shareNav from "../../../public/assets/shareNav.svg";
 import Image from "next/image";
 import H1 from "../../../components/event/View/Title";
 import Tooltip from "../../../components/event/View/Tooltip";

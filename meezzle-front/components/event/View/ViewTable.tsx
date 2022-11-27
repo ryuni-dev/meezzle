@@ -60,6 +60,10 @@ const Container = styled.div`
     margin: 0 auto;
     font-weight: 300;
     font-family: "Pretendard";
+    user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
 `;
 
 const Table = styled.div`
