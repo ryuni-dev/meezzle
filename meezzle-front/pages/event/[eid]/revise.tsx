@@ -13,6 +13,7 @@ import EventColor from "../../../components/event/Create/EventColor";
 import EventExplain from "../../../components/event/Create/EventExplain";
 
 import LinkBtn from "../../../components/common/LinkBtn";
+import Navbar from "../../../components/common/Navbar";
 
 
 const Body = styled.div`
@@ -31,8 +32,9 @@ const Footer = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
     width: 100%;
-    height: 90px;
+    height: 120px;
     margin-left: 12%;
     margin-right: 0px;
 `
@@ -43,8 +45,12 @@ const ReviseEvent: NextPage = () => {
     // });
 
     return (
+        <>
+        <Navbar>
+            <></>
+        </Navbar>
         <Body>
-            <EventCreate>
+            <EventCreate text="이벤트 수정">
                 <EventName></EventName>
                 <EventDay></EventDay>
                 <EventTime></EventTime>
@@ -53,9 +59,11 @@ const ReviseEvent: NextPage = () => {
                 <EventExplain></EventExplain>
             </EventCreate>
             <Footer>
-                <LinkBtn text="수정 완료!" href="/"></LinkBtn>
+                <LinkBtn text="수정 완료!" href="/" color={true}></LinkBtn>
+                <LinkBtn text="< 이전으로 돌아가기" href="/" color={false}></LinkBtn>
             </Footer>
         </Body>
+        </>
         )
 };
 

@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import styled from 'styled-components';
 interface Props {
-    disable: boolean;
+    isColor?: boolean;
 }
 
 const Button = styled.button`
@@ -9,7 +9,7 @@ const Button = styled.button`
     width: 85%;
     height: 59px;
 
-    background: #3278DE;
+    background: ${(props:Props) => props.isColor ? "#3278DE" : "#ffffff"};
     border-radius: 15px;
     border: 0;
     
@@ -23,9 +23,9 @@ const Button = styled.button`
     letter-spacing: -0.011em;
 
     /* white */
-    color: #FFFFFF;
+    color: ${(props:Props) => props.isColor ? "#FFFFFF" : "#8D8D8D;"};
     // margin: 1rem;
-    margin-right: 8%;
+    // margin-right: 8%;
 
     // &:hover {
     //     background: #97B0D6
@@ -35,13 +35,14 @@ const Button = styled.button`
 interface BtnProps {
     text: string;
     href: string;
+    color: boolean;
     Click?(): void;
 }
 
-const LinkBtn = ({text, href, Click}:BtnProps) => {
+const LinkBtn = ({text, href, color, Click}:BtnProps) => {
     return (
         <Link href={href} prefetch>
-            <Button type='button' onClick={Click}>{text}</Button>
+            <Button type='button' onClick={Click} isColor={color}>{text}</Button>
         </Link>
     )
 }

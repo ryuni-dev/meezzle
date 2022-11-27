@@ -40,7 +40,7 @@ const Footer = styled.div`
     width: 100%;
     height: 90px;
     margin-top: 1rem;
-    margin-left: 10%;
+    // margin-left: 10%;
     margin-right: 0px;
     position : fixed;
     bottom : 0;
@@ -158,13 +158,13 @@ const CreatePage: NextPage = () => {
 
     return (
         <Body>
-            <EventCreate>
+            <EventCreate text="이벤트 생성">
                 {StageManager(stage)}
             </EventCreate>
             <Footer>
                 {stage !== 5
-                ? <Btn Click={ChangeStage} text={BtnText[stage]}></Btn>
-                : <LinkBtn Click={ChangeStage} text={BtnText[stage]} href="/"></LinkBtn>
+                ? <Btn Click={ChangeStage} text={BtnText[stage]} useDisable={true} color={true}></Btn>
+                : <LinkBtn Click={ChangeStage} text={BtnText[stage]} href="/" color={true}></LinkBtn>
                 }
             </Footer>
         </Body>
