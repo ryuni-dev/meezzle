@@ -45,15 +45,17 @@ const Input = styled.input`
 `
 
 type Props = {
-    placeholder: string,
-    input: string,
-    OnChange(e:React.ChangeEvent<HTMLInputElement>): void
+    type?: string,
+    placeholder?: string,
+    input?: string,
+    OnChange?(e:React.ChangeEvent<HTMLInputElement>): void
     OnKeyPress?(e: React.KeyboardEvent<HTMLInputElement>): void
 }
-const InputText= React.forwardRef<HTMLInputElement, Props>(({placeholder, input, OnChange, OnKeyPress}, ref) => {
+const InputText= React.forwardRef<HTMLInputElement, Props>(({type, placeholder, input, OnChange, OnKeyPress}, ref) => {
     return (
-        <Input placeholder={placeholder} value={input} onChange={OnChange} ref={ref} onKeyPress={OnKeyPress}></Input>
+        <Input type={type} placeholder={placeholder} value={input} onChange={OnChange} ref={ref} onKeyPress={OnKeyPress}></Input>
     )
 })
+InputText.displayName = "InputText";
 
 export default InputText

@@ -5,6 +5,7 @@ import { Button } from "../../../styled-components/StyledButton";
 import plus from "../../../public/assets/plus.svg";
 import Image from "next/image";
 import { EventBox } from "./EventBox";
+import Link from "next/link";
 
 const LandingPageSection: NextComponentType = () => {
     const events = [
@@ -15,10 +16,12 @@ const LandingPageSection: NextComponentType = () => {
     return (
         <>
             <ButtonContainer>
-                <Button>
-                    <Image src={plus} alt="plus" />
-                    <p>이벤트 생성하기</p>
-                </Button>
+                <Link href="/event/create">
+                    <Button>
+                        <Image src={plus} alt="plus" />
+                        <p>이벤트 생성하기</p>
+                    </Button>
+                </Link>
             </ButtonContainer>
             <ScheduleContainer>
                 <h3>Schedule</h3>

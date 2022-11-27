@@ -7,8 +7,8 @@ const DivH1 = styled.div`
     width: 100%;
     height: 44px;
     align-items: center;
-    margin-top: 44px;
-    padding-left: 6%;
+    margin-top: 25px;
+    // padding-left: 0%;
 
 `
 type Props = {

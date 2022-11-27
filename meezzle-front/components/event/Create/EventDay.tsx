@@ -163,7 +163,7 @@ const EventDay: NextComponentType = ()=> {
         try{
             const targetElement = e.currentTarget.getAttribute("data-day");
             //@ts-ignore
-            console.log(selected.find(s => parseInt(targetElement) === s))
+            // console.log(selected.find(s => parseInt(targetElement) === s))
             //@ts-ignore
             if(selected.find(s => parseInt(targetElement) === s)){
                 setSelected(selected.filter(se => se !== (index+1)))

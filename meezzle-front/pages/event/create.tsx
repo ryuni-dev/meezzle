@@ -1,21 +1,21 @@
 import type { NextPage } from "next";
 import { useRecoilState } from "recoil";
 import styled, { keyframes } from 'styled-components';
-// import { CSSTransition } from 'react-transition-group' 
 
-
-import EventCreate from "../components/event/Create/EventCreate";
-import EventDate from "../components/event/Create/EventDay";
-import EventDue from "../components/event/Create/EventDue";
-import EventExplain from "../components/event/Create/EventExplain";
-import EventName from "../components/event/Create/EventName";
-import EventTime from "../components/event/Create/EventTime";
-import { inputStage } from "../states/eventCreate";
-
-import EventDay from "../components/event/Create/EventDay";
-import Btn from "../components/common/Btn";
 import { useEffect, useRef } from "react";
-import EventColor from "../components/event/Create/EventColor";
+
+import EventCreate from "../../components/event/Create/EventCreate";
+import EventName from "../../components/event/Create/EventName";
+import EventDay from "../../components/event/Create/EventDay";
+import EventTime from "../../components/event/Create/EventTime";
+import EventDue from "../../components/event/Create/EventDue";
+import EventColor from "../../components/event/Create/EventColor";
+import EventExplain from "../../components/event/Create/EventExplain";
+import Btn from "../../components/common/Btn";
+import { inputStage } from "../../states/eventCreate";
+import LinkBtn from "../../components/common/LinkBtn";
+
+
 
 const Body = styled.div`
     display: flex;
@@ -27,6 +27,12 @@ const Body = styled.div`
     width: 100%;
     overflow-x:hidden;
 `
+const CenterDiv = styled.div`
+display: flex;
+justify-content: center;
+align-items: center;
+    // vertical-align: middle;
+`
 const Footer = styled.div`
     display: flex;
     justify-content: center;
@@ -34,7 +40,7 @@ const Footer = styled.div`
     width: 100%;
     height: 90px;
     margin-top: 1rem;
-    margin-left: 10%;
+    // margin-left: 10%;
     margin-right: 0px;
     position : fixed;
     bottom : 0;
@@ -57,7 +63,6 @@ const FocusTransitionDiv = styled.div`
     transition: 0.6s ease-out;
 `
 
-
 const CreatePage: NextPage = () => {
     const BtnText = [
         '요일 선택하러 가기',
@@ -70,7 +75,6 @@ const CreatePage: NextPage = () => {
     
     const [stage, setStage] = useRecoilState(inputStage);
     const nameRef = useRef<HTMLInputElement>();
-    // const explainRef = useRef<HTMLTextAreaElement>();
 
     const StageManager = (stage: number): JSX.Element => {
         switch(stage) {
@@ -83,8 +87,7 @@ const CreatePage: NextPage = () => {
             case 1: 
                 return (
                     <>
-                    <EventDate></EventDate>
-    
+                        <EventDay></EventDay>
                         <EventName></EventName>
     
                     </>
@@ -94,7 +97,7 @@ const CreatePage: NextPage = () => {
                     <>
                         <EventTime></EventTime>
     
-                        <EventDate></EventDate>
+                        <EventDay></EventDay>
                         <EventName></EventName>
     
                     </>
@@ -105,7 +108,7 @@ const CreatePage: NextPage = () => {
                         <EventDue></EventDue>
     
                         <EventTime></EventTime>
-                        <EventDate></EventDate>
+                        <EventDay></EventDay>
                         <EventName></EventName>
     
                     </>
@@ -132,28 +135,37 @@ const CreatePage: NextPage = () => {
                         <EventDay></EventDay>
                         <EventName></EventName>
                     </>
-                ) 
+                )
             default:
-                return <EventName></EventName>;
+                return  (
+                       <></>
+                    );
         }
     } 
     useEffect(()=> {
         nameRef.current?.focus();
-    },[]);
+    });
 
     const ChangeStage = () => {
-        if(stage < 6) {
+        if(stage < 5) {
             setStage((st) => st + 1);
+        }
+        else if (stage === 5) {
+            setStage(0);
+            console.log(stage);
         }
     }
 
     return (
         <Body>
-            <EventCreate>
+            <EventCreate text="이벤트 생성">
                 {StageManager(stage)}
             </EventCreate>
             <Footer>
-            <Btn Click={ChangeStage} text={BtnText[stage]}></Btn>
+                {stage !== 5
+                ? <Btn Click={ChangeStage} text={BtnText[stage]} useDisable={true} color={true}></Btn>
+                : <LinkBtn Click={ChangeStage} text={BtnText[stage]} href="/" color={true}></LinkBtn>
+                }
             </Footer>
         </Body>
         )
