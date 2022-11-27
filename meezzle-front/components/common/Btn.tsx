@@ -1,4 +1,4 @@
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import { btnDisable } from '../../states/eventCreate';
 
@@ -66,16 +66,17 @@ const Button = styled.button`
 `
 interface BtnProps {
     text: string;
-    useDisable?: boolean | false;
+    useDisable: boolean;
     color: boolean;
     Click?(): void;
 }
 
 const Btn = ({text, useDisable, color, Click}:BtnProps) => {
-    let isDisable = false;
-    if(useDisable){
-        isDisable = useRecoilValue(btnDisable);
+    const [isDisable, setIsDisable] = useRecoilState(btnDisable);
+    if(!useDisable){
+        setIsDisable(false);
     }
+   
     return (
             <Button type='button' disable={isDisable} disabled={isDisable} onClick={Click} isColor={color}>{text}</Button>
     )

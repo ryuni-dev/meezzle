@@ -73,15 +73,15 @@ const ReviseEvent: NextPage = () => {
             return (
                 <>
                     <LinkBtn text="제출하기!" href="/" color={true} Click={GoNextDay}></LinkBtn>
-                    <Btn text="< 이전 요일로 이동하기" color={false} Click={GoPrevDay}></Btn>
+                    <Btn text="< 이전 요일로 이동하기" color={false} Click={GoPrevDay} useDisable={false}></Btn>
                 </>
             )
         }
         else {
             return (
                 <>
-                    <Btn text="다음 요일로 이동하기" Click={GoNextDay} color={true}></Btn>
-                    <Btn text="< 이전 요일로 이동하기" color={false} Click={GoPrevDay}></Btn>
+                    <Btn text="다음 요일로 이동하기" Click={GoNextDay} color={true} useDisable={false}></Btn>
+                    <Btn text="< 이전 요일로 이동하기" color={false} Click={GoPrevDay} useDisable={false}></Btn>
                 </>
             )
         }
