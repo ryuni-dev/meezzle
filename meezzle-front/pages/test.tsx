@@ -7,15 +7,27 @@ import Image from "next/image";
 import H1 from "../components/eventView/Title";
 import Tooltip from "../components/eventView/Tooltip";
 import Attendee from "../components/eventView/Attendee";
+import { ThinLine } from "../styled-components/StyledThinLine";
+import MaximumTime from "../components/eventView/MaximumTime";
 
 type tableInfoType = {
     row: number;
     col: { length: number; names: string[] };
 };
 
+/* Table 상에서 시간 한 칸 클릭 시 받아오는 데이터 */
 type attendeeInfoType = {
     total: string[];
     attendee: string[];
+};
+
+/* 최대로 모일 수 있는 시간 페이지 로드시 fetch 해 올 데이터 */
+type bestTimeType = {
+    times: {
+        time: number; // Table Box의 key와 같은 형식의 시간
+        attendee: string[]; // 참여자들
+    }[];
+    max: number; // 최대로 가능한 시간의 인원 수
 };
 
 const Test: NextPage = () => {
@@ -31,6 +43,17 @@ const Test: NextPage = () => {
         total: ["상오", "경륜", "영로", "지은", "재훈"],
         attendee: ["상오", "경륜", "영로", "지은"],
     });
+    const [bestTime, setBestTime] = useState<bestTimeType>({
+        times: [
+            { time: 105, attendee: ["경륜", "상오", "지은"] },
+            { time: 106, attendee: ["경륜", "상오", "영로"] },
+        ],
+        max: 3,
+    });
+
+    useEffect(() => {
+        // best time type fetch 하기
+    }, []);
 
     return (
         <>
@@ -40,7 +63,13 @@ const Test: NextPage = () => {
             <H1>총 {total}명이 참여했어요!</H1>
             <Tooltip>*시간을 클릭해보세요.</Tooltip>
             <ViewTable info={tableInfo} />
-            {<Attendee attendeeInfo={attendeeInfo} />}
+            {attendeeInfo && (
+                <>
+                    <Attendee attendeeInfo={attendeeInfo} />
+                    <ThinLine />
+                    <MaximumTime time={bestTime} />
+                </>
+            )}
         </>
     );
 };
