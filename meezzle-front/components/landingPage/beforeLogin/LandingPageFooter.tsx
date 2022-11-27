@@ -1,11 +1,14 @@
 import { NextComponentType } from "next";
 import styled from "styled-components";
 import { Button } from "../../../styled-components/StyledButton";
+import Link from "next/link";
 
 const LandingPageFooter: NextComponentType = () => {
     return (
         <Footer>
-            <Button>이벤트를 생성해보세요!</Button>
+            <Link href="/login" prefetch>
+                <Button>이벤트를 생성해보세요!</Button>
+            </Link>
         </Footer>
     );
 };
@@ -18,6 +21,6 @@ const Footer = styled.footer`
     // margin-top: 20px;
     // height: 134px;
     margin-bottom: 20px;
-    position : fixed;
-    bottom : 0;
+    position: fixed;
+    bottom: 0;
 `;
