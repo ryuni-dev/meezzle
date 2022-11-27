@@ -64,7 +64,7 @@ const Container = styled.div`
 
 const Table = styled.div`
     display: inline-block;
-    width: 86%;
+    width: 90%;
     vertical-align: top;
 `;
 
@@ -101,7 +101,7 @@ const TimeBlock = styled.span<{ col: number }>`
 
 const Time = styled.div`
     display: inline-block;
-    width: 13%;
+    width: 8%;
     font-size: 9px;
     margin-top: 5px;
     text-align: right;
