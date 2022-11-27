@@ -1,19 +1,16 @@
 import type { NextPage } from "next";
-import { useRecoilState, useRecoilValue } from "recoil";
 import styled from 'styled-components';
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 import LinkBtn from "../../../components/common/LinkBtn";
 import Navbar from "../../../components/common/Navbar";
-import InputText from "../../../components/event/CreateElement/InputText";
-import TextBlackMedium from "../../../components/common/TextBlackMedium";
-import TextGraySmall from "../../../components/common/TextGraySmall";
+import VoteLogin from "../../../components/event/Vote/Login";
 
 const TitleBox = styled.div`
     display: flex;
     flex-direction: row;
-    width: 301px;
-    height: 29px;
+    // width: 301px;
+    // height: 29px;
 `
 
 const Highlight = styled.div`
@@ -108,7 +105,6 @@ const Footer = styled.div`
 const ReviseEvent: NextPage = () => {
    
     useEffect(()=> {
-        // setNow(selectedDay[0]);
     }, []);
 
     return (
@@ -126,16 +122,7 @@ const ReviseEvent: NextPage = () => {
             <EventExplainDiv>
                 {"여러분 예상치 못한 변수가 생겼어요 회의를 해야합니다 \n\n<회의 안건> \r\n1. 드래그 방식 논의  \n2. 추가 기능 논의 \n3.디자인 피드백"}
             </EventExplainDiv>
-            <InputExplainDiv>
-                <TextBlackMedium text="이름"></TextBlackMedium>
-                <TextGraySmall text="실명 사용을 권장해요."></TextGraySmall>
-            </InputExplainDiv>
-            <InputText></InputText>
-            <InputExplainDiv>
-                <TextBlackMedium text="비밀번호"></TextBlackMedium>
-                <TextGraySmall text="회원님만 정보를 수정하기 위해선 비밀번호가 필요해요. (선택)"></TextGraySmall>
-            </InputExplainDiv>
-            <InputText type="password"></InputText>
+            <VoteLogin></VoteLogin>
             <Footer>
                 <LinkBtn text="가능한 시간 입력하러 가기!" href="/event/eid/vote" color={true}></LinkBtn>
                 <LinkBtn text="통계 바로 보기!" href="/" color={false}></LinkBtn>

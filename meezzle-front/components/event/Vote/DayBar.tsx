@@ -1,6 +1,4 @@
-import Link from 'next/link';
-import { useEffect } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { eventDaySelected } from '../../../states/eventDayBox';
 import { voteNow } from '../../../states/eventVote';
@@ -56,12 +54,6 @@ const Day = styled.div`
 
     letter-spacing: -0.011em;
 `
-interface BtnProps {
-    text: string;
-    href: string;
-    color: boolean;
-    Click?(): void;
-}
 
 const DayBar = () => {
     const [now, setNow] = useRecoilState(voteNow);
