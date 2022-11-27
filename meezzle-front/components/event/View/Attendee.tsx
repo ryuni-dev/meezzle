@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import person from "../../public/assets/person.svg";
+import person from "../../../public/assets/person.svg";
 import Image from "next/image";
 
 type Props = {
@@ -50,6 +50,7 @@ const FlexContainer = styled.div`
     align-items: flex-end;
     margin-top: 2.5px;
     margin-bottom: 2.5px;
+    font-family: "Pretendard";
 `;
 
 const AttendeeNum = styled.p`
@@ -61,7 +62,7 @@ const AttendeeNum = styled.p`
 
 const AttendeeBox = styled.div`
     font-size: 13px;
-    width: 80px;
+    width: 90px;
 `;
 
 const AttendeeList = styled.p`

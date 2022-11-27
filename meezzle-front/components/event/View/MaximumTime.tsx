@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import Toggle from "./Toggle";
+import { MouseEvent, useState } from "react";
 
 type Props = {
     time: {
@@ -11,7 +12,34 @@ type Props = {
     };
 };
 
+type toggleTime = {
+    weekday: string;
+    time: string;
+    attendee: string[];
+    absentee: string[];
+}[];
+
 const MaximumTime: React.FC<Props> = ({ time }: Props) => {
+    const [toggleProps, setToggleProps] = useState<toggleTime>([
+        {
+            weekday: "일요일",
+            time: "12:00-16:00",
+            attendee: ["상오", "경륜", "영로"],
+            absentee: ["지은", "성현"],
+        },
+        {
+            weekday: "월요일",
+            time: "12:00-16:00",
+            attendee: ["상오", "경륜", "영로"],
+            absentee: ["지은", "성현"],
+        },
+        {
+            weekday: "화요일",
+            time: "12:00-16:00",
+            attendee: ["상오", "경륜", "영로"],
+            absentee: ["지은", "성현"],
+        },
+    ]);
     return (
         <>
             <P>
@@ -22,9 +50,9 @@ const MaximumTime: React.FC<Props> = ({ time }: Props) => {
                 {time.max}명이 가능한 시간은 다음과 같아요.
             </P>
             <ToggleContainer>
-                <Toggle></Toggle>
-                <Toggle></Toggle>
-                <Toggle></Toggle>
+                {toggleProps.map((el, idx) => {
+                    return <Toggle toggleTime={el} key={idx} />;
+                })}
             </ToggleContainer>
         </>
     );

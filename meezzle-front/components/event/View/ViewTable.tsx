@@ -34,11 +34,11 @@ const ViewTable = ({ info }: ViewTableProps, r: number) => {
         }
         setHead(() =>
             info.col.names.map((e: string, idx: number) => {
-                return <td key={idx}>{e}</td>;
+                return <div key={idx}>{e}</div>;
             })
         );
         for (let i = 0; i <= 24; i++) {
-            setTime((time) => [...time, <p>{i}:00</p>]);
+            setTime((time) => [...time, <p key={i}>{i}:00</p>]);
         }
     }, []);
 

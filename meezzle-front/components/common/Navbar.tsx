@@ -13,7 +13,9 @@ const Navbar = ({ children }: NavbarProps) => {
         <Nav>
             <LogoContainer>
                 <Link href={{ pathname: "/" }} passHref>
-                    <Image src={logo} alt="logo" />
+                    <a>
+                        <Image src={logo} alt="logo" />
+                    </a>
                 </Link>
             </LogoContainer>
             <ContentContainer>{children}</ContentContainer>

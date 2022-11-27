@@ -1,14 +1,15 @@
 import { NextPage } from "next";
 import { useEffect, useState } from "react";
-import ViewTable from "../components/eventView/ViewTable";
-import Navbar from "../components/common/Navbar";
+import ViewTable from "../../../components/event/View/ViewTable";
+import Navbar from "../../../components/common/Navbar";
 import shareNav from "../public/assets/shareNav.svg";
 import Image from "next/image";
-import H1 from "../components/eventView/Title";
-import Tooltip from "../components/eventView/Tooltip";
-import Attendee from "../components/eventView/Attendee";
-import { ThinLine } from "../styled-components/StyledThinLine";
-import MaximumTime from "../components/eventView/MaximumTime";
+import H1 from "../../../components/event/View/Title";
+import Tooltip from "../../../components/event/View/Tooltip";
+import Attendee from "../../../components/event/View/Attendee";
+import { ThinLine } from "../../../styled-components/StyledThinLine";
+import MaximumTime from "../../../components/event/View/MaximumTime";
+import styled from "styled-components";
 
 type tableInfoType = {
     row: number;
@@ -29,6 +30,16 @@ type bestTimeType = {
     }[];
     max: number; // 최대로 가능한 시간의 인원 수
 };
+
+const Body = styled.div`
+    display: flex;
+    max-width: 400px;
+    margin: 0 auto;
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+`;
 
 const Test: NextPage = () => {
     const [total, setTotal] = useState<number>(3);
@@ -56,7 +67,7 @@ const Test: NextPage = () => {
     }, []);
 
     return (
-        <>
+        <Body>
             <Navbar>
                 <Image src={shareNav} alt="share" />
             </Navbar>
@@ -64,14 +75,18 @@ const Test: NextPage = () => {
             <Tooltip>*시간을 클릭해보세요.</Tooltip>
             <ViewTable info={tableInfo} />
             {attendeeInfo && (
-                <>
+                <Container>
                     <Attendee attendeeInfo={attendeeInfo} />
                     <ThinLine />
                     <MaximumTime time={bestTime} />
-                </>
+                </Container>
             )}
-        </>
+        </Body>
     );
 };
 
 export default Test;
+
+const Container = styled.div`
+    width: 100%;
+`;
