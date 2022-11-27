@@ -7,24 +7,25 @@ interface Props {
     userNum: number;
     title: string;
     idx: number;
+    color: string 
 }
 
 interface EventContainerProps {
     backgroundColor: string;
 }
 
-export const EventBox = ({ userNum, idx, title }: Props) => {
-    const backgroundColors: string[] = [
-        "#FFE86D",
-        "#A1EAD8",
-        "#FFBDBD",
-        "#8AD4FD",
-        "#BEA5F3",
-    ];
+export const EventBox = ({ userNum, idx, title, color }: Props) => {
+    // const backgroundColors: string[] = [
+    //     "#FFE86D",
+    //     "#A1EAD8",
+    //     "#FFBDBD",
+    //     "#8AD4FD",
+    //     "#BEA5F3",
+    // ];
 
-    const backgroundColor = backgroundColors[idx % 5];
+    // const backgroundColor = backgroundColors[idx % 5];
     return (
-        <EventContainer backgroundColor={backgroundColor}>
+        <EventContainer backgroundColor={color}>
             <IconContainer>
                 <Image src={user} alt="user" />
                 {userNum}

@@ -15,7 +15,6 @@ const Button = styled.button`
     background: ${(props:Props) => {
         if(props.isColor){
             if(props.disable) {
-                console.log("AA");
                 return "#E2E2E2";
             }
             else {
@@ -43,7 +42,6 @@ const Button = styled.button`
     color: ${(props:Props) => {
         if(props.isColor){
             if(props.disable) {
-                console.log("AA");
                 return "#8D8D8D";
             }
             else {

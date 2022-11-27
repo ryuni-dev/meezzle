@@ -1,4 +1,4 @@
-import type { NextPage } from "next";
+import type { GetServerSideProps, NextPage } from "next";
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import Navbar from "../components/common/Navbar";
@@ -11,6 +11,7 @@ import { LoginBox } from "../styled-components/StyledLoginBox";
 import { GlobalStyle } from "../styles/Globalstyle";
 import Head from "next/head";
 import styled from "styled-components";
+import { useEvent } from "../hooks/api/events";
 
 const Body = styled.div`
     display: flex;
@@ -23,10 +24,15 @@ const Body = styled.div`
 
 `
 
-const Home: NextPage = ({}) => {
+interface Props {
+    data: JSON
+}
+
+const Home: NextPage<Props> = ({}) => {
     const [visible, setVisible] = useState<Boolean>(false);
     const [isLoggedIn, setIsLoggedIn] = useLogin();
-
+    const {data} = useEvent();
+    console.log("aa", data);
     // 프로필 클릭 시 메뉴 나오기
     const handleCilck = () => {
         setVisible(visible ? false : true);
@@ -76,5 +82,20 @@ const Home: NextPage = ({}) => {
         </>
     );
 };
+
+// export const getServerSideProps: GetServerSideProps = async(context) => {
+//     try {
+//         const res = await fetch(`http://localhost:3000/api/event`);
+//         if(res.status === 200) {
+//             const data = await res.json();
+//             return {props: {data: data}}
+//         }
+//         return {props: {}};
+//     }
+//     catch(e){
+//         console.log(e);
+//         return {props: {}}
+//     }
+// }
 
 export default Home;

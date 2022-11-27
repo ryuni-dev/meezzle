@@ -6,13 +6,17 @@ import plus from "../../../public/assets/plus.svg";
 import Image from "next/image";
 import { EventBox } from "./EventBox";
 import Link from "next/link";
+import { useEvent } from "../../../hooks/api/events";
 
 const LandingPageSection: NextComponentType = () => {
-    const events = [
-        { key: 1, title: "미미 긴급 회의", userNum: 5 },
-        { key: 2, title: "팀플1 회의 - 다음주만", userNum: 5 },
-        { key: 3, title: "미미 팀 전체 회식", userNum: 8 },
-    ];
+    const {data} = useEvent();
+    console.log("aa", data);
+    // const events = [
+    //     { key: 1, title: "미미 긴급 회의", userNum: 5 },
+    //     { key: 2, title: "팀플1 회의 - 다음주만", userNum: 5 },
+    //     { key: 3, title: "미미 팀 전체 회식", userNum: 8 },
+    // ];
+    const events = data;
     return (
         <>
             <ButtonContainer>
@@ -25,12 +29,15 @@ const LandingPageSection: NextComponentType = () => {
             </ButtonContainer>
             <ScheduleContainer>
                 <h3>Schedule</h3>
-                {events.map((e, idx) => (
+                {
+                //@ts-ignore
+                events.map((e, idx:number) => (
                     <EventBox
                         idx={idx}
-                        key={e.key}
+                        key={idx}
                         title={e.title}
                         userNum={e.userNum}
+                        color={e.color}
                     ></EventBox>
                 ))}
             </ScheduleContainer>
