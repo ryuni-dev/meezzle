@@ -24,7 +24,12 @@ const Navbar = ({ children }: NavbarProps) => {
 export default Navbar;
 
 const Nav = styled.nav`
+    display: flex;
+    justify-content: center;
+    align-items: center;
     margin-top: 25px;
+    max-width: 400px;
+    width: 100%;
     height: 40px;
     line-height: 42px;
     margin-bottom: 22px;
@@ -38,8 +43,10 @@ const Nav = styled.nav`
 `;
 
 const LogoContainer = styled.div`
+    display: flex;
     float: left;
     margin-left: 21px;
+    margin-right: 50%;
     width: 119px;
     height: 100%;
     line-height: 40px;

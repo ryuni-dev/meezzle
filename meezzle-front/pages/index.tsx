@@ -10,6 +10,18 @@ import { useLogin } from "../states/login";
 import { LoginBox } from "../styled-components/StyledLoginBox";
 import { GlobalStyle } from "../styles/Globalstyle";
 import Head from "next/head";
+import styled from "styled-components";
+
+const Body = styled.div`
+    display: flex;
+    max-width: 400px;
+    margin: 0 auto;
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+`
 
 const Home: NextPage = ({}) => {
     const [visible, setVisible] = useState<Boolean>(false);
@@ -48,17 +60,19 @@ const Home: NextPage = ({}) => {
                 <title>Home | meezzle</title>
             </Head>
             <GlobalStyle />
-            <Navbar>
-                <Image src={profile} alt="profile" onClick={handleCilck} />
-                {visible && (
-                    <LoginBox ref={menuRef} onClick={handleLogin}>
-                        {!isLoggedIn ? "로그인" : "로그아웃"}
-                    </LoginBox>
-                )}
-            </Navbar>
-            {!isLoggedIn && <LandingPageIntro />}
-            {!isLoggedIn && <LandingPageFooter />}
-            {isLoggedIn && <LandingPageSection />}
+            <Body>
+                <Navbar>
+                    <Image src={profile} alt="profile" onClick={handleCilck} />
+                    {visible && (
+                        <LoginBox ref={menuRef} onClick={handleLogin}>
+                            {!isLoggedIn ? "로그인" : "로그아웃"}
+                        </LoginBox>
+                    )}
+                </Navbar>
+                {!isLoggedIn && <LandingPageIntro />}
+                {!isLoggedIn && <LandingPageFooter />}
+                {isLoggedIn && <LandingPageSection />}
+            </Body>
         </>
     );
 };
