@@ -2,18 +2,19 @@ import styled from "styled-components";
 import Image from "next/image";
 import user from "../../../public/assets/user.svg";
 import share from "../../../public/assets/share.svg";
+import Link from "next/link";
 
 interface Props {
     userNum: number;
     title: string;
-    idx: number;
+    id: number;
 }
 
 interface EventContainerProps {
     backgroundColor: string;
 }
 
-export const EventBox = ({ userNum, idx, title }: Props) => {
+export const EventBox = ({ userNum, id, title }: Props) => {
     const backgroundColors: string[] = [
         "#FFE86D",
         "#A1EAD8",
@@ -22,20 +23,24 @@ export const EventBox = ({ userNum, idx, title }: Props) => {
         "#BEA5F3",
     ];
 
-    const backgroundColor = backgroundColors[idx % 5];
+    const backgroundColor = backgroundColors[id % 5];
     return (
-        <EventContainer backgroundColor={backgroundColor}>
-            <IconContainer>
-                <Image src={user} alt="user" />
-                {userNum}
-                <Image src={share} alt="share" />
-            </IconContainer>
-            <Clear />
-            <TitleContainer>{title}</TitleContainer>
-            <DueContainer>
-                마감 <DueDate>22-09-30 23:59</DueDate>
-            </DueContainer>
-        </EventContainer>
+        <Link href={`/event/${id}/view`}>
+            <a>
+                <EventContainer backgroundColor={backgroundColor}>
+                    <IconContainer>
+                        <Image src={user} alt="user" />
+                        {userNum}
+                        <Image src={share} alt="share" />
+                    </IconContainer>
+                    <Clear />
+                    <TitleContainer>{title}</TitleContainer>
+                    <DueContainer>
+                        마감 <DueDate>22-09-30 23:59</DueDate>
+                    </DueContainer>
+                </EventContainer>
+            </a>
+        </Link>
     );
 };
 const EventContainer = styled.div<EventContainerProps>`
