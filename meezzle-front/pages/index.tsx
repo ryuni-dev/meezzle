@@ -6,11 +6,12 @@ import LandingPageIntro from "../components/landingPage/beforeLogin/LandingPageI
 import LandingPageFooter from "../components/landingPage/beforeLogin/LandingPageFooter";
 import LandingPageSection from "../components/landingPage/afterLogin/LandingPageSection";
 import profile from "../public/assets/profile.png";
-import { useLogin } from "../states/login";
+import { LoginState, useLogin } from "../states/login";
 import { LoginBox } from "../styled-components/StyledLoginBox";
 import { GlobalStyle } from "../styles/Globalstyle";
 import Head from "next/head";
 import styled from "styled-components";
+import { useRecoilState } from "recoil";
 
 const Body = styled.div`
     display: flex;
@@ -30,6 +31,7 @@ interface Props {
 const Home: NextPage<Props> = ({}) => {
     const [visible, setVisible] = useState<Boolean>(false);
     const [isLoggedIn, setIsLoggedIn] = useLogin();
+
     // 프로필 클릭 시 메뉴 나오기
     const handleCilck = () => {
         setVisible(visible ? false : true);
