@@ -10,6 +10,8 @@ import { eventDaySelected } from "../../../states/eventDayBox";
 import { useEffect } from "react";
 import TimeSelect from "../../../components/event/Vote/TimeSelect";
 import Btn from "../../../components/common/Btn";
+import { useRouter } from "next/router";
+import { useEvent } from "../../../hooks/api/events";
 
 const Body = styled.div`
     display: flex;
@@ -35,6 +37,10 @@ const Footer = styled.div`
 `
 
 const ReviseEvent: NextPage = () => {
+    const { query: { eid } } = useRouter();
+    //@ts-ignore
+    const { data, isLoading } = useEvent(eid);
+
     const [now, setNow] = useRecoilState(voteNow);
     const [selectedDay, setSelectedDay] = useRecoilState(eventDaySelected);
 
@@ -86,9 +92,20 @@ const ReviseEvent: NextPage = () => {
             )
         }
     }
+
+
+
     useEffect(()=> {
         setNow(selectedDay[0]);
     }, []);
+    useEffect(()=> {
+        if(!isLoading){
+            setSelectedDay(data[0].days);
+            setNow(data[0].days[0]);
+            // time block 서버 연동
+        }
+        console.log(now)
+    },[data]);
 
     return (
         <>

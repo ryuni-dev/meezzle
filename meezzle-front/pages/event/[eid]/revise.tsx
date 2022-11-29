@@ -1,7 +1,9 @@
-import type { NextPage } from "next";
+import type { GetServerSideProps, NextPage } from "next";
 import { useRecoilState } from "recoil";
 import styled, { keyframes } from 'styled-components';
 // import { CSSTransition } from 'react-transition-group' 
+import setHours from "date-fns/setHours";
+import setMinutes from "date-fns/setMinutes";
 
 
 import EventCreate from "../../../components/event/Create/EventCreate";
@@ -14,6 +16,12 @@ import EventExplain from "../../../components/event/Create/EventExplain";
 
 import LinkBtn from "../../../components/common/LinkBtn";
 import Navbar from "../../../components/common/Navbar";
+import { useRouter } from "next/router";
+import { useEvent } from "../../../hooks/api/events";
+import { eventInfo } from "../../../states/eventInfo";
+import { eventDaySelected } from "../../../states/eventDayBox";
+import { moveMessagePortToContext } from "worker_threads";
+import { useEffect } from "react";
 
 
 const Body = styled.div`
@@ -39,10 +47,33 @@ const Footer = styled.div`
     margin-right: 0px;
 `
 
-const ReviseEvent: NextPage = () => {
-    // useEffect(()=> {
-    //     nameRef.current?.focus();
-    // });
+const ReviseEvent: NextPage = ({}) => {
+    const { query: { eid } } = useRouter();
+    //@ts-ignore
+    const { data, isLoading } = useEvent(eid);
+    const [ days, setDays ] = useRecoilState(eventDaySelected);
+    const [ event, setEvent ] = useRecoilState(eventInfo);
+    
+    useEffect(()=> {
+        if(isLoading){
+            console.log('is loading...');
+        }
+        else {
+            // console.log('data', data[0]);
+            setEvent({
+                ...event,
+                title: data[0].title,
+                color: data[0].color,
+                startTime: new Date(data[0].startTime),
+                endTime: new Date(data[0].endTime),
+                dueDate: new Date(data[0].dueDate),
+                dueTime: new Date(data[0].dueTime),
+                description: data[0].description
+            });
+            setDays(data[0].days);
+            // console.log(event)
+        }
+    },[data]);
 
     return (
         <>
@@ -60,11 +91,39 @@ const ReviseEvent: NextPage = () => {
             </EventCreate>
             <Footer>
                 <LinkBtn text="수정 완료!" href="/" color={true}></LinkBtn>
-                <LinkBtn text="< 이전으로 돌아가기" href="/" color={false}></LinkBtn>
+                <LinkBtn text="이벤트 삭제하기" href="/" color={false}></LinkBtn>
             </Footer>
         </Body>
         </>
         )
 };
+
+// export const getServerSideProps: GetServerSideProps = async(context) => {
+//     try {
+//         // const { query: { eid } } = useRouter();
+//         const eid = context.params;
+//         console.log(eid);
+//         //@ts-ignore
+//         const { data, isLoading } = useEvent(eid);
+//         console.log('aa', data)
+//         return {props: {data: data[0]}}
+
+//         // const res = await fetch(`http://localhost:3000/api/event`);
+//         // if(isLoading){
+//         //     console.log('is loading');
+//         // }
+//         // else{
+//         // }
+//         // if(res.status === 200) {
+//         //     const data = await res.json();
+//         //     return {props: {data: data}}
+//         // }
+//         // return {props: {}};
+//     }
+//     catch(e){
+//         console.log(e);
+//         return {props: {}}
+//     }
+// }
 
 export default ReviseEvent;

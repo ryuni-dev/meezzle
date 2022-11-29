@@ -6,11 +6,12 @@ import plus from "../../../public/assets/plus.svg";
 import Image from "next/image";
 import { EventBox } from "./EventBox";
 import Link from "next/link";
-import { useEvent } from "../../../hooks/api/events";
+import { useEvents } from "../../../hooks/api/events";
 
 const LandingPageSection: NextComponentType = () => {
-    const {data} = useEvent();
-    console.log("aa", data);
+    // 유저가 처음 로그인 시엔 isLoading을, 로그인 한 상태에서 새로고침 시엔 isFetching을 사용
+    const { data, isFetching, isLoading } = useEvents();
+    // console.log("aa", data);
     // const events = [
     //     { key: 1, title: "미미 긴급 회의", userNum: 5 },
     //     { key: 2, title: "팀플1 회의 - 다음주만", userNum: 5 },
@@ -27,20 +28,33 @@ const LandingPageSection: NextComponentType = () => {
                     </Button>
                 </Link>
             </ButtonContainer>
+            {
+                isFetching ? null :
             <ScheduleContainer>
                 <h3>Schedule</h3>
                 {
-                //@ts-ignore
+                    //@ts-ignore
                 events.map((e, idx:number) => (
-                    <EventBox
-                        idx={idx}
+                    <Link href={{
+                        pathname: '/event/[eid]/info',
+                        query: {eid: e.eid.toString()}
+                    }}
                         key={idx}
-                        title={e.title}
-                        userNum={e.userNum}
-                        color={e.color}
-                    ></EventBox>
+                    >
+                        <a>
+
+                        <EventBox
+                            eid={e.eid}
+                            key={e.eid}
+                            title={e.title}
+                            userNum={e.userNum}
+                            color={e.color}
+                            ></EventBox>
+                        </a>
+                    </Link>
                 ))}
             </ScheduleContainer>
+            }
         </>
     );
 };

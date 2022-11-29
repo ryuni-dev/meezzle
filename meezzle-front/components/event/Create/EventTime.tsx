@@ -13,6 +13,7 @@ import ContainerInput from "../CreateElement/ContainerInput";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { eventEndTime, eventStartTime, inputFocus, inputStage } from "../../../states/eventCreate";
 import { useRef } from "react";
+import { eventInfo } from "../../../states/eventInfo";
 
 const TextGrayMedium = styled.text`
     font-family: 'Pretendard';
@@ -56,6 +57,7 @@ const DatePickerCumstom = styled(DatePicker)`
 `
 
 const EventTime: NextComponentType = ()=> {
+    const [event, setEvent] = useRecoilState(eventInfo);
     const [startTime, setStartTime] = useRecoilState(eventStartTime);
     const [endTime, setEndTime] = useRecoilState(eventEndTime);
     // const stage = useRecoilValue(inputStage);
@@ -69,8 +71,14 @@ const EventTime: NextComponentType = ()=> {
                 <DatePickerDiv>
                     <DatePickerCumstom
                     locale={ko}   
-                    selected={startTime}
-                    onChange={(time:Date) => setStartTime(time)}
+                    selected={event.startTime}
+                    onChange={(time:Date) => 
+                        setEvent({
+                            ...event,
+                            startTime: time,
+                    })
+                        // setStartTime(time)
+                    }
                     showTimeSelect
                     showTimeSelectOnly
                     timeIntervals={30}
@@ -83,8 +91,14 @@ const EventTime: NextComponentType = ()=> {
                 <DatePickerDiv>
                     <DatePickerCumstom
                     locale={ko}   
-                    selected={endTime}
-                    onChange={(time:Date) => setEndTime(time)}
+                    selected={event.endTime}
+                    onChange={(time:Date) => 
+                        setEvent({
+                            ...event,
+                            endTime: time,
+                    })
+                        // setEndTime(time)
+                    }
                     showTimeSelect
                     showTimeSelectOnly
                     timeIntervals={30}

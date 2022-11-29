@@ -12,6 +12,7 @@ import TextGraySmall from "../../common/TextGraySmall";
 import ContainerInput from "../CreateElement/ContainerInput";
 import { eventDueDate, eventDueTime } from "../../../states/eventCreate";
 import { useState } from "react";
+import { eventInfo } from "../../../states/eventInfo";
 
 interface Props {
     disabled?: boolean | undefined;
@@ -104,14 +105,15 @@ const TextSmall = styled.text`
     color: #A5A5A5;
 `
 const EventDue: NextComponentType = ()=> {
-    const [dueDate, setDueDate] = useRecoilState(eventDueDate);
-    const [dueTime, setDueTime] = useRecoilState(eventDueTime);
+    const [event, setEvent] = useRecoilState(eventInfo);
+    // const [dueDate, setDueDate] = useRecoilState(eventDueDate);
+    // const [dueTime, setDueTime] = useRecoilState(eventDueTime);
 
     const [disable, setDisable] = useState(false);
 
-    const IsDisable = (): void => {
+    // const IsDisable = (): void => {
 
-    }
+    // }
 
     return (
         <ContainerInput>
@@ -122,8 +124,14 @@ const EventDue: NextComponentType = ()=> {
                 <DatePickerCumstom
                     dateFormat="yyyy년 MM월 dd일"
                     locale={ko}   
-                    selected={dueDate}
-                    onChange={(date:Date) => setDueDate(date)}
+                    selected={event.dueDate}
+                    onChange={(date:Date) => 
+                        setEvent({
+                            ...event,
+                            dueDate: date,
+                    })
+                        // setDueDate(date)
+                    }
                     minDate={new Date()}
                     disabled={disable}
                     />
@@ -131,8 +139,14 @@ const EventDue: NextComponentType = ()=> {
                 <DatePickerDiv>
                     <DatePickerCumstom
                     locale={ko}   
-                    selected={dueTime}
-                    onChange={(time:Date) => setDueTime(time)}
+                    selected={event.dueTime}
+                    onChange={(time:Date) => 
+                        setEvent({
+                            ...event,
+                            dueTime: time,
+                    })
+                        // setDueTime(time)
+                    }
                     showTimeSelect
                     showTimeSelectOnly
                     timeIntervals={30}

@@ -4,7 +4,13 @@ import { useRecoilState } from "recoil";
 import { useState, useEffect } from "react";
 import { v1 } from "uuid";
 
-const { persistAtom } = recoilPersist();
+const sessionStorage = 
+      typeof window !== 'undefined' ? window.sessionStorage : undefined
+
+const { persistAtom } = recoilPersist({
+    key: 'login',
+    storage: sessionStorage,
+});
 
 export const LoginState = atom<boolean>({
     key: `loginState/${v1()}`,

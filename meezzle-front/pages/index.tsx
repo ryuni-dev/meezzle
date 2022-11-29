@@ -1,4 +1,4 @@
-import type { GetServerSideProps, NextPage } from "next";
+import type { NextPage } from "next";
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import Navbar from "../components/common/Navbar";
@@ -11,7 +11,6 @@ import { LoginBox } from "../styled-components/StyledLoginBox";
 import { GlobalStyle } from "../styles/Globalstyle";
 import Head from "next/head";
 import styled from "styled-components";
-import { useEvent } from "../hooks/api/events";
 
 const Body = styled.div`
     display: flex;
@@ -31,8 +30,6 @@ interface Props {
 const Home: NextPage<Props> = ({}) => {
     const [visible, setVisible] = useState<Boolean>(false);
     const [isLoggedIn, setIsLoggedIn] = useLogin();
-    const {data} = useEvent();
-    console.log("aa", data);
     // 프로필 클릭 시 메뉴 나오기
     const handleCilck = () => {
         setVisible(visible ? false : true);

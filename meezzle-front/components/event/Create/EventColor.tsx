@@ -2,6 +2,7 @@ import { useRecoilState } from "recoil";
 import styled from "styled-components";
 
 import { eventColor } from "../../../states/eventCreate";
+import { eventInfo } from "../../../states/eventInfo";
 import TextBlackMedium from "../../common/TextBlackMedium";
 import TextGraySmall from "../../common/TextGraySmall";
 import ContainerInput from "../CreateElement/ContainerInput";
@@ -41,10 +42,15 @@ const ColorCheckBox = styled.input.attrs({ type: 'radio' })<ColorProps>`
 //     props.color
 // }};
 const EventColor = ()=> {
-    const colors = ['#FFE86D', '#A1EAD8', '#FFBDBD', '#8AD4FD', '#BEA5F3']
+    const colors = ['#FFE86D', '#A1EAD8', '#FFBDBD', '#8AD4FD', '#BEA5F3'];
+    const [event, setEvent] = useRecoilState(eventInfo);
     const [color, setColor] = useRecoilState(eventColor);
     const OnChange = (bgColor: string): void => { 
-        setColor(bgColor);
+        setEvent({
+            ...event,
+            color: bgColor,
+    });
+        // setColor(bgColor);
         // console.log(color);
     }
     return (
@@ -54,7 +60,7 @@ const EventColor = ()=> {
             <DivRow>
                 {colors.map((bgColor: string, index: number)=>
                 <>
-                    <ColorCheckBox type="radio" name="color" key={index} color={bgColor} onChange={()=> OnChange(bgColor)} defaultChecked={index === colors.findIndex((el: string) => el === color)}></ColorCheckBox>
+                    <ColorCheckBox type="radio" name="color" key={index} color={bgColor} onChange={()=> OnChange(bgColor)} defaultChecked={index === colors.findIndex((el: string) => el === event.color)}></ColorCheckBox>
                 </>
                 )}
             </DivRow>
