@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useResetRecoilState } from "recoil";
 import styled, { keyframes } from 'styled-components';
 
 import { useEffect, useRef } from "react";
@@ -12,8 +12,10 @@ import EventDue from "../../components/event/Create/EventDue";
 import EventColor from "../../components/event/Create/EventColor";
 import EventExplain from "../../components/event/Create/EventExplain";
 import Btn from "../../components/common/Btn";
-import { inputStage } from "../../states/eventCreate";
+import { btnDisable, inputStage } from "../../states/eventCreate";
 import LinkBtn from "../../components/common/LinkBtn";
+import { eventInfo } from "../../states/eventInfo";
+import { eventDaySelected } from "../../states/eventDayBox";
 
 
 
@@ -27,12 +29,7 @@ const Body = styled.div`
     width: 100%;
     overflow-x:hidden;
 `
-const CenterDiv = styled.div`
-display: flex;
-justify-content: center;
-align-items: center;
-    // vertical-align: middle;
-`
+
 const Footer = styled.div`
     display: flex;
     justify-content: center;
@@ -63,6 +60,12 @@ const FocusTransitionDiv = styled.div`
     transition: 0.6s ease-out;
 `
 
+const BottomDiv = styled.div`
+    display: flex;
+    width: 100%;
+    margin-bottom: 70px;
+`
+
 const CreatePage: NextPage = () => {
     const BtnText = [
         '요일 선택하러 가기',
@@ -72,79 +75,107 @@ const CreatePage: NextPage = () => {
         '설명 적으러 가기',
         '이벤트 생성하기!'
     ]
-    
+
+    // const [event, setEvent] = useRecoilState(eventInfo);
+    const resetEvent = useResetRecoilState(eventInfo);
+    const resetDays = useResetRecoilState(eventDaySelected)
+    const resetStage = useResetRecoilState(inputStage);
+    const resetBtn = useResetRecoilState(btnDisable);
     const [stage, setStage] = useRecoilState(inputStage);
     const nameRef = useRef<HTMLInputElement>();
 
-    const StageManager = (stage: number): JSX.Element => {
-        switch(stage) {
-            case 0:
-                return (
-                    <FocusTransitionDiv>
-                        <EventName inputRef={nameRef}></EventName>
-                    </FocusTransitionDiv>
-                )
-            case 1: 
-                return (
-                    <>
-                        <EventDay></EventDay>
-                        <EventName></EventName>
-    
-                    </>
-                )
-            case 2: 
-                return (
-                    <>
-                        <EventTime></EventTime>
-    
-                        <EventDay></EventDay>
-                        <EventName></EventName>
-    
-                    </>
-                ) 
-            case 3:
-                return (
-                    <>
-                        <EventDue></EventDue>
-    
-                        <EventTime></EventTime>
-                        <EventDay></EventDay>
-                        <EventName></EventName>
-    
-                    </>
-                ) 
-            case 4:
-            return (
-                <>
-                    <EventColor></EventColor>
+    const ReverseStackJSX = (stage: number): JSX.Element => {
+        return (
+            <>
+                {stage > 4 ? <EventExplain></EventExplain> : null} 
+                {stage > 3 ? <EventColor></EventColor> : null}
+                {stage > 2 ?<EventDue></EventDue> : null}
+                {stage > 1 ? <EventTime></EventTime> : null}
+                {stage > 0 ?<EventDay></EventDay> : null}
+                <BottomDiv>
+                    <EventName inputRef={nameRef}></EventName>
+                </BottomDiv>
 
-                    <EventDue></EventDue>
-                    <EventTime></EventTime>
-                    <EventDay></EventDay>
-                    <EventName></EventName>
-                </>
-            ) 
-            case 5:
-                return (
-                    <>
-                        <EventExplain></EventExplain>
+            </>
+        )
+    }
 
-                        <EventColor></EventColor>
-                        <EventDue></EventDue>
-                        <EventTime></EventTime>
-                        <EventDay></EventDay>
-                        <EventName></EventName>
-                    </>
-                )
-            default:
-                return  (
-                       <></>
-                    );
-        }
-    } 
+    // const StageManager = (stage: number): JSX.Element => {
+    //     switch(stage) {
+    //         case 0:
+    //             return (
+    //                 <FocusTransitionDiv>
+    //                     <EventName inputRef={nameRef}></EventName>
+    //                 </FocusTransitionDiv>
+    //             )
+    //         case 1: 
+    //             return (
+    //                 <>
+    //                     <EventDay></EventDay>
+    //                     <EventName></EventName>
+    
+    //                 </>
+    //             )
+    //         case 2: 
+    //             return (
+    //                 <>
+    //                     <EventTime></EventTime>
+    
+    //                     <EventDay></EventDay>
+    //                     <EventName></EventName>
+    
+    //                 </>
+    //             ) 
+    //         case 3:
+    //             return (
+    //                 <>
+    //                     <EventDue></EventDue>
+    
+    //                     <EventTime></EventTime>
+    //                     <EventDay></EventDay>
+    //                     <EventName></EventName>
+    
+    //                 </>
+    //             ) 
+    //         case 4:
+    //         return (
+    //             <>
+    //                 <EventColor></EventColor>
+
+    //                 <EventDue></EventDue>
+    //                 <EventTime></EventTime>
+    //                 <EventDay></EventDay>
+    //                 <EventName></EventName>
+    //             </>
+    //         ) 
+    //         case 5:
+    //             return (
+    //                 <>
+    //                     <EventExplain></EventExplain>
+
+    //                     <EventColor></EventColor>
+    //                     <EventDue></EventDue>
+    //                     <EventTime></EventTime>
+    //                     <EventDay></EventDay>
+    //                     <EventName></EventName>
+    //                 </>
+    //             )
+    //         default:
+    //             return  (
+    //                    <></>
+    //                 );
+    //     }
+    // } 
     useEffect(()=> {
         nameRef.current?.focus();
     });
+
+    useEffect(()=> {
+        resetEvent();
+        resetDays();
+        resetStage();
+        resetBtn();
+    },[]);
 
     const ChangeStage = () => {
         if(stage < 5) {
@@ -159,7 +190,8 @@ const CreatePage: NextPage = () => {
     return (
         <Body>
             <EventCreate text="이벤트 생성">
-                {StageManager(stage)}
+                {/* {StageManager(stage)} */}
+                {ReverseStackJSX(stage)}
             </EventCreate>
             <Footer>
                 {stage !== 5

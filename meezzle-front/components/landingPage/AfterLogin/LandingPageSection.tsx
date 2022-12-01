@@ -4,15 +4,20 @@ import { NextComponentType } from "next";
 import { Button } from "../../../styled-components/StyledButton";
 import plus from "../../../public/assets/plus.svg";
 import Image from "next/image";
-import { EventBox } from "./EventBox";
 import Link from "next/link";
+import { useEvents } from "../../../hooks/api/events";
+import { EventBox } from "./EventBox";
 
 const LandingPageSection: NextComponentType = () => {
-    const events = [
-        { key: 1, title: "미미 긴급 회의", userNum: 5 },
-        { key: 2, title: "팀플1 회의 - 다음주만", userNum: 5 },
-        { key: 3, title: "미미 팀 전체 회식", userNum: 8 },
-    ];
+    // 유저가 처음 로그인 시엔 isLoading을, 로그인 한 상태에서 새로고침 시엔 isFetching을 사용
+    const { data, isFetching, isLoading } = useEvents();
+    // console.log("aa", data);
+    // const events = [
+    //     { key: 1, title: "미미 긴급 회의", userNum: 5 },
+    //     { key: 2, title: "팀플1 회의 - 다음주만", userNum: 5 },
+    //     { key: 3, title: "미미 팀 전체 회식", userNum: 8 },
+    // ];
+    const events = data;
     return (
         <>
             <ButtonContainer>
@@ -23,17 +28,33 @@ const LandingPageSection: NextComponentType = () => {
                     </Button>
                 </Link>
             </ButtonContainer>
+            {
+                isFetching ? null :
             <ScheduleContainer>
                 <h3>Schedule</h3>
-                {events.map((e) => (
-                    <EventBox
-                        id={e.key}
-                        key={e.key}
-                        title={e.title}
-                        userNum={e.userNum}
-                    ></EventBox>
+                {
+                    //@ts-ignore
+                events.map((e, idx:number) => (
+                    <Link href={{
+                        pathname: '/event/[eid]/info',
+                        query: {eid: e.eid.toString()}
+                    }}
+                        key={idx}
+                    >
+                        <a>
+
+                        <EventBox
+                            eid={e.eid}
+                            key={e.eid}
+                            title={e.title}
+                            userNum={e.userNum}
+                            color={e.color}
+                            ></EventBox>
+                        </a>
+                    </Link>
                 ))}
             </ScheduleContainer>
+            }
         </>
     );
 };

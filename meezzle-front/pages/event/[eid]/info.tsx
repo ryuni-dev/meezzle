@@ -2,9 +2,20 @@ import type { NextPage } from "next";
 import styled from 'styled-components';
 import { useEffect } from "react";
 
-import LinkBtn from "../../../components/common/LinkBtn";
 import Navbar from "../../../components/common/Navbar";
 import VoteLogin from "../../../components/event/Vote/Login";
+import { useEvent } from "../../../hooks/api/events";
+import Link from "next/link";
+import Btn from "../../../components/common/Btn";
+import { useRouter } from "next/router";
+import { useRecoilState, useResetRecoilState } from "recoil";
+import { participant, timeSelected, voteNow } from "../../../states/eventVote";
+import { eventDaySelected } from "../../../states/eventDayBox";
+import { btnDisable } from "../../../states/eventCreate";
+import Btn2 from "../../../components/common/Btn2";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const TitleBox = styled.div`
     display: flex;
@@ -101,32 +112,95 @@ const Footer = styled.div`
     // margin-left: 12%;
     // margin-right: 0px;
 `
+const A = styled.a`
+max-width: 340px;
+width: 80%;
+height: 59px;
+`
 
 const ReviseEvent: NextPage = () => {
-   
-    useEffect(()=> {
-    }, []);
+    const { query: { eid } } = useRouter();
+    //@ts-ignore
+    const { data, isLoading } = useEvent(eid);
+    const event = isLoading ? null : data[0];
+    const [now, setNow] = useRecoilState(voteNow);
+    const [selectedDay, setSelectedDay] = useRecoilState(eventDaySelected);
 
+    const resetBtn = useResetRecoilState(btnDisable);
+    const resetUser = useResetRecoilState(participant);
+    const resetTime = useResetRecoilState(timeSelected);
+
+    const ErrorPW = () => toast.error('비밀번호가 틀렸어요! 다시 입력해주세요.', {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        });
+
+    useEffect(()=> {
+        resetBtn();
+        resetUser();
+    },[]);
+
+    const Click2Vote = () => {
+        setNow(event.days[0]);
+        setSelectedDay(event.days);
+        resetTime();
+        console.log("click!!")
+    }
     return (
-        <>
+        <> 
         <Navbar>
             <></>
         </Navbar>
         <Body>
-            <TitleBox>
-                <Highlight>
-                    <TitleLargeText>미미 긴급 회의</TitleLargeText>
-                    <TitleMediumText>에 가능한 시간을 입력해주세요</TitleMediumText>
-                </Highlight>
-            </TitleBox>
-            <EventExplainDiv>
-                {"여러분 예상치 못한 변수가 생겼어요 회의를 해야합니다 \n\n<회의 안건> \r\n1. 드래그 방식 논의  \n2. 추가 기능 논의 \n3.디자인 피드백"}
-            </EventExplainDiv>
-            <VoteLogin></VoteLogin>
-            <Footer>
-                <LinkBtn text="가능한 시간 입력하러 가기!" href="/event/eid/vote" color={true}></LinkBtn>
-                <LinkBtn text="통계 바로 보기!" href="/" color={false}></LinkBtn>
-            </Footer>
+            {
+                isLoading ? null :
+                <>
+                    <TitleBox>
+                        <Highlight>
+                            <TitleLargeText>{event.title}</TitleLargeText>
+                            <TitleMediumText>에 가능한 시간을 입력해주세요</TitleMediumText>
+                        </Highlight>
+                    </TitleBox>
+                    <EventExplainDiv>
+                        {event.description}
+                    </EventExplainDiv>
+                    <VoteLogin></VoteLogin>
+                    <Footer>
+                        <Link href={{
+                            pathname: '/event/[eid]/vote',
+                            query: {eid: event.eid.toString()}
+                        }}>
+                            <A>
+                                <Btn text="가능한 시간 입력하러 가기!" color={true} useDisable={true} Click={Click2Vote}></Btn>
+                                {/* <ToastContainer
+                                    position="bottom-center"
+                                    autoClose={2000}
+                                    hideProgressBar
+                                    newestOnTop={false}
+                                    closeOnClick
+                                    rtl={false}
+                                    pauseOnFocusLoss
+                                    draggable
+                                    pauseOnHover={false}
+                                    theme="colored"
+                                    /> */}
+                            </A>
+                        </Link>
+                        <Link href={'/'}>
+                            <A>
+                                <Btn2 text="통계 바로 보기!" color={false}></Btn2>
+                            </A>
+                        </Link>
+ 
+ </Footer>
+                </>
+                }            
         </Body>
         </>
         )

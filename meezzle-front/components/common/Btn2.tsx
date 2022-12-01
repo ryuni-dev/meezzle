@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { btnDisable } from '../../states/eventCreate';
 
 interface Props {
-    disable: boolean;
     isColor: boolean | true;
 }
 
@@ -14,12 +13,7 @@ const Button = styled.button`
 
     background: ${(props:Props) => {
         if(props.isColor){
-            if(props.disable) {
-                return "#E2E2E2";
-            }
-            else {
                 return "#3278DE";
-            }
         }
         else{
             return "#ffffff";
@@ -41,12 +35,7 @@ const Button = styled.button`
     /* white */
     color: ${(props:Props) => {
         if(props.isColor){
-            if(props.disable) {
-                return "#8D8D8D";
-            }
-            else {
                 return "#ffffff";
-            }
         }
         else{
                 return "#8D8D8D";
@@ -64,20 +53,14 @@ const Button = styled.button`
 `
 interface BtnProps {
     text: string;
-    useDisable: boolean;
     color: boolean;
     Click?(): void;
 }
 
-const Btn = ({text, useDisable, color, Click}:BtnProps) => {
-    const [isDisable, setIsDisable] = useRecoilState(btnDisable);
-    if(!useDisable){
-        setIsDisable(false);
-    }
-   
+const Btn2 = ({text, color, Click}:BtnProps) => {
     return (
-            <Button type='button' disable={isDisable} disabled={isDisable} onClick={Click} isColor={color}>{text}</Button>
+            <Button type='button' onClick={Click} isColor={color}>{text}</Button>
     )
 }
 
-export default Btn
+export default Btn2;

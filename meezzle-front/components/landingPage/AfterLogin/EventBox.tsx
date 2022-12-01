@@ -2,45 +2,75 @@ import styled from "styled-components";
 import Image from "next/image";
 import user from "../../../public/assets/user.svg";
 import share from "../../../public/assets/share.svg";
+import revise from "../../../public/assets/revise.svg";
 import Link from "next/link";
+import { useEvent, useEvents } from "../../../hooks/api/events";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { eventInfo } from "../../../states/eventInfo";
 
 interface Props {
     userNum: number;
     title: string;
-    id: number;
+    eid: number;
+    color: string 
 }
 
 interface EventContainerProps {
     backgroundColor: string;
 }
 
-export const EventBox = ({ userNum, id, title }: Props) => {
-    const backgroundColors: string[] = [
-        "#FFE86D",
-        "#A1EAD8",
-        "#FFBDBD",
-        "#8AD4FD",
-        "#BEA5F3",
-    ];
-
-    const backgroundColor = backgroundColors[id % 5];
+export const EventBox = ({ userNum, eid, title, color }: Props) => {
+    // const { data, isFetching, isLoading } = useEvents();
+    // const backgroundColors: string[] = [
+    //     "#FFE86D",
+    //     "#A1EAD8",
+    //     "#FFBDBD",
+    //     "#8AD4FD",
+    //     "#BEA5F3",
+    // ];
+    // const [ event, setEvent ] = useRecoilState(eventInfo);
+    // const Click2Revise = (eid: string) => {
+    //     const { data, isFetching, isLoading } = useEvent(eid);
+    //     console.log('cl', data);
+    //     console.log('aaa')
+    //     if(isFetching){
+    //         console.log('Fetching...');
+    //     }
+    //     else {
+    //         setEvent({
+    //             title: data[0].title,
+    //             color: data[0].color,
+    //             startTime: data[0].startTime,
+    //             endTime: data[0].endTime,
+    //             dueDate: data[0].dueDate,
+    //             dueTime: data[0].dueTime,
+    //             description: data[0].description
+    //         });
+    //         console.log(event)
+    //     }
+    // }
+    // const backgroundColor = backgroundColors[idx % 5];
     return (
-        <Link href={`/event/${id}/view`}>
-            <a>
-                <EventContainer backgroundColor={backgroundColor}>
-                    <IconContainer>
-                        <Image src={user} alt="user" />
-                        {userNum}
-                        <Image src={share} alt="share" />
-                    </IconContainer>
-                    <Clear />
-                    <TitleContainer>{title}</TitleContainer>
-                    <DueContainer>
-                        마감 <DueDate>22-09-30 23:59</DueDate>
-                    </DueContainer>
-                </EventContainer>
-            </a>
-        </Link>
+        <EventContainer backgroundColor={color}>
+            <IconContainer>
+                <Image src={user} alt="user" />
+                {userNum}
+                <Image src={share} alt="share" />
+                <Link 
+                    href={{
+                        pathname: '/event/[eid]/revise',
+                        query: {eid: eid}
+                    }}
+                >
+                    <Image src={revise} alt="revise" />
+                </Link>
+            </IconContainer>
+            <Clear />
+            <TitleContainer>{title}</TitleContainer>
+            <DueContainer>
+                마감 <DueDate>22-09-30 23:59</DueDate>
+            </DueContainer>
+        </EventContainer>
     );
 };
 const EventContainer = styled.div<EventContainerProps>`
