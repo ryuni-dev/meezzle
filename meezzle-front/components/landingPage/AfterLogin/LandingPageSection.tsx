@@ -4,9 +4,9 @@ import { NextComponentType } from "next";
 import { Button } from "../../../styled-components/StyledButton";
 import plus from "../../../public/assets/plus.svg";
 import Image from "next/image";
-import { EventBox } from "./EventBox";
 import Link from "next/link";
 import { useEvents } from "../../../hooks/api/events";
+import { EventBox } from "./EventBox";
 
 const LandingPageSection: NextComponentType = () => {
     // 유저가 처음 로그인 시엔 isLoading을, 로그인 한 상태에서 새로고침 시엔 isFetching을 사용
@@ -32,7 +32,6 @@ const LandingPageSection: NextComponentType = () => {
                 isFetching ? null :
             <ScheduleContainer>
                 <h3>Schedule</h3>
-<<<<<<< HEAD:meezzle-front/components/landingPage/afterLogin/LandingPageSection.tsx
                 {
                     //@ts-ignore
                 events.map((e, idx:number) => (
@@ -53,15 +52,6 @@ const LandingPageSection: NextComponentType = () => {
                             ></EventBox>
                         </a>
                     </Link>
-=======
-                {events.map((e) => (
-                    <EventBox
-                        id={e.key}
-                        key={e.key}
-                        title={e.title}
-                        userNum={e.userNum}
-                    ></EventBox>
->>>>>>> b5e91351350323c7a6b098070be7d259eb000b2e:meezzle-front/components/landingPage/AfterLogin/LandingPageSection.tsx
                 ))}
             </ScheduleContainer>
             }

@@ -2,15 +2,16 @@ import type { NextPage } from "next";
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import Navbar from "../components/common/Navbar";
-import LandingPageFooter from "../components/landingPage/beforeLogin/LandingPageFooter";
-import LandingPageIntro from "../components/landingPage/beforeLogin/LandingPageIntro";
-import LandingPageSection from "../components/landingPage/afterLogin/LandingPageSection";
+import LandingPageIntro from "../components/landingPage/BeforeLogin/LandingPageIntro";
+import LandingPageFooter from "../components/landingPage/BeforeLogin/LandingPageFooter";
+import LandingPageSection from "../components/landingPage/AfterLogin/LandingPageSection";
 import profile from "../public/assets/profile.png";
 import { useLogin } from "../states/login";
 import { LoginBox } from "../styled-components/StyledLoginBox";
 import { GlobalStyle } from "../styles/Globalstyle";
 import Head from "next/head";
 import styled from "styled-components";
+
 
 
 const Body = styled.div`

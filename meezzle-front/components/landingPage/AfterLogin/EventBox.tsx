@@ -2,32 +2,23 @@ import styled from "styled-components";
 import Image from "next/image";
 import user from "../../../public/assets/user.svg";
 import share from "../../../public/assets/share.svg";
-<<<<<<< HEAD:meezzle-front/components/landingPage/afterLogin/EventBox.tsx
 import revise from "../../../public/assets/revise.svg";
 import Link from "next/link";
 import { useEvent, useEvents } from "../../../hooks/api/events";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { eventInfo } from "../../../states/eventInfo";
-=======
-import Link from "next/link";
->>>>>>> b5e91351350323c7a6b098070be7d259eb000b2e:meezzle-front/components/landingPage/AfterLogin/EventBox.tsx
 
 interface Props {
     userNum: number;
     title: string;
-<<<<<<< HEAD:meezzle-front/components/landingPage/afterLogin/EventBox.tsx
     eid: number;
     color: string 
-=======
-    id: number;
->>>>>>> b5e91351350323c7a6b098070be7d259eb000b2e:meezzle-front/components/landingPage/AfterLogin/EventBox.tsx
 }
 
 interface EventContainerProps {
     backgroundColor: string;
 }
 
-<<<<<<< HEAD:meezzle-front/components/landingPage/afterLogin/EventBox.tsx
 export const EventBox = ({ userNum, eid, title, color }: Props) => {
     // const { data, isFetching, isLoading } = useEvents();
     // const backgroundColors: string[] = [
@@ -80,35 +71,6 @@ export const EventBox = ({ userNum, eid, title, color }: Props) => {
                 마감 <DueDate>22-09-30 23:59</DueDate>
             </DueContainer>
         </EventContainer>
-=======
-export const EventBox = ({ userNum, id, title }: Props) => {
-    const backgroundColors: string[] = [
-        "#FFE86D",
-        "#A1EAD8",
-        "#FFBDBD",
-        "#8AD4FD",
-        "#BEA5F3",
-    ];
-
-    const backgroundColor = backgroundColors[id % 5];
-    return (
-        <Link href={`/event/${id}/view`}>
-            <a>
-                <EventContainer backgroundColor={backgroundColor}>
-                    <IconContainer>
-                        <Image src={user} alt="user" />
-                        {userNum}
-                        <Image src={share} alt="share" />
-                    </IconContainer>
-                    <Clear />
-                    <TitleContainer>{title}</TitleContainer>
-                    <DueContainer>
-                        마감 <DueDate>22-09-30 23:59</DueDate>
-                    </DueContainer>
-                </EventContainer>
-            </a>
-        </Link>
->>>>>>> b5e91351350323c7a6b098070be7d259eb000b2e:meezzle-front/components/landingPage/AfterLogin/EventBox.tsx
     );
 };
 const EventContainer = styled.div<EventContainerProps>`
