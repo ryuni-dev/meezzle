@@ -2,7 +2,8 @@ import axios from 'axios';
 
 export const getEvents = async () => {
     try {
-        const res =  await axios.get('http://localhost:3000/api/event')
+        // const res =  await axios.get('http://localhost:3000/api/event')
+        const res =  await axios.get('/api/event')
         if(res.status === 200) {
             const data = await res.data;
             return data;
@@ -18,7 +19,7 @@ export const getEvents = async () => {
 export const getEvent = async (eid: string) => {
     try {
         // const res =  await axios.get('http://localhost:3000/api/event' + eid)
-        const res =  await axios.get('http://localhost:3000/api/event')
+        const res =  await axios.get('/api/event')
         if(res.status === 200) {
             const data = await res.data;
             return data;

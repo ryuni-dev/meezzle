@@ -1,4 +1,4 @@
-import { atom, useSetRecoilState, AtomEffect } from "recoil";
+import { atom, useSetRecoilState, AtomEffect, RecoilEnv } from "recoil";
 import { recoilPersist } from "recoil-persist";
 import { useRecoilState } from "recoil";
 import { useState, useEffect } from "react";
@@ -12,7 +12,6 @@ const { persistAtom } = recoilPersist({
     storage: sessionStorage,
 });
 
-
 export const LoginState = atom<boolean>({
     key: `loginState`,
     default: false,
@@ -25,6 +24,7 @@ export function useLogin() {
     const [isInitial, setIsInitial] = useState(true);
     const [loginState, setLoginState] = useRecoilState(LoginState);
 
+    RecoilEnv.RECOIL_DUPLICATE_ATOM_KEY_CHECKING_ENABLED=false
     useEffect(() => {
         setIsInitial(false);
     }, []);
