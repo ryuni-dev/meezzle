@@ -9,7 +9,7 @@ import styled from "styled-components";
 
 const Login: NextPage = () => {
     return (
-        <>
+        <Body>
             <Script
                 src="https://accounts.google.com/gsi/client"
                 async
@@ -21,7 +21,7 @@ const Login: NextPage = () => {
                 <Image src={kakaoLogin} />
                 <GoogleLogin />
             </LoginContainer>
-        </>
+        </Body>
     );
 };
 
@@ -31,4 +31,15 @@ const LoginContainer = styled.div`
     display: flex;
     flex-direction: column;
     margin-top: 96px;
+`;
+const Body = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin: 0 auto;
+    max-width: 400px;
+    // padding-left: 1%;
+    width: 100%;
+    overflow-x: hidden;
 `;
