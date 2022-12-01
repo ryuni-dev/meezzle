@@ -12,8 +12,6 @@ import { GlobalStyle } from "../styles/Globalstyle";
 import Head from "next/head";
 import styled from "styled-components";
 
-
-
 const Body = styled.div`
     display: flex;
     max-width: 400px;
