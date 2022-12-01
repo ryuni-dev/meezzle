@@ -25,9 +25,9 @@ const LandingPageSection: NextComponentType = () => {
             </ButtonContainer>
             <ScheduleContainer>
                 <h3>Schedule</h3>
-                {events.map((e, idx) => (
+                {events.map((e) => (
                     <EventBox
-                        idx={idx}
+                        id={e.key}
                         key={e.key}
                         title={e.title}
                         userNum={e.userNum}
