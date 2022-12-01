@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 type NavbarProps = {
-    children: JSX.Element | JSX.Element[];
+    children?: React.ReactNode;
 };
 
 const Navbar = ({ children }: NavbarProps) => {
@@ -13,7 +13,9 @@ const Navbar = ({ children }: NavbarProps) => {
         <Nav>
             <LogoContainer>
                 <Link href={{ pathname: "/" }} passHref>
-                    <Image src={logo} alt="logo" />
+                    <a>
+                        <Image src={logo} alt="logo" />
+                    </a>
                 </Link>
             </LogoContainer>
             <ContentContainer>{children}</ContentContainer>
@@ -48,7 +50,8 @@ const LogoContainer = styled.div`
     margin-left: 21px;
     margin-right: 50%;
     width: 119px;
-    height: 48px;
+    height: 100%;
+    line-height: 40px;
     & span {
         cursor: pointer;
     }
@@ -57,7 +60,7 @@ const LogoContainer = styled.div`
 const ContentContainer = styled.div`
     float: right;
     vertical-align: middle;
-    margin-right: 26px;
+    margin-right: 16px;
     position: relative;
     & > span {
         line-height: 44px;

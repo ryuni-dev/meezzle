@@ -9,7 +9,7 @@ import Link from "next/link";
 import Btn from "../../../components/common/Btn";
 import { useRouter } from "next/router";
 import { useRecoilState, useResetRecoilState } from "recoil";
-import { participant, voteNow } from "../../../states/eventVote";
+import { participant, timeSelected, voteNow } from "../../../states/eventVote";
 import { eventDaySelected } from "../../../states/eventDayBox";
 import { btnDisable } from "../../../states/eventCreate";
 import Btn2 from "../../../components/common/Btn2";
@@ -128,6 +128,7 @@ const ReviseEvent: NextPage = () => {
 
     const resetBtn = useResetRecoilState(btnDisable);
     const resetUser = useResetRecoilState(participant);
+    const resetTime = useResetRecoilState(timeSelected);
 
     const ErrorPW = () => toast.error('비밀번호가 틀렸어요! 다시 입력해주세요.', {
         position: "bottom-center",
@@ -148,6 +149,7 @@ const ReviseEvent: NextPage = () => {
     const Click2Vote = () => {
         setNow(event.days[0]);
         setSelectedDay(event.days);
+        resetTime();
         console.log("click!!")
     }
     return (

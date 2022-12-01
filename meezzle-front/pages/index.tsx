@@ -2,16 +2,16 @@ import type { NextPage } from "next";
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import Navbar from "../components/common/Navbar";
-import LandingPageIntro from "../components/landingPage/beforeLogin/LandingPageIntro";
 import LandingPageFooter from "../components/landingPage/beforeLogin/LandingPageFooter";
+import LandingPageIntro from "../components/landingPage/beforeLogin/LandingPageIntro";
 import LandingPageSection from "../components/landingPage/afterLogin/LandingPageSection";
 import profile from "../public/assets/profile.png";
-import { LoginState, useLogin } from "../states/login";
+import { useLogin } from "../states/login";
 import { LoginBox } from "../styled-components/StyledLoginBox";
 import { GlobalStyle } from "../styles/Globalstyle";
 import Head from "next/head";
 import styled from "styled-components";
-import { useRecoilState } from "recoil";
+
 
 const Body = styled.div`
     display: flex;
@@ -21,8 +21,7 @@ const Body = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
-`
+`;
 
 interface Props {
     data: JSON
