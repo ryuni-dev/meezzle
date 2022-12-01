@@ -11,7 +11,7 @@ export default LandingPageIntro;
 const IntroContainer = styled.article`
     width: 100%;
     height: 568px;
-    text-align: center; // 임시1
+    text-align: center; // 임시
     line-height: 568px; // 임시
     background-color: #d9d9d9;
 `;
