@@ -15,6 +15,7 @@ import { btnDisable } from "../../../states/eventCreate";
 import Btn2 from "../../../components/common/Btn2";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import HashLoader from "react-spinners/HashLoader";
 
 
 const TitleBox = styled.div`
@@ -118,6 +119,12 @@ width: 80%;
 height: 59px;
 `
 
+const LoaderBox = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`
+
 const ReviseEvent: NextPage = () => {
     const { query: { eid } } = useRouter();
     //@ts-ignore
@@ -159,7 +166,11 @@ const ReviseEvent: NextPage = () => {
         </Navbar>
         <Body>
             {
-                isLoading ? null :
+                isLoading ?
+                <LoaderBox>
+                    <HashLoader color="#3278DE" />
+                </LoaderBox>
+                :
                 <>
                     <TitleBox>
                         <Highlight>

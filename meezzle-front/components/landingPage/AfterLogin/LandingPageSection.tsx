@@ -7,6 +7,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEvents } from "../../../hooks/api/events";
 import { EventBox } from "./EventBox";
+import HashLoader from "react-spinners/HashLoader";
+
+const LoaderBox = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`
 
 const LandingPageSection: NextComponentType = () => {
     // 유저가 처음 로그인 시엔 isLoading을, 로그인 한 상태에서 새로고침 시엔 isFetching을 사용
@@ -29,7 +36,11 @@ const LandingPageSection: NextComponentType = () => {
                 </Link>
             </ButtonContainer>
             {
-                isFetching ? null :
+                isFetching ?
+                <LoaderBox>
+                    <HashLoader color="#3278DE" />
+                </LoaderBox>
+                :
             <ScheduleContainer>
                 <h3>Schedule</h3>
                 {
