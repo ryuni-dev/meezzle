@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode, MouseEvent } from "react";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 
@@ -7,22 +7,56 @@ type ViewTableProps = {
         row: number;
         col: { length: number; names: string[] };
     };
+    setClickedTime(key: number): void;
+    timeData: {
+        times: {
+            time: number;
+            attendee: string[];
+            absentee: string[];
+        }[];
+        total: number;
+    };
 };
 
-const ViewTable = ({ info }: ViewTableProps, r: number) => {
+type TimeBlockProps = {};
+
+const ViewTable = ({ info, setClickedTime, timeData }: ViewTableProps) => {
     const [rows, setRows] = useState<ReactNode[]>([]);
     const [head, setHead] = useState<ReactNode[]>([]);
     const [time, setTime] = useState<ReactNode[]>([]);
 
+    const timeClick = (e: MouseEvent<HTMLSpanElement>) => {
+        const clickedTime = Number(e.currentTarget.dataset["id"]);
+        setClickedTime(clickedTime);
+    };
+
+    const getAttendeePercent = (id: number, total: number) => {
+        const data = timeData.times.find((el) => el.time === id);
+        if (data === undefined || total === 0) return 0;
+        return data?.attendee.length === total
+            ? 1
+            : data?.attendee.length / total;
+    };
+
     useEffect(() => {
+        // 가상의 fetch
+        // setRows([]);
         const makeRows = (info: any, r: number) => {
             return (
                 <div key={r}>
                     {info.col.names.map((_: string, idx: number) => {
+                        const key = (idx + 1) * 100 + r;
+                        const colorWeight = getAttendeePercent(
+                            key,
+                            timeData.total
+                        );
                         return (
                             <TimeBlock
                                 col={info.col.length}
-                                key={(idx + 1) * 100 + r}
+                                key={key}
+                                data-id={key}
+                                onClick={timeClick}
+                                colorWeight={colorWeight}
                             ></TimeBlock>
                         );
                     })}
@@ -95,9 +129,13 @@ const TableBody = styled.div`
     }
 `;
 
-const TimeBlock = styled.span<{ col: number }>`
+const TimeBlock = styled.span<{ col: number; colorWeight: number }>`
     display: block;
     width: ${(props) => (props.col ? `${100 / props.col}%` : "10%")};
+    background-color: ${(props) =>
+        props.colorWeight
+            ? `rgba(50, 120, 222,${props.colorWeight})`
+            : "#FFFFFF"};
     height: 13px;
     text-align: center;
     border: 0.5px solid black;

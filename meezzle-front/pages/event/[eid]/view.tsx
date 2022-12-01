@@ -16,19 +16,14 @@ type tableInfoType = {
     col: { length: number; names: string[] };
 };
 
-/* Table 상에서 시간 한 칸 클릭 시 받아오는 데이터 */
-type attendeeInfoType = {
-    total: string[];
-    attendee: string[];
-};
-
-/* 최대로 모일 수 있는 시간 페이지 로드시 fetch 해 올 데이터 */
-type bestTimeType = {
+/* 페이지 로드시 fetch 해 올 데이터 */
+type TimeDataType = {
     times: {
         time: number; // Table Box의 key와 같은 형식의 시간
         attendee: string[]; // 참여자들
+        absentee: string[];
     }[];
-    max: number; // 최대로 가능한 시간의 인원 수
+    total: number;
 };
 
 const Body = styled.div`
@@ -42,7 +37,6 @@ const Body = styled.div`
 `;
 
 const Test: NextPage = () => {
-    const [total, setTotal] = useState<number>(3);
     const [tableInfo, setTableInfo] = useState<tableInfoType>({
         row: 48,
         col: {
@@ -50,35 +44,73 @@ const Test: NextPage = () => {
             names: ["일", "월", "화", "수", "목", "금", "토"],
         },
     });
-    const [attendeeInfo, setAttendeeInfo] = useState<attendeeInfoType>({
-        total: ["상오", "경륜", "영로", "지은", "재훈"],
-        attendee: ["상오", "경륜", "영로", "지은"],
-    });
-    const [bestTime, setBestTime] = useState<bestTimeType>({
+    const [timeData, setTimeData] = useState<TimeDataType>({
         times: [
-            { time: 105, attendee: ["경륜", "상오", "지은"] },
-            { time: 106, attendee: ["경륜", "상오", "영로"] },
+            {
+                time: 101,
+                attendee: ["경륜", "상오"],
+                absentee: ["세호", "재석", "지은"],
+            },
+            {
+                time: 105,
+                attendee: ["경륜", "상오", "지은"],
+                absentee: ["세호", "재석"],
+            },
+            {
+                time: 106,
+                attendee: ["경륜", "상오", "영로"],
+                absentee: ["세호", "재석"],
+            },
         ],
-        max: 3,
+        total: 5,
     });
+    const [clickedTime, setClickedTime] = useState<number | undefined>();
+    const [clickedData, setClickedData] = useState<
+        TimeDataType["times"][0] | undefined
+    >();
+    // const [mostJoinTimes, setMostJoinTimes] = useState<TimeDataType["times"]>(
+    //     []
+    // );
 
+    // useEffect(() => {
+    // let joinMax = 0;
+
+    // for (let i = 0; i < timeData.times.length; i++) {
+    //     joinMax =
+    //         timeData.times[i].attendee.length > joinMax
+    //             ? timeData.times[i].attendee.length
+    //             : joinMax;
+    // }
+    // for (let i = 0; i < timeData.times.length; i++) {
+    //     if (joinMax === timeData.times[i].attendee.length) {
+    //         setMostJoinTimes([...mostJoinTimes, timeData.times[i]]);
+    //     }
+    // }
+    // }, []);
     useEffect(() => {
-        // best time type fetch 하기
-    }, []);
+        const clicked: TimeDataType["times"][0] | undefined = timeData[
+            "times"
+        ].find((el) => el.time === clickedTime);
+        return setClickedData(clicked);
+    }, [clickedTime]);
 
     return (
         <Body>
             <Navbar>
                 <Image src={shareNav} alt="share" />
             </Navbar>
-            <H1>총 {total}명이 참여했어요!</H1>
+            <H1>총 {timeData.total}명이 참여했어요!</H1>
             <Tooltip>*시간을 클릭해보세요.</Tooltip>
-            <ViewTable info={tableInfo} />
-            {attendeeInfo && (
+            <ViewTable
+                timeData={timeData}
+                info={tableInfo}
+                setClickedTime={setClickedTime}
+            />
+            {clickedData && (
                 <Container>
-                    <Attendee attendeeInfo={attendeeInfo} />
-                    <ThinLine />
-                    <MaximumTime time={bestTime} />
+                    <Attendee clickedData={clickedData} />
+                    {/* <ThinLine />
+                    <MaximumTime times={mostJoinTimes} /> */}
                 </Container>
             )}
         </Body>

@@ -3,26 +3,29 @@ import person from "../../../public/assets/person.svg";
 import Image from "next/image";
 
 type Props = {
-    attendeeInfo: {
+    clickedData?: {
+        time: number;
         attendee: string[];
-        total: string[];
+        absentee: string[];
     };
 };
 
-const Attendee: React.FC<Props> = ({ attendeeInfo }: Props) => {
+const Attendee: React.FC<Props> = ({ clickedData }: Props) => {
+    if (clickedData === undefined) return null;
     return (
         <>
             <FlexContainer style={{ marginBottom: "5px" }}>
                 <Image src={person} />
                 <AttendeeNum>
-                    {attendeeInfo.attendee.length}/{attendeeInfo.total.length}
+                    {clickedData.attendee.length}/
+                    {clickedData.attendee.length + clickedData.absentee.length}
                 </AttendeeNum>
             </FlexContainer>
             <FlexContainer>
                 <AttendeeBox>가능한 사람</AttendeeBox>
                 <AttendeeList>
-                    {attendeeInfo.attendee.map((el, idx) => {
-                        return attendeeInfo.attendee.length - 1 === idx
+                    {clickedData.attendee.map((el, idx) => {
+                        return clickedData.attendee.length - 1 === idx
                             ? el
                             : `${el},`;
                     })}
@@ -31,8 +34,8 @@ const Attendee: React.FC<Props> = ({ attendeeInfo }: Props) => {
             <FlexContainer>
                 <AttendeeBox>불가능한 사람</AttendeeBox>
                 <AttendeeList>
-                    {attendeeInfo.total.map((el, idx) => {
-                        return attendeeInfo.total.length - 1 === idx
+                    {clickedData.absentee.map((el, idx) => {
+                        return clickedData.absentee.length - 1 === idx
                             ? el
                             : `${el},`;
                     })}
