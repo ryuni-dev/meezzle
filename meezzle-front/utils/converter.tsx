@@ -3,7 +3,7 @@ enum week {
     MON,
     TUE,
     WEN,
-    THR,
+    THU,
     FRI,
     SAT,
 }
