@@ -10,6 +10,7 @@ import { EventBox } from "./EventBox";
 import HashLoader from "react-spinners/HashLoader";
 
 const LoaderBox = styled.div`
+    margin-top: 60%;
     display: flex;
     justify-content: center;
     align-items: center;

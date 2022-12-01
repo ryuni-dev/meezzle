@@ -120,6 +120,7 @@ height: 59px;
 `
 
 const LoaderBox = styled.div`
+    margin-top: 60%;
     display: flex;
     justify-content: center;
     align-items: center;
