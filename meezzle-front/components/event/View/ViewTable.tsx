@@ -1,5 +1,5 @@
-import React, { ReactNode, MouseEvent } from "react";
-import { useEffect, useState } from "react";
+import React, { ReactNode, MouseEvent, TouchEventHandler } from "react";
+import { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 
 type ViewTableProps = {
@@ -17,8 +17,6 @@ type ViewTableProps = {
         total: number;
     };
 };
-
-type TimeBlockProps = {};
 
 const ViewTable = ({ info, setClickedTime, timeData }: ViewTableProps) => {
     const [rows, setRows] = useState<ReactNode[]>([]);
@@ -38,6 +36,43 @@ const ViewTable = ({ info, setClickedTime, timeData }: ViewTableProps) => {
             : data?.attendee.length / total;
     };
 
+    const mouseDown = (e: MouseEvent<HTMLSpanElement>) => {
+        ref.current = true;
+    };
+
+    const mouseMove = (e: MouseEvent<HTMLSpanElement>) => {
+        if (!ref.current) return;
+        else {
+            const clickedTime = Number(e.currentTarget.dataset["id"]);
+            setClickedTime(clickedTime);
+        }
+    };
+
+    const mouseUp = (e: MouseEvent<HTMLSpanElement>) => {
+        ref.current = false;
+    };
+
+    const touchStart = (e: any) => {
+        ref.current = true;
+    };
+
+    const touchMove = (e: any) => {
+        if (!ref.current) return;
+        else {
+            const target = document.elementFromPoint(
+                e.targetTouches[0].clientX,
+                e.targetTouches[0].clientY
+            );
+            setClickedTime(Number(target?.getAttribute("data-id")));
+        }
+    };
+
+    const touchEnd = (e: any) => {
+        ref.current = false;
+    };
+
+    const ref = useRef<boolean>(false);
+
     useEffect(() => {
         // 가상의 fetch
         // setRows([]);
@@ -56,6 +91,12 @@ const ViewTable = ({ info, setClickedTime, timeData }: ViewTableProps) => {
                                 key={key}
                                 data-id={key}
                                 onClick={timeClick}
+                                onMouseDown={mouseDown}
+                                onMouseUp={mouseUp}
+                                onMouseMove={mouseMove}
+                                onTouchStart={touchStart}
+                                onTouchEnd={touchEnd}
+                                onTouchMove={touchMove}
                                 colorWeight={colorWeight}
                             ></TimeBlock>
                         );
@@ -81,7 +122,7 @@ const ViewTable = ({ info, setClickedTime, timeData }: ViewTableProps) => {
             <Time>{time}</Time>
             <Table>
                 <TableHead>{head}</TableHead>
-                <TableBody>{rows}</TableBody>
+                <TableBody onMouseLeave={mouseUp}>{rows}</TableBody>
             </Table>
         </Container>
     );

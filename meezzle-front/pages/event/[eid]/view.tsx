@@ -1,5 +1,5 @@
 import { NextPage } from "next";
-import { useEffect, useState } from "react";
+import { useEffect, useState, RefObject } from "react";
 import ViewTable from "../../../components/event/View/ViewTable";
 import Navbar from "../../../components/common/Navbar";
 import shareNav from "../../../public/assets/shareNav.svg";
@@ -68,6 +68,7 @@ const Test: NextPage = () => {
     const [clickedData, setClickedData] = useState<
         TimeDataType["times"][0] | undefined
     >();
+
     // const [mostJoinTimes, setMostJoinTimes] = useState<TimeDataType["times"]>(
     //     []
     // );
