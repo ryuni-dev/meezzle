@@ -1,5 +1,15 @@
 # Meezzle - 우리 몇시에 만날까? (진행 중)
 <p align="center">
+<a href="https://meezzle.vercel.app/"> meezzle </a>
+<a> (모바일에서 접속하는 것을 추천드려요😃)</a>
+</p>
+<p>
+<a>🚨 아직 개발이 진행 중인 프로젝트로 현재 링크에선 모든 기능을 제공하지 않습니다! (아직 서비스 가입이 불가하며 간단한 서비스 체험 정도만 가능합니다.) </a>
+
+<a>🚨 개발 완료 후 도메인이 변경될 수 있습니다!</a>
+</p>
+
+<p align="center">
     <img src="assets/landing.jpg" title="landing" width="250">
     <img src="assets/vote.jpg" title="landing" width="250">
 </p>
