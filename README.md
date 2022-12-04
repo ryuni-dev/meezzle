@@ -1,8 +1,8 @@
 # Meezzle - 우리 몇시에 만날까? (진행 중)
-<p align="center">
+<figure class="half">
     <img src="assets/landing.jpg" title="landing" width="250">
     <img src="assets/vote.jpg" title="landing" width="250">
-</p>
+</figure>
 
 ## 1. 서비스 소개
 ### 해결하고 싶었던 문제
