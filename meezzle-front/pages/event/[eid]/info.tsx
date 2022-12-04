@@ -15,6 +15,8 @@ import { btnDisable } from "../../../states/eventCreate";
 import Btn2 from "../../../components/common/Btn2";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import HashLoader from "react-spinners/HashLoader";
+import { useParticipants } from "../../../hooks/api/participants";
 
 
 const TitleBox = styled.div`
@@ -118,8 +120,17 @@ width: 80%;
 height: 59px;
 `
 
+const LoaderBox = styled.div`
+    margin-top: 60%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`
+
 const ReviseEvent: NextPage = () => {
     const { query: { eid } } = useRouter();
+    const router = useRouter();
+
     //@ts-ignore
     const { data, isLoading } = useEvent(eid);
     const event = isLoading ? null : data[0];
@@ -129,6 +140,19 @@ const ReviseEvent: NextPage = () => {
     const resetBtn = useResetRecoilState(btnDisable);
     const resetUser = useResetRecoilState(participant);
     const resetTime = useResetRecoilState(timeSelected);
+
+    const participants = useParticipants();
+
+    if(!participants.isLoading){
+        console.log(participants.data[0].code)
+    }
+    
+    const LoginFunc = () => {
+        if(!participants.isLoading){
+            return participants.data[0].code;
+        }
+    }
+
 
     const ErrorPW = () => toast.error('비밀번호가 틀렸어요! 다시 입력해주세요.', {
         position: "bottom-center",
@@ -147,11 +171,27 @@ const ReviseEvent: NextPage = () => {
     },[]);
 
     const Click2Vote = () => {
-        setNow(event.days[0]);
-        setSelectedDay(event.days);
-        resetTime();
+        // ErrorPW();
+        const loginResult =  LoginFunc()
+        console.log(loginResult);
+        if( loginResult === 'SUCCESS'){
+            setNow(event.days[0]);
+            setSelectedDay(event.days);
+            resetTime();
+            console.log('SUCCESS');
+            router.push({
+                pathname: '/event/[eid]/vote',
+                query: {eid: eid}
+            })
+        }
+        else {
+            ErrorPW();
+
+        }
         console.log("click!!")
     }
+
+
     return (
         <> 
         <Navbar>
@@ -159,7 +199,11 @@ const ReviseEvent: NextPage = () => {
         </Navbar>
         <Body>
             {
-                isLoading ? null :
+                isLoading ?
+                <LoaderBox>
+                    <HashLoader color="#3278DE" />
+                </LoaderBox>
+                :
                 <>
                     <TitleBox>
                         <Highlight>
@@ -172,33 +216,29 @@ const ReviseEvent: NextPage = () => {
                     </EventExplainDiv>
                     <VoteLogin></VoteLogin>
                     <Footer>
+                            <Btn text="가능한 시간 입력하러 가기!" color={true} useDisable={true} Click={Click2Vote}></Btn>
+                            <ToastContainer
+                                position="bottom-center"
+                                autoClose={2000}
+                                hideProgressBar
+                                newestOnTop={false}
+                                closeOnClick
+                                rtl={false}
+                                pauseOnFocusLoss
+                                draggable
+                                pauseOnHover={false}
+                                theme="colored"
+                                />
                         <Link href={{
-                            pathname: '/event/[eid]/vote',
-                            query: {eid: event.eid.toString()}
+                            pathname: '/event/[eid]/view',
+                            query: {eid: eid}
                         }}>
-                            <A>
-                                <Btn text="가능한 시간 입력하러 가기!" color={true} useDisable={true} Click={Click2Vote}></Btn>
-                                {/* <ToastContainer
-                                    position="bottom-center"
-                                    autoClose={2000}
-                                    hideProgressBar
-                                    newestOnTop={false}
-                                    closeOnClick
-                                    rtl={false}
-                                    pauseOnFocusLoss
-                                    draggable
-                                    pauseOnHover={false}
-                                    theme="colored"
-                                    /> */}
-                            </A>
-                        </Link>
-                        <Link href={'/'}>
                             <A>
                                 <Btn2 text="통계 바로 보기!" color={false}></Btn2>
                             </A>
                         </Link>
  
- </Footer>
+                </Footer>
                 </>
                 }            
         </Body>

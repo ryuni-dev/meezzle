@@ -1,8 +1,12 @@
+import Link from 'next/link';
 import React, { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
+import { useParticipants } from '../../../hooks/api/participants';
 import { btnDisable } from '../../../states/eventCreate';
 import { participant } from '../../../states/eventVote';
+import Btn from '../../common/Btn';
+import Btn2 from '../../common/Btn2';
 import TextBlackMedium from '../../common/TextBlackMedium';
 import TextGraySmall from '../../common/TextGraySmall';
 import InputText from '../CreateElement/InputText';
@@ -19,6 +23,23 @@ const InputExplainDiv = styled.div`
 const VoteLogin = () => {
     const [user, setUser] = useRecoilState(participant);
     const [disable, setDisable] = useRecoilState(btnDisable);
+    // const {data, isLoading} = useParticipants();
+
+    // const LoginFunc = () => {
+    //     if(!isLoading){
+    //         return data[0].code;
+    //     }
+    // }
+
+    // const Click2Vote = () => {
+    //     const loginInfo = LoginFunc();
+    //     if (loginInfo === 'SUCCESS'){
+    //         setNow(event.days[0]);
+    //         setSelectedDay(event.days);
+    //         resetTime();
+    //         console.log("click!!")
+    //     }
+    // }
 
     const IsDisableBtn = () => {
         if(user.name === ''){
@@ -43,13 +64,15 @@ const VoteLogin = () => {
         })
     }
 
+    
+
     useEffect(()=> {
         IsDisableBtn();
     },[user.name]);
 
     return (
         <>
-        <InputExplainDiv>
+            <InputExplainDiv>
                 <TextBlackMedium text="이름"></TextBlackMedium>
                 <TextGraySmall text="실명 사용을 권장해요."></TextGraySmall>
             </InputExplainDiv>
