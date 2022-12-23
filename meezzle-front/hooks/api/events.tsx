@@ -8,3 +8,11 @@ export const useEvent = (eid: string) => {
 export const useEvents = () => {
     return useQuery(['event'], () => api.getEvents());
 }
+
+export const useEvents_test = () => {
+    return useQuery(['event'], () => api.getEvents());
+}
+
+export const useEventCreate_test = () => {
+    return useQuery(['eventCreate'], () => api.postCreate_test());
+}

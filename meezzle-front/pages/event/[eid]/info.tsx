@@ -4,7 +4,7 @@ import { useEffect } from "react";
 
 import Navbar from "../../../components/common/Navbar";
 import VoteLogin from "../../../components/event/Vote/Login";
-import { useEvent } from "../../../hooks/api/events";
+import { useEvent, useEventCreate_test } from "../../../hooks/api/events";
 import Link from "next/link";
 import Btn from "../../../components/common/Btn";
 import { useRouter } from "next/router";
@@ -17,6 +17,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import HashLoader from "react-spinners/HashLoader";
 import { useParticipants } from "../../../hooks/api/participants";
+import { useTest } from "../../../hooks/api/auth";
 
 
 const TitleBox = styled.div`
@@ -142,6 +143,9 @@ const ReviseEvent: NextPage = () => {
     const resetTime = useResetRecoilState(timeSelected);
 
     const participants = useParticipants();
+
+    const test = useEventCreate_test()
+    console.log(test.data)
 
     if(!participants.isLoading){
         console.log(participants.data[0].code)
