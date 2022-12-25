@@ -61,6 +61,60 @@ const Test: NextPage = () => {
                 attendee: ["경륜", "상오", "영로"],
                 absentee: ["세호", "재석"],
             },
+
+            {
+                time: 121,
+                attendee: ["경륜", "상오", "지은"],
+                absentee: ["세호", "재석"],
+            },
+            {
+                time: 122,
+                attendee: ["경륜", "상오", "지은"],
+                absentee: ["세호", "재석"],
+            },
+            {
+                time: 123,
+                attendee: ["경륜", "상오", "지은"],
+                absentee: ["세호", "재석"],
+            },
+            {
+                time: 124,
+                attendee: ["경륜", "상오", "영로"],
+                absentee: ["세호", "재석"],
+            },
+
+            {
+                time: 125,
+                attendee: ["경륜", "상오", "재훈"],
+                absentee: ["세호", "재석"],
+            },
+
+            {
+                time: 126,
+                attendee: ["경륜", "상오", "윤하"],
+                absentee: ["세호", "재석"],
+            },
+
+            {
+                time: 127,
+                attendee: ["경륜", "상오", "재상"],
+                absentee: ["세호", "재석"],
+            },
+            {
+                time: 136,
+                attendee: ["경륜", "상오", "영로"],
+                absentee: ["세호", "재석"],
+            },
+            {
+                time: 137,
+                attendee: ["경륜", "상오", "영로"],
+                absentee: ["세호", "재석"],
+            },
+            {
+                time: 138,
+                attendee: ["경륜", "상오", "영로"],
+                absentee: ["세호", "재석"],
+            },
         ],
         total: 5,
     });
@@ -69,6 +123,13 @@ const Test: NextPage = () => {
         TimeDataType["times"][0] | undefined
     >();
 
+    const getPosition = (clickedData: TimeDataType["times"][0]) => {
+        if (clickedData.time % 100 <= 24) {
+            return "bottom";
+        } else {
+            return "top";
+        }
+    };
     // const [mostJoinTimes, setMostJoinTimes] = useState<TimeDataType["times"]>(
     //     []
     // );
@@ -108,7 +169,7 @@ const Test: NextPage = () => {
                 setClickedTime={setClickedTime}
             />
             {clickedData && (
-                <Container>
+                <Container position={getPosition(clickedData)}>
                     <Attendee clickedData={clickedData} />
                     {/* <ThinLine />
                     <MaximumTime times={mostJoinTimes} /> */}
@@ -120,6 +181,13 @@ const Test: NextPage = () => {
 
 export default Test;
 
-const Container = styled.div`
-    width: 100%;
+const Container = styled.div<{ position: string }>`
+    width: 376px;
+    background-color: white;
+    display: inline-block;
+    position: fixed;
+    margin: 0 auto;
+    top: ${(props) => (props.position === "bottom" ? "60%" : "50%")};
+    border: 1px solid gray;
+    border-radius: 5px;
 `;
