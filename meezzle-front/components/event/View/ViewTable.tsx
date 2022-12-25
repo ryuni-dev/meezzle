@@ -132,6 +132,7 @@ export default ViewTable;
 
 const Container = styled.div`
     width: 97%;
+    height: 845px;
     margin: 0 auto;
     font-weight: 300;
     font-family: "Pretendard";
