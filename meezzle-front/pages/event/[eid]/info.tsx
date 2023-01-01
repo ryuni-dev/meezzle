@@ -144,8 +144,8 @@ const ReviseEvent: NextPage = () => {
 
     const participants = useParticipants();
 
-    const test = useEventCreate_test()
-    console.log(test.data)
+    // const test = useEventCreate_test()
+    // console.log(test.data)
 
     if(!participants.isLoading){
         console.log(participants.data[0].code)

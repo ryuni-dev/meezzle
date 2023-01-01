@@ -13,7 +13,7 @@ import ContainerInput from "../CreateElement/ContainerInput";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { eventEndTime, eventStartTime, inputFocus, inputStage } from "../../../states/eventCreate";
 import { useRef } from "react";
-import { eventInfo } from "../../../states/eventInfo";
+import { eventInfo, eventTimeInfo } from "../../../states/eventInfo";
 
 const TextGrayMedium = styled.text`
     font-family: 'Pretendard';
@@ -57,9 +57,10 @@ const DatePickerCumstom = styled(DatePicker)`
 `
 
 const EventTime: NextComponentType = ()=> {
-    const [event, setEvent] = useRecoilState(eventInfo);
-    const [startTime, setStartTime] = useRecoilState(eventStartTime);
-    const [endTime, setEndTime] = useRecoilState(eventEndTime);
+    // const [event, setEvent] = useRecoilState(eventInfo);
+    const [timeInfo, setTimeInfo] = useRecoilState(eventTimeInfo);
+    // const [startTime, setStartTime] = useRecoilState(eventStartTime);
+    // const [endTime, setEndTime] = useRecoilState(eventEndTime);
     // const stage = useRecoilValue(inputStage);
     // const focus = useRecoilValue(inputFocus);
 
@@ -71,10 +72,10 @@ const EventTime: NextComponentType = ()=> {
                 <DatePickerDiv>
                     <DatePickerCumstom
                     locale={ko}   
-                    selected={event.startTime}
+                    selected={timeInfo.startTime}
                     onChange={(time:Date) => 
-                        setEvent({
-                            ...event,
+                        setTimeInfo({
+                            ...timeInfo,
                             startTime: time,
                     })
                         // setStartTime(time)
@@ -91,10 +92,10 @@ const EventTime: NextComponentType = ()=> {
                 <DatePickerDiv>
                     <DatePickerCumstom
                     locale={ko}   
-                    selected={event.endTime}
+                    selected={timeInfo.endTime}
                     onChange={(time:Date) => 
-                        setEvent({
-                            ...event,
+                        setTimeInfo({
+                            ...timeInfo,
                             endTime: time,
                     })
                         // setEndTime(time)
@@ -105,7 +106,7 @@ const EventTime: NextComponentType = ()=> {
                     placeholderText="마감 시간"
                     timeCaption="마감 시간"
                     dateFormat="H시 mm분 마감"
-                    minTime={startTime}
+                    minTime={timeInfo.startTime}
                     maxTime={setHours(setMinutes(new Date(), 30), 23)}
                     />
                 </DatePickerDiv>

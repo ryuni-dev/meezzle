@@ -60,16 +60,16 @@ const ReviseEvent: NextPage = ({}) => {
         }
         else {
             // console.log('data', data[0]);
-            setEvent({
-                ...event,
-                title: data[0].title,
-                color: data[0].color,
-                startTime: new Date(data[0].startTime),
-                endTime: new Date(data[0].endTime),
-                dueDate: new Date(data[0].dueDate),
-                dueTime: new Date(data[0].dueTime),
-                description: data[0].description
-            });
+            // setEvent({
+            //     ...event,
+            //     title: data[0].title,
+            //     color: data[0].color,
+            //     startTime: new Date(data[0].startTime),
+            //     endTime: new Date(data[0].endTime),
+            //     dueDate: new Date(data[0].dueDate),
+            //     dueTime: new Date(data[0].dueTime),
+            //     description: data[0].description
+            // });
             setDays(data[0].days);
             // console.log(event)
         }

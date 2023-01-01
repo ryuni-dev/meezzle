@@ -22,17 +22,26 @@ export const eventInfo = atom({
     key: `eventInfo/${v1()}`,
     default: {
         title: '',
+        selectableDays: [''],
+        // selectableTimes: '',
+        startTime: '',
+        endTime: '',
         color: '#FFE86D',
-        startTime: setHours(setMinutes(new Date(), 0), 9),
-        // startTime: new Date('9:00:00'),
-        endTime: setHours(setMinutes(new Date(), 0), 22),
-        dueDate: new Date(),
-        dueTime: setHours(setMinutes(new Date(), 30), 23),
+        // startTime: setHours(setMinutes(new Date(), 0), 9),
+        // endTime: setHours(setMinutes(new Date(), 0), 22),
+        // dueDate: new Date(),
+        // dueTime: setHours(setMinutes(new Date(), 30), 23),
         description: '',
+        dday: '',
     },
-    // effects: [persistAtom],
-    // effects_UNSTABLE: [persistAtom]
-    // effects_UNSTABLE: [persistAtom],
-
 });
 
+export const eventTimeInfo = atom({
+    key: `eventTimeInfo/${v1()}`,
+    default: {
+        startTime: setHours(setMinutes(new Date(), 0), 9),
+        endTime: setHours(setMinutes(new Date(), 0), 22),
+        // dueDate: new Date(),
+        dueTime: setHours(setMinutes(new Date(), 30), 23),
+    },
+})
