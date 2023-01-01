@@ -13,15 +13,14 @@ import Link from "next/link";
 
 const Login: NextPage = () => {
     const router = useRouter();
-    // const auth = useTest();
-    // const authFunc = () => {
-    //     if (!auth.isLoading){
-    //         return auth.data.data.authorizationUrl;
-    //     }
+    const auth = useTest();
+    const authFunc = () => {
+        if (!auth.isLoading) {
+            return auth.data.data.authorizationUrl;
+        }
+    };
 
-    // }
-
-    // const href = authFunc()
+    const href = authFunc();
 
     const KakaoLogin = () => {
         window.Kakao.Auth.authorize({
