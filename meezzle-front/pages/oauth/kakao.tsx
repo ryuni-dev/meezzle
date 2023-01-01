@@ -16,7 +16,7 @@ const Kakao: NextPage = () => {
     async (code: string | string[]) => {
       
       // 백엔드에 전송
-      const response: ResponseType = await fetch('/api/users/kakao-login', {
+      const response: ResponseType = await fetch(process.env.NEXT_PUBLIC_API_USER + '', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -29,7 +29,8 @@ const Kakao: NextPage = () => {
       if (response.ok) { // 성공하면 홈으로 리다이렉트
         router.push('/');
       } else { // 실패하면 에러 페이지로 리다이렉트
-        router.push('/notifications/authentication-failed');
+        // router.push('/notifications/authentication-failed');
+        console.log("error ");
       }
     },
     [router]
@@ -41,11 +42,14 @@ const Kakao: NextPage = () => {
       
       // 인가코드를 제대로 못 받았을 경우에 에러 페이지를 띄운다.
     } else if (kakaoServerError) { 
-      router.push('/notifications/authentication-failed');
+      // router.push('/notifications/authentication-failed');
+      console.log(kakaoServerError);
     }
   }, [loginHandler, authCode, kakaoServerError, router]);
 
   return (
-          <h2>로그인 중입니다..</h2>
+      <>
+        <h2>로그인 중입니다..</h2>
+      </>
   );
 };
