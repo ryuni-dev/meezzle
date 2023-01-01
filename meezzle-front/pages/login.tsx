@@ -15,14 +15,12 @@ const Login: NextPage = () => {
     const router = useRouter();
     const auth = useTest();
     const authFunc = () => {
-        if (!auth.isLoading){
+        if (!auth.isLoading) {
             return auth.data.data.authorizationUrl;
         }
-        
-    }
+    };
 
-    const href = authFunc()
-    
+    const href = authFunc();
 
     return (
         <>
@@ -35,13 +33,17 @@ const Login: NextPage = () => {
             <Catchphrase />
             <LoginContainer>
                 {/* <a href={authFunc()}> */}
-                    <Image src={kakaoLogin} onClick={()=>{
+                <Image
+                    style={{ cursor: "pointer" }}
+                    src={kakaoLogin}
+                    onClick={() => {
                         window.open(
                             authFunc(),
                             "_blank",
                             "height=400,width=377,top=100,left=200,scrollbars=yes,resizable=yes"
-                          );
-                    }}/>
+                        );
+                    }}
+                />
                 {/* </a> */}
                 {/* <GoogleLogin /> */}
             </LoginContainer>
