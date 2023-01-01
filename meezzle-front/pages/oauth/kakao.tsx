@@ -8,7 +8,7 @@ interface ResponseType {
   error?: any;
 }
 
-export const Kakao: NextPage = () => {
+const Kakao: NextPage = () => {
   const router = useRouter();
   const { code: authCode, error: kakaoServerError } = router.query;
 
@@ -53,3 +53,5 @@ export const Kakao: NextPage = () => {
       </>
   );
 };
+
+export default Kakao;
