@@ -14,9 +14,10 @@ import EventExplain from "../../components/event/Create/EventExplain";
 import Btn from "../../components/common/Btn";
 import { btnDisable, inputStage } from "../../states/eventCreate";
 import LinkBtn from "../../components/common/LinkBtn";
-import { eventInfo } from "../../states/eventInfo";
+import { eventInfo, eventTimeInfo } from "../../states/eventInfo";
 import { eventDaySelected } from "../../states/eventDayBox";
-
+import { Convert4ReqEvents, ConvertDays4Server } from "../../utils/converter";
+import { postCreate_test } from "../../api/event";
 
 
 const Body = styled.div`
@@ -51,14 +52,14 @@ to {
 }
   `;
 
-const TransitionDiv = styled.div`
-    animation: ${Move} 1s linear forwards infinite;
-    // transition: all 0.6s ease-out;
-`
+// const TransitionDiv = styled.div`
+//     animation: ${Move} 1s linear forwards infinite;
+//     // transition: all 0.6s ease-out;
+// `
 
-const FocusTransitionDiv = styled.div`
-    transition: 0.6s ease-out;
-`
+// const FocusTransitionDiv = styled.div`
+//     transition: 0.6s ease-out;
+// `
 
 const BottomDiv = styled.div`
     display: flex;
@@ -76,13 +77,18 @@ const CreatePage: NextPage = () => {
         '이벤트 생성하기!'
     ]
 
-    // const [event, setEvent] = useRecoilState(eventInfo);
     const resetEvent = useResetRecoilState(eventInfo);
     const resetDays = useResetRecoilState(eventDaySelected)
     const resetStage = useResetRecoilState(inputStage);
     const resetBtn = useResetRecoilState(btnDisable);
     const [stage, setStage] = useRecoilState(inputStage);
     const nameRef = useRef<HTMLInputElement>();
+
+    const [event, setEvent] = useRecoilState(eventInfo);
+    const [timeInfo, setTimeInfo] = useRecoilState(eventTimeInfo);
+    const [selected, setSelected] = useRecoilState(eventDaySelected);
+
+    console.log(timeInfo.dueTime.toISOString())
 
     const ReverseStackJSX = (stage: number): JSX.Element => {
         return (
@@ -99,73 +105,7 @@ const CreatePage: NextPage = () => {
             </>
         )
     }
-
-    // const StageManager = (stage: number): JSX.Element => {
-    //     switch(stage) {
-    //         case 0:
-    //             return (
-    //                 <FocusTransitionDiv>
-    //                     <EventName inputRef={nameRef}></EventName>
-    //                 </FocusTransitionDiv>
-    //             )
-    //         case 1: 
-    //             return (
-    //                 <>
-    //                     <EventDay></EventDay>
-    //                     <EventName></EventName>
-    
-    //                 </>
-    //             )
-    //         case 2: 
-    //             return (
-    //                 <>
-    //                     <EventTime></EventTime>
-    
-    //                     <EventDay></EventDay>
-    //                     <EventName></EventName>
-    
-    //                 </>
-    //             ) 
-    //         case 3:
-    //             return (
-    //                 <>
-    //                     <EventDue></EventDue>
-    
-    //                     <EventTime></EventTime>
-    //                     <EventDay></EventDay>
-    //                     <EventName></EventName>
-    
-    //                 </>
-    //             ) 
-    //         case 4:
-    //         return (
-    //             <>
-    //                 <EventColor></EventColor>
-
-    //                 <EventDue></EventDue>
-    //                 <EventTime></EventTime>
-    //                 <EventDay></EventDay>
-    //                 <EventName></EventName>
-    //             </>
-    //         ) 
-    //         case 5:
-    //             return (
-    //                 <>
-    //                     <EventExplain></EventExplain>
-
-    //                     <EventColor></EventColor>
-    //                     <EventDue></EventDue>
-    //                     <EventTime></EventTime>
-    //                     <EventDay></EventDay>
-    //                     <EventName></EventName>
-    //                 </>
-    //             )
-    //         default:
-    //             return  (
-    //                    <></>
-    //                 );
-    //     }
-    // } 
+ 
     useEffect(()=> {
         nameRef.current?.focus();
     });
@@ -184,6 +124,8 @@ const CreatePage: NextPage = () => {
         else if (stage === 5) {
             setStage(0);
             console.log(stage);
+            //@ts-ignore
+            postCreate_test(Convert4ReqEvents(event, timeInfo, selected))
         }
     }
 

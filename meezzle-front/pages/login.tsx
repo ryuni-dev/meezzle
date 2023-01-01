@@ -6,8 +6,30 @@ import GoogleLogin from "../components/login/GoogleLogin";
 import Image from "next/image";
 import Script from "next/script";
 import styled from "styled-components";
+import { useRouter } from "next/router";
+import { useTest } from "../hooks/api/auth";
+import { useEffect } from "react";
+import Link from "next/link";
 
 const Login: NextPage = () => {
+    const router = useRouter();
+    // const auth = useTest();
+    // const authFunc = () => {
+    //     if (!auth.isLoading){
+    //         return auth.data.data.authorizationUrl;
+    //     }
+        
+    // }
+
+    // const href = authFunc()
+
+    const KakaoLogin = () => {
+        window.Kakao.Auth.authorize({
+          redirectUri: 'http://localhost:3000/oauth/kakao', 
+        });
+      }
+    
+
     return (
         <>
             <Script
@@ -18,8 +40,10 @@ const Login: NextPage = () => {
             <Navbar />
             <Catchphrase />
             <LoginContainer>
-                <Image src={kakaoLogin} />
-                <GoogleLogin />
+                {/* <a href={authFunc()}> */}
+                    <Image src={kakaoLogin} onClick={KakaoLogin}/>
+                {/* </a> */}
+                {/* <GoogleLogin /> */}
             </LoginContainer>
         </>
     );

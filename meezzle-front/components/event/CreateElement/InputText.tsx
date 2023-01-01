@@ -52,8 +52,9 @@ type Props = {
     OnKeyPress?(e: React.KeyboardEvent<HTMLInputElement>): void
 }
 const InputText= React.forwardRef<HTMLInputElement, Props>(({type, placeholder, input, OnChange, OnKeyPress}, ref) => {
+    // ref={ref}
     return (
-        <Input type={type} placeholder={placeholder} value={input} onChange={OnChange} ref={ref} onKeyPress={OnKeyPress}></Input>
+        <Input type={type} placeholder={placeholder} value={input} onChange={OnChange} onKeyPress={OnKeyPress}></Input>
     )
 })
 InputText.displayName = "InputText";

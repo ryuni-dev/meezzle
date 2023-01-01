@@ -1,3 +1,7 @@
+import { useRecoilState } from "recoil"
+import { eventInfo, eventTimeInfo } from "../states/eventInfo"
+import { Events, EventTimeInfo } from "../types/EventProps"
+
 enum week {
     SUNDAY = 1,
     MONDAY,
@@ -97,7 +101,7 @@ const EncodeTime = (participleTimes: string, day: number): number[] => {
     }
     return timeArr;
 }
-const ConvertDays4Server = (data:number[]) => {
+export const ConvertDays4Server = (data:number[]) => {
     try {  
         let setData = Array.from(new Set(data));
         setData.sort();
@@ -160,4 +164,40 @@ const IsSameDay = (data: number[], startIdx: number) => {
         }
     }
     return (data.length - 1);
+}
+
+export const Convert4ReqEvents = (
+    events: Events, timeInfo: EventTimeInfo, eventDay: number[]
+    ): Events => {
+
+        const dday = timeInfo.dueTime.toISOString();
+        // for(let i = 0; i < length; i++){
+    //     if(data[i]){
+    //         const day = week[data[i]]
+    //         selectedTimes = [...selectedTimes, day];
+    //     }
+    // }
+        let selectableDays:string[] = [];
+        for (let i = 0; i < eventDay.length; i++) {
+            if(eventDay[i]){
+                const day = week[eventDay[i]]
+                selectableDays = [...selectableDays, day]
+            }
+        }
+        selectableDays = Array.from(new Set(selectableDays))
+        // const temp = eventDay.map(eventDay => week[eventDay]);
+        // const selectableDays = Array.from(new Set(temp));
+        const startTime = timeInfo.startTime.toISOString();
+        const endTime = timeInfo.endTime.toISOString();
+        const data: Events = {
+            title: events.title,
+            selectableDays: selectableDays,
+            startTime: startTime,
+            endTime: endTime,
+            color: events.color,
+            description: events.description,
+            dday: dday,
+        }
+
+        return data
 }

@@ -40,7 +40,8 @@ const EventName = ({inputRef}: Props)=> {
     return (
         <ContainerInput>
             <TextBlackMedium text='이벤트 명'></TextBlackMedium>
-            <InputText placeholder='이벤트 명을 입력해 주세요.' input={event.title} OnChange={OnChange} ref={inputRef} OnKeyPress={OnKeyPress}></InputText>
+            {/* ref={inputRef} */}
+            <InputText placeholder='이벤트 명을 입력해 주세요.' input={event.title} OnChange={OnChange} OnKeyPress={OnKeyPress}></InputText>
         </ContainerInput>
     );
 }
