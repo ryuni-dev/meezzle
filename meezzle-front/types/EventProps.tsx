@@ -1,5 +1,16 @@
-export interface EventProps {
+export interface Events {
     title: string,
+    selectableDays: string[],
+    // selectableTimes: string,
+    startTime: string,
+    endTime: string,
     color: string,
-    days: [],
+    description: string,
+    dday: string,
+}
+
+export interface EventTimeInfo {
+    startTime: Date,
+    endTime: Date,
+    dueTime: Date,
 }

@@ -12,7 +12,7 @@ import TextGraySmall from "../../common/TextGraySmall";
 import ContainerInput from "../CreateElement/ContainerInput";
 import { eventDueDate, eventDueTime } from "../../../states/eventCreate";
 import { useState } from "react";
-import { eventInfo } from "../../../states/eventInfo";
+import { eventInfo, eventTimeInfo } from "../../../states/eventInfo";
 
 interface Props {
     disabled?: boolean | undefined;
@@ -105,7 +105,7 @@ const TextSmall = styled.text`
     color: #A5A5A5;
 `
 const EventDue: NextComponentType = ()=> {
-    const [event, setEvent] = useRecoilState(eventInfo);
+    const [timeInfo, setTimeInfo] = useRecoilState(eventTimeInfo);
     // const [dueDate, setDueDate] = useRecoilState(eventDueDate);
     // const [dueTime, setDueTime] = useRecoilState(eventDueTime);
 
@@ -124,11 +124,11 @@ const EventDue: NextComponentType = ()=> {
                 <DatePickerCumstom
                     dateFormat="yyyy년 MM월 dd일"
                     locale={ko}   
-                    selected={event.dueDate}
+                    selected={timeInfo.dueTime}
                     onChange={(date:Date) => 
-                        setEvent({
-                            ...event,
-                            dueDate: date,
+                        setTimeInfo({
+                            ...timeInfo,
+                            dueTime: date,
                     })
                         // setDueDate(date)
                     }
@@ -139,10 +139,10 @@ const EventDue: NextComponentType = ()=> {
                 <DatePickerDiv>
                     <DatePickerCumstom
                     locale={ko}   
-                    selected={event.dueTime}
+                    selected={timeInfo.dueTime}
                     onChange={(time:Date) => 
-                        setEvent({
-                            ...event,
+                        setTimeInfo({
+                            ...timeInfo,
                             dueTime: time,
                     })
                         // setDueTime(time)

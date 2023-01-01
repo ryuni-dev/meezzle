@@ -13,15 +13,21 @@ import Link from "next/link";
 
 const Login: NextPage = () => {
     const router = useRouter();
-    const auth = useTest();
-    const authFunc = () => {
-        if (!auth.isLoading){
-            return auth.data.data.authorizationUrl;
-        }
+    // const auth = useTest();
+    // const authFunc = () => {
+    //     if (!auth.isLoading){
+    //         return auth.data.data.authorizationUrl;
+    //     }
         
-    }
+    // }
 
-    const href = authFunc()
+    // const href = authFunc()
+
+    const KakaoLogin = () => {
+        window.Kakao.Auth.authorize({
+          redirectUri: 'http://localhost:3000/oauth/kakao', 
+        });
+      }
     
 
     return (
@@ -35,13 +41,7 @@ const Login: NextPage = () => {
             <Catchphrase />
             <LoginContainer>
                 {/* <a href={authFunc()}> */}
-                    <Image src={kakaoLogin} onClick={()=>{
-                        window.open(
-                            authFunc(),
-                            "_blank",
-                            "height=400,width=377,top=100,left=200,scrollbars=yes,resizable=yes"
-                          );
-                    }}/>
+                    <Image src={kakaoLogin} onClick={KakaoLogin}/>
                 {/* </a> */}
                 {/* <GoogleLogin /> */}
             </LoginContainer>

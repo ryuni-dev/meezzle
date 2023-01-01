@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { Events } from '../types/EventProps';
 
 export const getEvents = async () => {
     try {
@@ -52,23 +53,15 @@ const test_data = {
     "selectableParticipleTimes": [
       "MONDAY[T]10:00:00-12:00:00|13:00:00-14:00:00|"
     ],
-    "color": "#FFFFFFFF",
+    "color": "#FFFFFF",
     "description": "string",
     "dday": "2022-05-30T12:00:00.000"
   }
 
-export const postCreate_test = async () => {
+export const postCreate_test = async (data: Events) => {
     try {
         const res =  await axios.post(process.env.NEXT_PUBLIC_API_EVENT_CREATE+'',
-        // {
-        // "title": "string",
-        // "selectableParticipleTimes": [
-        // "MONDAY[T]10:00:00-12:00:00|13:00:00-14:00:00|"],
-        // "color": "#FFFFFFFF",
-        // "description": "string",
-        // "dday": "2022-05-30T12:00:00.000"
-        // },
-        test_data,
+        data,
         {
             headers: {
                 Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`
@@ -77,6 +70,7 @@ export const postCreate_test = async () => {
         )
         if(res.status === 200) {
             const data = await res.data;
+            console.log(data);
             return data;
         }
         // return {};
