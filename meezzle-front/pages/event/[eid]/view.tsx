@@ -1,5 +1,5 @@
 import { NextPage } from "next";
-import { useEffect, useState } from "react";
+import { useEffect, useState, RefObject } from "react";
 import ViewTable from "../../../components/event/View/ViewTable";
 import Navbar from "../../../components/common/Navbar";
 import shareNav from "../../../public/assets/shareNav.svg";
@@ -61,6 +61,60 @@ const Test: NextPage = () => {
                 attendee: ["경륜", "상오", "영로"],
                 absentee: ["세호", "재석"],
             },
+
+            {
+                time: 121,
+                attendee: ["경륜", "상오", "지금"],
+                absentee: ["세호", "재석"],
+            },
+            {
+                time: 122,
+                attendee: ["경륜", "상오", "지동"],
+                absentee: ["세호", "재석"],
+            },
+            {
+                time: 123,
+                attendee: ["경륜", "상오", "지은"],
+                absentee: ["세호", "재석"],
+            },
+            {
+                time: 124,
+                attendee: ["경륜", "상오", "영로"],
+                absentee: ["세호", "재석"],
+            },
+
+            {
+                time: 125,
+                attendee: ["경륜", "상오", "재훈"],
+                absentee: ["세호", "재석"],
+            },
+
+            {
+                time: 126,
+                attendee: ["경륜", "상오", "윤하"],
+                absentee: ["세호", "재석"],
+            },
+
+            {
+                time: 127,
+                attendee: ["경륜", "상오", "재상"],
+                absentee: ["세호", "재석"],
+            },
+            {
+                time: 136,
+                attendee: ["경륜", "상오", "영로"],
+                absentee: ["세호", "재석"],
+            },
+            {
+                time: 137,
+                attendee: ["경륜", "상오", "영로"],
+                absentee: ["세호", "재석"],
+            },
+            {
+                time: 138,
+                attendee: ["경륜", "상오", "영로"],
+                absentee: ["세호", "재석"],
+            },
         ],
         total: 5,
     });
@@ -68,6 +122,7 @@ const Test: NextPage = () => {
     const [clickedData, setClickedData] = useState<
         TimeDataType["times"][0] | undefined
     >();
+
     // const [mostJoinTimes, setMostJoinTimes] = useState<TimeDataType["times"]>(
     //     []
     // );
@@ -120,5 +175,12 @@ const Test: NextPage = () => {
 export default Test;
 
 const Container = styled.div`
-    width: 100%;
+    width: 372px;
+    background-color: white;
+    display: inline-block;
+    position: fixed;
+    margin: 0 auto;
+    top: 85%;
+    border: 1px solid gray;
+    border-radius: 5px;
 `;
