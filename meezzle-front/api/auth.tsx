@@ -27,6 +27,7 @@ export const getAuth2 = async () => {
             {
                 params: {
                     code: code,
+                    requestUrl: "http://localhost:3000/oauth/kakao",
                 },
             }
         );
