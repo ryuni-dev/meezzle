@@ -232,9 +232,9 @@
   dependencies:
     "glob" "7.1.7"
 
-"@next/swc-darwin-arm64@12.3.1":
-  "integrity" "sha512-hT/EBGNcu0ITiuWDYU9ur57Oa4LybD5DOQp4f22T6zLfpoBMfBibPtR8XktXmOyFHrL/6FC2p9ojdLZhWhvBHg=="
-  "resolved" "https://registry.npmjs.org/@next/swc-darwin-arm64/-/swc-darwin-arm64-12.3.1.tgz"
+"@next/swc-win32-x64-msvc@12.3.1":
+  "integrity" "sha512-W1ijvzzg+kPEX6LAc+50EYYSEo0FVu7dmTE+t+DM4iOLqgGHoW9uYSz9wCVdkXOEEMP9xhXfGpcSxsfDucyPkA=="
+  "resolved" "https://registry.npmjs.org/@next/swc-win32-x64-msvc/-/swc-win32-x64-msvc-12.3.1.tgz"
   "version" "12.3.1"
 
 "@nodelib/fs.scandir@2.1.5":
@@ -1806,6 +1806,20 @@
   "resolved" "https://registry.npmjs.org/react-is/-/react-is-16.13.1.tgz"
   "version" "16.13.1"
 
+"react-is@^18.2.0":
+  "integrity" "sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w=="
+  "resolved" "https://registry.npmjs.org/react-is/-/react-is-18.2.0.tgz"
+  "version" "18.2.0"
+
+"react-loader-spinner@^5.3.4":
+  "integrity" "sha512-G2vw4ssX+RDZ/vfaeva06yfNqyFViv/u+tVZ3kFLy5TKNlNx2DbuwreBSpRtPespQA+VxinxUJsigwLwG9erOg=="
+  "resolved" "https://registry.npmjs.org/react-loader-spinner/-/react-loader-spinner-5.3.4.tgz"
+  "version" "5.3.4"
+  dependencies:
+    "react-is" "^18.2.0"
+    "styled-components" "^5.3.5"
+    "styled-tools" "^1.7.2"
+
 "react-onclickoutside@^6.12.0":
   "integrity" "sha512-NMXGa223OnsrGVp5dJHkuKxQ4czdLmXSp5jSV9OqiCky9LOpPATn3vLldc+q5fK3gKbEHvr7J1u0yhBh/xYkpA=="
   "resolved" "https://registry.npmjs.org/react-onclickoutside/-/react-onclickoutside-6.12.2.tgz"
@@ -2034,7 +2048,7 @@
   "resolved" "https://registry.npmjs.org/strip-json-comments/-/strip-json-comments-3.1.1.tgz"
   "version" "3.1.1"
 
-"styled-components@^5.3.6", "styled-components@>= 2":
+"styled-components@^5.3.5", "styled-components@^5.3.6", "styled-components@>= 2":
   "integrity" "sha512-hGTZquGAaTqhGWldX7hhfzjnIYBZ0IXQXkCYdvF1Sq3DsUaLx6+NTHC5Jj1ooM2F68sBiVz3lvhfwQs/S3l6qg=="
   "resolved" "https://registry.npmjs.org/styled-components/-/styled-components-5.3.6.tgz"
   "version" "5.3.6"
@@ -2054,6 +2068,11 @@
   "integrity" "sha512-b3sUzamS086YLRuvnaDigdAewz1/EFYlHpYBP5mZovKEdQQOIIYq8lApylub3HHZ6xFjV051kkGU7cudJmrXEA=="
   "resolved" "https://registry.npmjs.org/styled-jsx/-/styled-jsx-5.0.7.tgz"
   "version" "5.0.7"
+
+"styled-tools@^1.7.2":
+  "integrity" "sha512-IjLxzM20RMwAsx8M1QoRlCG/Kmq8lKzCGyospjtSXt/BTIIcvgTonaxQAsKnBrsZNwhpHzO9ADx5te0h76ILVg=="
+  "resolved" "https://registry.npmjs.org/styled-tools/-/styled-tools-1.7.2.tgz"
+  "version" "1.7.2"
 
 "supports-color@^5.3.0":
   "integrity" "sha512-QjVjwdXIt408MIiAqCX4oUKsgU2EqAGzs2Ppkm4aQYbjm+ZEWEcW4SfFNTr4uMNZma0ey4f5lgLrkB0aX0QMow=="
