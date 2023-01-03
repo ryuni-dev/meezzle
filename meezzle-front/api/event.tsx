@@ -23,7 +23,7 @@ export const getEvents_test = async () => {
             process.env.NEXT_PUBLIC_API_HOST_EVENTS+'',
             {
                 headers: {
-                    Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
                 },
             }
         )
@@ -61,7 +61,7 @@ export const postCreate_test = async (data: string) => {
         data,
             {
                 headers: {
-                    Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
                     "Content-Type": `application/json`,
                 },
             }
@@ -85,7 +85,7 @@ export const deleteEvent = async (uuid: string) => {
         const res =  await axios.delete(process.env.NEXT_PUBLIC_API_EVENTS + '/' + uuid,
             {
                 headers: {
-                    Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
                 },
             }
         )

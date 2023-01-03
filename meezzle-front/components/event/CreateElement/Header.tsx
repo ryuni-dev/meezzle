@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import TextBlackLarge from '../../common/TextBlackLarge';
+import styled from "styled-components";
+import TextBlackLarge from "../../common/TextBlackLarge";
 
 const DivH1 = styled.div`
     display: flex;
@@ -7,20 +7,19 @@ const DivH1 = styled.div`
     width: 100%;
     height: 44px;
     align-items: center;
-    margin-top: 25px;
+    // margin-top: 25px;
     // padding-left: 0%;
-
-`
+`;
 type Props = {
-    text: string
+    text: string;
     children: React.ReactNode;
-}
-const Header: React.FC<Props>= ({text}) => {
+};
+const Header: React.FC<Props> = ({ text }) => {
     return (
         <DivH1>
             <TextBlackLarge text={text}></TextBlackLarge>
         </DivH1>
-    )
-}
+    );
+};
 
-export default Header
+export default Header;

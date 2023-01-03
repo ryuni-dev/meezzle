@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import { useRecoilState } from "recoil";
-import styled from 'styled-components';
+import styled from "styled-components";
 
 import LinkBtn from "../../../components/common/LinkBtn";
 import Navbar from "../../../components/common/Navbar";
@@ -22,8 +22,8 @@ const Body = styled.div`
     max-width: 400px;
     // padding-left: 1%;
     width: 100%;
-    overflow-x:hidden;
-`
+    overflow-x: hidden;
+`;
 
 const Footer = styled.div`
     display: flex;
@@ -34,93 +34,128 @@ const Footer = styled.div`
     height: 120px;
     // margin-left: 12%;
     // margin-right: 0px;
-`
+`;
 
 const ReviseEvent: NextPage = () => {
-    const { query: { eid } } = useRouter();
+    const {
+        query: { eid },
+    } = useRouter();
     //@ts-ignore
     const { data, isLoading } = useEvent(eid);
 
     const [now, setNow] = useRecoilState(voteNow);
     const [selectedDay, setSelectedDay] = useRecoilState(eventDaySelected);
 
-    const GoNextDay = ():void => {
-        const idx = selectedDay.findIndex(i => i === now) + 1;
-        if(idx >= 0 && idx < selectedDay.length) {
-            setNow(selectedDay[idx])
+    const GoNextDay = (): void => {
+        const idx = selectedDay.findIndex((i) => i === now) + 1;
+        if (idx >= 0 && idx < selectedDay.length) {
+            setNow(selectedDay[idx]);
         }
-    }
+    };
 
-    const GoPrevDay = ():void => {
-        const idx = selectedDay.findIndex(i => i === now) - 1;
-        if(idx >= 0 && idx < selectedDay.length) {
-            setNow(selectedDay[idx])
+    const GoPrevDay = (): void => {
+        const idx = selectedDay.findIndex((i) => i === now) - 1;
+        if (idx >= 0 && idx < selectedDay.length) {
+            setNow(selectedDay[idx]);
         }
-    }
+    };
 
-    const BtnPrint = ():JSX.Element => {
-        if(selectedDay.length === 1){
+    const BtnPrint = (): JSX.Element => {
+        if (selectedDay.length === 1) {
             return (
                 <>
-                    <LinkBtn text="제출하기!" href="/" color={true} Click={GoNextDay}></LinkBtn>
-                    <LinkBtn text="< 이벤트 설명 보기" href="/" color={false} Click={GoPrevDay}></LinkBtn>
+                    <LinkBtn
+                        text="제출하기!"
+                        href="/"
+                        color={true}
+                        Click={GoNextDay}
+                    ></LinkBtn>
+                    <LinkBtn
+                        text="< 이벤트 설명 보기"
+                        href="/"
+                        color={false}
+                        Click={GoPrevDay}
+                    ></LinkBtn>
                 </>
-            )
-        }
-        else if(now === selectedDay[0]){
+            );
+        } else if (now === selectedDay[0]) {
             return (
                 <>
-                    <Btn text="다음 요일로 이동하기" color={true} useDisable={false} Click={GoNextDay}></Btn>
-                    <LinkBtn text="< 이벤트 설명 보기" href="/" color={false} Click={GoPrevDay}></LinkBtn>
+                    <Btn
+                        text="다음 요일로 이동하기"
+                        color={true}
+                        useDisable={false}
+                        Click={GoNextDay}
+                    ></Btn>
+                    <LinkBtn
+                        text="< 이벤트 설명 보기"
+                        href="/"
+                        color={false}
+                        Click={GoPrevDay}
+                    ></LinkBtn>
                 </>
-            )
-        }
-        else if(now === selectedDay[selectedDay.length-1]){
+            );
+        } else if (now === selectedDay[selectedDay.length - 1]) {
             return (
                 <>
-                    <LinkBtn text="제출하기!" href="/" color={true} Click={GoNextDay}></LinkBtn>
-                    <Btn text="< 이전 요일로 이동하기" color={false} Click={GoPrevDay} useDisable={false}></Btn>
+                    <LinkBtn
+                        text="제출하기!"
+                        href="/"
+                        color={true}
+                        Click={GoNextDay}
+                    ></LinkBtn>
+                    <Btn
+                        text="< 이전 요일로 이동하기"
+                        color={false}
+                        Click={GoPrevDay}
+                        useDisable={false}
+                    ></Btn>
                 </>
-            )
-        }
-        else {
+            );
+        } else {
             return (
                 <>
-                    <Btn text="다음 요일로 이동하기" Click={GoNextDay} color={true} useDisable={false}></Btn>
-                    <Btn text="< 이전 요일로 이동하기" color={false} Click={GoPrevDay} useDisable={false}></Btn>
+                    <Btn
+                        text="다음 요일로 이동하기"
+                        Click={GoNextDay}
+                        color={true}
+                        useDisable={false}
+                    ></Btn>
+                    <Btn
+                        text="< 이전 요일로 이동하기"
+                        color={false}
+                        Click={GoPrevDay}
+                        useDisable={false}
+                    ></Btn>
                 </>
-            )
+            );
         }
-    }
+    };
 
-
-
-    useEffect(()=> {
+    useEffect(() => {
         setNow(selectedDay[0]);
     }, []);
-    useEffect(()=> {
-        if(!isLoading){
+    useEffect(() => {
+        if (!isLoading) {
             setSelectedDay(data[0].days);
             setNow(data[0].days[0]);
             // time block 서버 연동
         }
-        console.log(now)
-    },[data]);
+        console.log(now);
+    }, [data]);
 
     return (
         <>
-        <Navbar>
-            <></>
-        </Navbar>
-        <Body>
-            <DayBar></DayBar>
-            <TimeSelect></TimeSelect>
-            <Footer>
-                {BtnPrint()}
-            </Footer>
-        </Body>
+            <Body>
+                <Navbar>
+                    <></>
+                </Navbar>
+                <DayBar></DayBar>
+                <TimeSelect></TimeSelect>
+                <Footer>{BtnPrint()}</Footer>
+            </Body>
         </>
-        )
+    );
 };
 
 export default ReviseEvent;
