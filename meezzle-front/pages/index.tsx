@@ -37,10 +37,13 @@ const Home: NextPage<Props> = ({}) => {
         setVisible(visible ? false : true);
     };
 
-    // 임시 로그인 / 로그아웃 상태 변경
     const handleLogin = () => {
-        location.href = "/login";
-        // setIsLoggedIn(!isLoggedIn);
+        if (!isLoggedIn) {
+            location.href = "/login";
+        } else {
+            logout.mutate();
+            setIsLoggedIn(false);
+        }
     };
 
     const menuRef = useRef<HTMLDivElement>(null);

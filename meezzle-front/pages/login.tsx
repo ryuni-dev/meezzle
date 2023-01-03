@@ -8,20 +8,19 @@ import Script from "next/script";
 import styled from "styled-components";
 import { useRouter } from "next/router";
 import { useTest } from "../hooks/api/auth";
-import { useEffect } from "react";
 import Link from "next/link";
+import { getAuth } from "../api/auth";
+import { useState, useEffect } from "react";
 
 const Login: NextPage = () => {
     const router = useRouter();
-    const auth = useTest();
-    const authFunc = () => {
-        if (!auth.isLoading) {
-            return auth.data.data.authorizationUrl;
-        }
-    };
-
-    const href = authFunc();
-
+    // const auth = useTest();
+    // const authFunc = () => {
+    //     if (!auth.isLoading) {
+    //         return auth.data.data.authorizationUrl;
+    //     }
+    // };
+    // const href = authFunc();
     const KakaoLogin = () => {
         window.Kakao.Auth.authorize({
             redirectUri: "http://localhost:3000/oauth/kakao",
@@ -29,7 +28,7 @@ const Login: NextPage = () => {
     };
 
     return (
-        <>
+        <Body>
             <Script
                 src="https://accounts.google.com/gsi/client"
                 async
@@ -38,21 +37,14 @@ const Login: NextPage = () => {
             <Navbar />
             <Catchphrase />
             <LoginContainer>
-                {/* <a href={authFunc()}> */}
                 <Image
                     src={kakaoLogin}
-                    onClick={() => {
-                        window.open(
-                            authFunc(),
-                            "_blank",
-                            "height=400,width=377,top=100,left=200,scrollbars=yes,resizable=yes"
-                        );
-                    }}
+                    onClick={KakaoLogin}
+                    style={{ cursor: "pointer" }}
                 />
-                {/* </a> */}
                 {/* <GoogleLogin /> */}
             </LoginContainer>
-        </>
+        </Body>
     );
 };
 
@@ -62,4 +54,14 @@ const LoginContainer = styled.div`
     display: flex;
     flex-direction: column;
     margin-top: 96px;
+`;
+
+const Body = styled.div`
+    display: flex;
+    max-width: 400px;
+    margin: 0 auto;
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 `;

@@ -17,3 +17,28 @@ export const getAuth = async () => {
         return {};
     }
 };
+
+export const getAuth2 = async () => {
+    try {
+        const code = new URL(window.location.href).searchParams.get("code");
+        console.log(code);
+        const res = await axios.get(
+            process.env.NEXT_PUBLIC_KAKAO_LOGIN_REDIRECT + "",
+            {
+                params: {
+                    code: code,
+                    requestUrl: "http://localhost:3000/oauth/kakao",
+                },
+            }
+        );
+        if (res.status === 200) {
+            const token = res.data.token;
+            console.log(token);
+            window.localStorage.setItem("token", token);
+        }
+        return {};
+    } catch (e) {
+        console.log(e);
+        return {};
+    }
+};

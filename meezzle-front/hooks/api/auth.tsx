@@ -5,3 +5,7 @@ import { useLogin } from "../../states/login";
 export const useTest = () => {
     return useQuery(["auth"], () => api.getAuth());
 };
+
+export const useKakaoToken = () => {
+    return useQuery(["kakaoToken"], () => api.getAuth2());
+};
