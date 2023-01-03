@@ -17,8 +17,9 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import HashLoader from "react-spinners/HashLoader";
 import { useParticipants } from "../../../hooks/api/participants";
-import { useTest } from "../../../hooks/api/auth";
+import { useGuestLogin, useTest } from "../../../hooks/api/auth";
 import { useLogin } from "../../../states/login";
+import { guestToken } from "../../../states/guest";
 
 const TitleBox = styled.div`
     display: flex;
@@ -142,9 +143,11 @@ const ReviseEvent: NextPage = () => {
     const [isLoggedIn, setIsLoggedIn] = useLogin();
     const resetBtn = useResetRecoilState(btnDisable);
     const resetUser = useResetRecoilState(participant);
+    const [user, setUser] = useRecoilState(participant);
     const resetTime = useResetRecoilState(timeSelected);
-
+    const guestLogin = useGuestLogin(eid ? eid : "", user);
     const participants = useParticipants();
+    const [token, setToken] = useRecoilState(guestToken);
 
     // const test = useEventCreate_test()
     // console.log(test.data)
@@ -177,22 +180,33 @@ const ReviseEvent: NextPage = () => {
     }, []);
 
     const Click2Vote = () => {
-        // ErrorPW();
-        const loginResult = LoginFunc();
-        console.log(loginResult);
-        if (loginResult === "SUCCESS") {
-            setNow(event.days[0]);
-            setSelectedDay(event.days);
-            resetTime();
-            console.log("SUCCESS");
-            router.push({
-                pathname: "/event/[eid]/vote",
-                query: { eid: eid },
-            });
-        } else {
-            ErrorPW();
+        if (!isLoggedIn) {
+            guestLogin.mutate();
         }
-        console.log("click!!");
+        setNow(event.days[0]);
+        setSelectedDay(event.days);
+        resetTime();
+        console.log("SUCCESS");
+        router.push({
+            pathname: "/event/[eid]/vote",
+            query: { eid: eid },
+        });
+        // ErrorPW();
+        // const loginResult = LoginFunc();
+        // console.log(loginResult);
+        // if (loginResult === "SUCCESS") {
+        //     setNow(event.days[0]);
+        //     setSelectedDay(event.days);
+        //     resetTime();
+        //     console.log("SUCCESS");
+        //     router.push({
+        //         pathname: "/event/[eid]/vote",
+        //         query: { eid: eid },
+        //     });
+        // } else {
+        //     ErrorPW();
+        // }
+        // console.log("click!!");
     };
 
     return (

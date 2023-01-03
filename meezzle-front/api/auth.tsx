@@ -1,4 +1,11 @@
 import axios from "axios";
+import { useRecoilState } from "recoil";
+import { guestToken } from "../states/guest";
+
+interface user {
+    name: string;
+    password: string;
+}
 
 export const getAuth = async () => {
     try {
@@ -37,6 +44,25 @@ export const getAuth2 = async () => {
             window.localStorage.setItem("token", token);
         }
         return {};
+    } catch (e) {
+        console.log(e);
+        return {};
+    }
+};
+
+export const getGuestAuth = async (eid: string | string[], user: user) => {
+    try {
+        const res = await axios.post(
+            `${process.env.NEXT_PUBLIC_API_EVENT}/${eid}/guests/login`,
+            {
+                name: user.name,
+                password: user.password,
+            }
+        );
+        if (res.status === 200) {
+            const [token, setToken] = useRecoilState(guestToken);
+            setToken(res.data.token);
+        }
     } catch (e) {
         console.log(e);
         return {};
