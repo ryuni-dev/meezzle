@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const Div = styled.div`
     display: flex;
@@ -8,14 +8,12 @@ const Div = styled.div`
     height: auto;
     margin-top: 1.5rem;
     // margin-left: 16px;
-`
+`;
 type Props = {
-    children: JSX.Element | JSX.Element[]
-}
-const ContainerInput: React.FC<Props>= ({children}: Props) => {
-    return (
-        <Div>{children}</Div>
-    )
-}
+    children: JSX.Element | JSX.Element[];
+};
+const ContainerInput: React.FC<Props> = ({ children }: Props) => {
+    return <Div>{children}</Div>;
+};
 
-export default ContainerInput
+export default ContainerInput;
