@@ -18,7 +18,7 @@ function MyApp({ Component, pageProps }: AppProps<{ dehydratedState: DehydratedS
 
     function kakaoInit() { // 페이지가 로드되면 실행
         window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_JS_KEY);
-        console.log(window.Kakao.isInitialized());
+        console.log('kakao', window.Kakao.isInitialized());
       }
 
     return (

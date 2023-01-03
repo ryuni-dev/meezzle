@@ -18,6 +18,7 @@ import { eventInfo, eventTimeInfo } from "../../states/eventInfo";
 import { eventDaySelected } from "../../states/eventDayBox";
 import { Convert4ReqEvents, ConvertDays4Server } from "../../utils/converter";
 import { postCreate_test } from "../../api/event";
+import { useEventCreate_test } from "../../hooks/api/events";
 
 
 const Body = styled.div`
@@ -88,7 +89,8 @@ const CreatePage: NextPage = () => {
     const [timeInfo, setTimeInfo] = useRecoilState(eventTimeInfo);
     const [selected, setSelected] = useRecoilState(eventDaySelected);
 
-    console.log(timeInfo.dueTime.toISOString())
+
+    const createEvent = useEventCreate_test()
 
     const ReverseStackJSX = (stage: number): JSX.Element => {
         return (
@@ -123,9 +125,10 @@ const CreatePage: NextPage = () => {
         }
         else if (stage === 5) {
             setStage(0);
-            console.log(stage);
             //@ts-ignore
-            postCreate_test(Convert4ReqEvents(event, timeInfo, selected))
+            const data = JSON.stringify(Convert4ReqEvents(event, timeInfo, selected)); 
+            console.log("data",data);
+            createEvent.mutate(data);
         }
     }
 

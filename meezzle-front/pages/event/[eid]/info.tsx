@@ -131,10 +131,12 @@ const LoaderBox = styled.div`
 const ReviseEvent: NextPage = () => {
     const { query: { eid } } = useRouter();
     const router = useRouter();
+    console.log('eid', eid)
 
     //@ts-ignore
     const { data, isLoading } = useEvent(eid);
     const event = isLoading ? null : data[0];
+    console.log(data)
     const [now, setNow] = useRecoilState(voteNow);
     const [selectedDay, setSelectedDay] = useRecoilState(eventDaySelected);
 

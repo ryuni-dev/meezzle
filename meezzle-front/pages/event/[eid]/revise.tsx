@@ -17,7 +17,7 @@ import EventExplain from "../../../components/event/Create/EventExplain";
 import LinkBtn from "../../../components/common/LinkBtn";
 import Navbar from "../../../components/common/Navbar";
 import { useRouter } from "next/router";
-import { useEvent } from "../../../hooks/api/events";
+import { useEvent, useEventDelete } from "../../../hooks/api/events";
 import { eventInfo } from "../../../states/eventInfo";
 import { eventDaySelected } from "../../../states/eventDayBox";
 import { moveMessagePortToContext } from "worker_threads";
@@ -49,10 +49,18 @@ const Footer = styled.div`
 
 const ReviseEvent: NextPage = ({}) => {
     const { query: { eid } } = useRouter();
+    console.log(eid)
     //@ts-ignore
     const { data, isLoading } = useEvent(eid);
     const [ days, setDays ] = useRecoilState(eventDaySelected);
     const [ event, setEvent ] = useRecoilState(eventInfo);
+
+    const deleteEvent = useEventDelete();
+
+    const DeleteEvent = () => {
+        //@ts-ignore
+        deleteEvent.mutate(eid);
+    }
     
     useEffect(()=> {
         if(isLoading){
@@ -91,7 +99,7 @@ const ReviseEvent: NextPage = ({}) => {
             </EventCreate>
             <Footer>
                 <LinkBtn text="수정 완료!" href="/" color={true}></LinkBtn>
-                <LinkBtn text="이벤트 삭제하기" href="/" color={false}></LinkBtn>
+                <LinkBtn text="이벤트 삭제하기" href="/" color={false} Click={DeleteEvent}></LinkBtn>
             </Footer>
         </Body>
         </>

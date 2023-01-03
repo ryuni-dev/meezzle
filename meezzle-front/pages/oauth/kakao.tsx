@@ -17,7 +17,7 @@ const Kakao: NextPage = () => {
       
       // 백엔드에 전송
       const response: ResponseType = await fetch(process.env.NEXT_PUBLIC_API_USER + '', {
-        method: 'POST',
+        method: 'GET',
         headers: {
           'Content-Type': 'application/json',
         },
