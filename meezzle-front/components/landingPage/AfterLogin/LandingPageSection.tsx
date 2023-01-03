@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { NextComponentType } from "next";
 import { Button } from "../../../styled-components/StyledButton";
 import plus from "../../../public/assets/plus.svg";
 import Image from "next/image";
 import Link from "next/link";
-import { useEvents } from "../../../hooks/api/events";
+import { useEvents_test } from "../../../hooks/api/events";
 import { EventBox } from "./EventBox";
 import HashLoader from "react-spinners/HashLoader";
 
@@ -18,7 +18,7 @@ const LoaderBox = styled.div`
 
 const LandingPageSection: NextComponentType = () => {
     // 유저가 처음 로그인 시엔 isLoading을, 로그인 한 상태에서 새로고침 시엔 isFetching을 사용
-    const { data, isFetching, isLoading } = useEvents();
+    const { data, isFetching, isLoading, refetch } = useEvents_test();
     // console.log("aa", data);
     // const events = [
     //     { key: 1, title: "미미 긴급 회의", userNum: 5 },
@@ -26,6 +26,12 @@ const LandingPageSection: NextComponentType = () => {
     //     { key: 3, title: "미미 팀 전체 회식", userNum: 8 },
     // ];
     const events = data;
+
+    useEffect(()=> {
+        refetch();
+    },[]);
+
+
     return (
         <>
             <ButtonContainer>
@@ -37,30 +43,33 @@ const LandingPageSection: NextComponentType = () => {
                 </Link>
             </ButtonContainer>
             {
-                isFetching ?
+                isLoading ?
                 <LoaderBox>
                     <HashLoader color="#3278DE" />
                 </LoaderBox>
                 :
             <ScheduleContainer>
                 <h3>Schedule</h3>
-                {
+                
+                {Object.keys(events).length === 0 
+                ? <h3>이벤트를 생성해보세요</h3>
+                :
                     //@ts-ignore
-                events.map((e, idx:number) => (
+                events.data.map((e, idx:number) => (
                     <Link href={{
                         pathname: '/event/[eid]/info',
-                        query: {eid: e.eid.toString()}
+                        query: {eid: e.event.id}
                     }}
                         key={idx}
                     >
                         <a>
 
                         <EventBox
-                            eid={e.eid}
-                            key={e.eid}
-                            title={e.title}
-                            userNum={e.userNum}
-                            color={e.color}
+                            eid={e.event.id}
+                            key={e.event.id}
+                            title={e.event.title}
+                            userNum={e.eventParticipants.length}
+                            color={e.event.color}
                             ></EventBox>
                         </a>
                     </Link>

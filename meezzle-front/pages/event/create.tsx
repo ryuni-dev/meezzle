@@ -120,9 +120,12 @@ const CreatePage: NextPage = () => {
             setStage((st) => st + 1);
         } else if (stage === 5) {
             setStage(0);
-            console.log(stage);
             //@ts-ignore
-            postCreate_test(Convert4ReqEvents(event, timeInfo, selected));
+            const data = JSON.stringify(
+                Convert4ReqEvents(event, timeInfo, selected)
+            );
+            console.log("data", data);
+            createEvent.mutate(data);
         }
     };
 

@@ -16,7 +16,7 @@ import EventExplain from "../../../components/event/Create/EventExplain";
 import LinkBtn from "../../../components/common/LinkBtn";
 import Navbar from "../../../components/common/Navbar";
 import { useRouter } from "next/router";
-import { useEvent } from "../../../hooks/api/events";
+import { useEvent, useEventDelete } from "../../../hooks/api/events";
 import { eventInfo } from "../../../states/eventInfo";
 import { eventDaySelected } from "../../../states/eventDayBox";
 import { moveMessagePortToContext } from "worker_threads";
@@ -53,6 +53,13 @@ const ReviseEvent: NextPage = ({}) => {
     const { data, isLoading } = useEvent(eid);
     const [days, setDays] = useRecoilState(eventDaySelected);
     const [event, setEvent] = useRecoilState(eventInfo);
+
+    const deleteEvent = useEventDelete();
+
+    const DeleteEvent = () => {
+        //@ts-ignore
+        deleteEvent.mutate(eid);
+    };
 
     useEffect(() => {
         if (isLoading) {

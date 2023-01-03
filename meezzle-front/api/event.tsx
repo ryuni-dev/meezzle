@@ -1,25 +1,32 @@
 import axios from 'axios';
 import { Events } from '../types/EventProps';
 
-export const getEvents = async () => {
-    try {
-        // const res =  await axios.get('http://localhost:3000/api/event')
-        const res =  await axios.get('/api/event')
-        if(res.status === 200) {
-            const data = await res.data;
-            return data;
-        }
-        return {};
-    }
-    catch(e){
-        console.log(e);
-        return {}
-    }
-}
+// export const getEvents = async () => {
+//     try {
+//         // const res =  await axios.get('http://localhost:3000/api/event')
+//         const res =  await axios.get('/api/event')
+//         if(res.status === 200) {
+//             const data = await res.data;
+//             return data;
+//         }
+//         return {};
+//     }
+//     catch(e){
+//         console.log(e);
+//         return {}
+//     }
+// }
 
 export const getEvents_test = async () => {
     try {
-        const res =  await axios.get('/api/event')
+        const res =  await axios.get(
+            process.env.NEXT_PUBLIC_API_HOST_EVENTS+'',
+            {
+                headers: {
+                    Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
+                },
+            }
+        )
         if(res.status === 200) {
             const data = await res.data;
             return data;
@@ -32,10 +39,10 @@ export const getEvents_test = async () => {
     }
 }
 
-export const getEvent = async (eid: string) => {
+export const getEvent = async (eventId: string) => {
     try {
         // const res =  await axios.get('http://localhost:3000/api/event' + eid)
-        const res =  await axios.get('/api/event')
+        const res =  await axios.get(process.env.NEXT_PUBLIC_API_EVENTS+'/'+eventId)
         if(res.status === 200) {
             const data = await res.data;
             return data;
@@ -48,25 +55,39 @@ export const getEvent = async (eid: string) => {
     }
 }
 
-const test_data = {
-    "title": "string",
-    "selectableParticipleTimes": [
-      "MONDAY[T]10:00:00-12:00:00|13:00:00-14:00:00|"
-    ],
-    "color": "#FFFFFF",
-    "description": "string",
-    "dday": "2022-05-30T12:00:00.000"
-  }
-
-export const postCreate_test = async (data: Events) => {
+export const postCreate_test = async (data: string) => {
     try {
-        const res =  await axios.post(process.env.NEXT_PUBLIC_API_EVENT_CREATE+'',
+        const res =  await axios.post(process.env.NEXT_PUBLIC_API_EVENTS+'',
         data,
-        {
-            headers: {
-                Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`
-            },
+            {
+                headers: {
+                    Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
+                    "Content-Type": `application/json`,
+                },
+            }
+        )
+        if(res.status === 200) {
+            const data = await res.data;
+            console.log(data);
+            return data;
         }
+        // return {};
+    }
+    catch(e){
+        console.log(e);
+        return {}
+    }
+}
+
+
+export const deleteEvent = async (uuid: string) => {
+    try {
+        const res =  await axios.delete(process.env.NEXT_PUBLIC_API_EVENTS + '/' + uuid,
+            {
+                headers: {
+                    Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
+                },
+            }
         )
         if(res.status === 200) {
             const data = await res.data;
