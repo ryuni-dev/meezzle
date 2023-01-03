@@ -11,6 +11,7 @@ import { LoginBox } from "../styled-components/StyledLoginBox";
 import { GlobalStyle } from "../styles/Globalstyle";
 import Head from "next/head";
 import styled from "styled-components";
+import { useUserLogout } from "../hooks/api/user";
 
 const Body = styled.div`
     display: flex;
@@ -23,25 +24,31 @@ const Body = styled.div`
 `;
 
 interface Props {
-    data: JSON
+    data: JSON;
 }
 
 const Home: NextPage<Props> = ({}) => {
     const [visible, setVisible] = useState<Boolean>(false);
     const [isLoggedIn, setIsLoggedIn] = useLogin();
+    const logout = useUserLogout();
 
     // 프로필 클릭 시 메뉴 나오기
     const handleCilck = () => {
         setVisible(visible ? false : true);
     };
 
-    // 임시 로그인 / 로그아웃 상태 변경
     const handleLogin = () => {
-        setIsLoggedIn(!isLoggedIn);
+        if (!isLoggedIn) {
+            location.href = "/login";
+        } else {
+            logout.mutate();
+            setIsLoggedIn(false);
+        }
     };
 
     const menuRef = useRef<HTMLDivElement>(null);
 
+    // 로그인 메뉴 이외의 곳을 클릭하면 로그인 메뉴가 사라짐
     useEffect(() => {
         function handleClickOutside(e: MouseEvent): void {
             if (

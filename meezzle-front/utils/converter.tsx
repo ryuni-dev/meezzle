@@ -70,6 +70,8 @@ interface Props {
         dday: string,
     }
 }
+
+// Server2Client : vote time converter
 export const ConvertDays4Client = (data:string[]) => {
     let selectedTimes:number[] = [];
     const length = data.length;
@@ -101,6 +103,9 @@ const EncodeTime = (participleTimes: string, day: number): number[] => {
     }
     return timeArr;
 }
+
+// Client2Server : vote time converter
+
 export const ConvertDays4Server = (data:number[]) => {
     try {  
         let setData = Array.from(new Set(data));
@@ -181,7 +186,12 @@ export const Convert4ReqEvents = (
         for (let i = 0; i < eventDay.length; i++) {
             if(eventDay[i]){
                 const day = week[eventDay[i]]
-                selectableDays = [...selectableDays, day]
+                if (day !== undefined) {
+                    selectableDays = [...selectableDays, day]
+                }
+                else {
+                    console.log('undefined data')
+                }
             }
         }
         selectableDays = Array.from(new Set(selectableDays))
@@ -191,13 +201,19 @@ export const Convert4ReqEvents = (
         const endTime = timeInfo.endTime.toISOString();
         const data: Events = {
             title: events.title,
-            selectableDays: selectableDays,
-            startTime: startTime,
-            endTime: endTime,
+            selectableParticipleTimes :{
+                selectedDayOfWeeks: selectableDays,
+                beginTime: Time2String(startTime),
+                endTime: Time2String(endTime),
+            },
             color: events.color,
             description: events.description,
             dday: dday,
         }
 
         return data
+}
+
+const Time2String  = (time: string) => {
+     return time.split("T")[1].split('.')[0]
 }

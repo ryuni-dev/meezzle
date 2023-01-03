@@ -47,7 +47,6 @@ const Nav = styled.nav`
 const LogoContainer = styled.div`
     display: flex;
     float: left;
-    margin-left: 21px;
     margin-right: 50%;
     width: 119px;
     height: 100%;
