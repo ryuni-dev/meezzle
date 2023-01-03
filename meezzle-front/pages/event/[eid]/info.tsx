@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import styled from 'styled-components';
+import styled from "styled-components";
 import { useEffect } from "react";
 
 import Navbar from "../../../components/common/Navbar";
@@ -13,28 +13,28 @@ import { participant, timeSelected, voteNow } from "../../../states/eventVote";
 import { eventDaySelected } from "../../../states/eventDayBox";
 import { btnDisable } from "../../../states/eventCreate";
 import Btn2 from "../../../components/common/Btn2";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import HashLoader from "react-spinners/HashLoader";
 import { useParticipants } from "../../../hooks/api/participants";
 import { useTest } from "../../../hooks/api/auth";
-
+import { useLogin } from "../../../states/login";
 
 const TitleBox = styled.div`
     display: flex;
     flex-direction: row;
     // width: 301px;
     // height: 29px;
-`
+`;
 
 const Highlight = styled.div`
     display: flex;
-    background: linear-gradient(to top, #E3EFFF 50%, transparent 50%);
-    z-index:-1;
-`
+    background: linear-gradient(to top, #e3efff 50%, transparent 50%);
+    z-index: -1;
+`;
 const TitleLargeText = styled.text`
     margin-right: 5px;
-    font-family: 'Pretendard';
+    font-family: "Pretendard";
     font-style: normal;
     font-weight: 600;
     font-size: 19px;
@@ -44,9 +44,9 @@ const TitleLargeText = styled.text`
     letter-spacing: -0.011em;
 
     color: #000000;
-`
+`;
 const TitleMediumText = styled.text`
-    font-family: 'Pretendard';
+    font-family: "Pretendard";
     font-style: normal;
     font-weight: 400;
     font-size: 16px;
@@ -56,7 +56,7 @@ const TitleMediumText = styled.text`
     letter-spacing: -0.011em;
 
     color: #000000;
-`
+`;
 
 const EventExplainDiv = styled.div`
     display: flex;
@@ -66,9 +66,9 @@ const EventExplainDiv = styled.div`
     margin-left: 10%;
     margin-top: 23px;
     margin-bottom: 40px;
-    white-space:pre;
+    white-space: pre;
 
-    font-family: 'Pretendard';
+    font-family: "Pretendard";
     font-style: normal;
     font-weight: 300;
     font-size: 14px;
@@ -80,7 +80,7 @@ const EventExplainDiv = styled.div`
     /* gray900 */
 
     color: #333333;
-`
+`;
 
 const InputExplainDiv = styled.div`
     display: flex;
@@ -89,7 +89,7 @@ const InputExplainDiv = styled.div`
     margin-left: 7%;
     margin-top: 10px;
     margin-bottom: 5px;
-`
+`;
 
 const Body = styled.div`
     display: flex;
@@ -100,8 +100,8 @@ const Body = styled.div`
     max-width: 400px;
     // padding-left: 1%;
     width: 100%;
-    overflow-x:hidden;
-`
+    overflow-x: hidden;
+`;
 
 const Footer = styled.div`
     display: flex;
@@ -110,26 +110,28 @@ const Footer = styled.div`
     flex-direction: column;
     width: 100%;
     height: 120px;
-    position : fixed;
-    bottom : 0;
+    position: fixed;
+    bottom: 0;
     // margin-left: 12%;
     // margin-right: 0px;
-`
+`;
 const A = styled.a`
-max-width: 340px;
-width: 80%;
-height: 59px;
-`
+    max-width: 340px;
+    width: 80%;
+    height: 59px;
+`;
 
 const LoaderBox = styled.div`
     margin-top: 60%;
     display: flex;
     justify-content: center;
     align-items: center;
-`
+`;
 
 const ReviseEvent: NextPage = () => {
-    const { query: { eid } } = useRouter();
+    const {
+        query: { eid },
+    } = useRouter();
     const router = useRouter();
 
     //@ts-ignore
@@ -137,7 +139,7 @@ const ReviseEvent: NextPage = () => {
     const event = isLoading ? null : data[0];
     const [now, setNow] = useRecoilState(voteNow);
     const [selectedDay, setSelectedDay] = useRecoilState(eventDaySelected);
-
+    const [isLoggedIn, setIsLoggedIn] = useLogin();
     const resetBtn = useResetRecoilState(btnDisable);
     const resetUser = useResetRecoilState(participant);
     const resetTime = useResetRecoilState(timeSelected);
@@ -147,107 +149,110 @@ const ReviseEvent: NextPage = () => {
     // const test = useEventCreate_test()
     // console.log(test.data)
 
-    if(!participants.isLoading){
-        console.log(participants.data[0].code)
+    if (!participants.isLoading) {
+        console.log(participants.data[0].code);
     }
-    
+
     const LoginFunc = () => {
-        if(!participants.isLoading){
+        if (!participants.isLoading) {
             return participants.data[0].code;
         }
-    }
+    };
 
-
-    const ErrorPW = () => toast.error('비밀번호가 틀렸어요! 다시 입력해주세요.', {
-        position: "bottom-center",
-        autoClose: 2000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
+    const ErrorPW = () =>
+        toast.error("비밀번호가 틀렸어요! 다시 입력해주세요.", {
+            position: "bottom-center",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
         });
 
-    useEffect(()=> {
+    useEffect(() => {
         resetBtn();
         resetUser();
-    },[]);
+    }, []);
 
     const Click2Vote = () => {
         // ErrorPW();
-        const loginResult =  LoginFunc()
+        const loginResult = LoginFunc();
         console.log(loginResult);
-        if( loginResult === 'SUCCESS'){
+        if (loginResult === "SUCCESS") {
             setNow(event.days[0]);
             setSelectedDay(event.days);
             resetTime();
-            console.log('SUCCESS');
+            console.log("SUCCESS");
             router.push({
-                pathname: '/event/[eid]/vote',
-                query: {eid: eid}
-            })
-        }
-        else {
+                pathname: "/event/[eid]/vote",
+                query: { eid: eid },
+            });
+        } else {
             ErrorPW();
-
         }
-        console.log("click!!")
-    }
-
+        console.log("click!!");
+    };
 
     return (
-        <> 
-        <Navbar>
-            <></>
-        </Navbar>
         <Body>
-            {
-                isLoading ?
+            <Navbar>
+                <></>
+            </Navbar>
+            {isLoading ? (
                 <LoaderBox>
                     <HashLoader color="#3278DE" />
                 </LoaderBox>
-                :
+            ) : (
                 <>
                     <TitleBox>
                         <Highlight>
                             <TitleLargeText>{event.title}</TitleLargeText>
-                            <TitleMediumText>에 가능한 시간을 입력해주세요</TitleMediumText>
+                            <TitleMediumText>
+                                에 가능한 시간을 입력해주세요
+                            </TitleMediumText>
                         </Highlight>
                     </TitleBox>
-                    <EventExplainDiv>
-                        {event.description}
-                    </EventExplainDiv>
-                    <VoteLogin></VoteLogin>
+                    <EventExplainDiv>{event.description}</EventExplainDiv>
+                    {!isLoggedIn && <VoteLogin></VoteLogin>}
                     <Footer>
-                            <Btn text="가능한 시간 입력하러 가기!" color={true} useDisable={true} Click={Click2Vote}></Btn>
-                            <ToastContainer
-                                position="bottom-center"
-                                autoClose={2000}
-                                hideProgressBar
-                                newestOnTop={false}
-                                closeOnClick
-                                rtl={false}
-                                pauseOnFocusLoss
-                                draggable
-                                pauseOnHover={false}
-                                theme="colored"
-                                />
-                        <Link href={{
-                            pathname: '/event/[eid]/view',
-                            query: {eid: eid}
-                        }}>
+                        <Btn
+                            text="가능한 시간 입력하러 가기!"
+                            color={true}
+                            useDisable={!isLoggedIn && true}
+                            Click={Click2Vote}
+                        ></Btn>
+                        <ToastContainer
+                            position="bottom-center"
+                            autoClose={2000}
+                            hideProgressBar
+                            newestOnTop={false}
+                            closeOnClick
+                            rtl={false}
+                            pauseOnFocusLoss
+                            draggable
+                            pauseOnHover={false}
+                            theme="colored"
+                        />
+                        <Link
+                            href={{
+                                pathname: "/event/[eid]/view",
+                                query: { eid: eid },
+                            }}
+                        >
                             <A>
-                                <Btn2 text="통계 바로 보기!" color={false}></Btn2>
+                                <Btn2
+                                    text="통계 바로 보기!"
+                                    color={false}
+                                ></Btn2>
                             </A>
                         </Link>
- 
-                </Footer>
+                    </Footer>
                 </>
-                }            
+            )}
         </Body>
-        </>
-        )
+    );
 };
 
 export default ReviseEvent;
