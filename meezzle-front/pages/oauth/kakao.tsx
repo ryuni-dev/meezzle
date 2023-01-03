@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { useCallback, useEffect } from "react";
 import { useLogin } from "../../states/login";
 import styled from "styled-components";
-import { Oval } from "react-loader-spinner";
+import HashLoader from "react-spinners/HashLoader";
 
 interface ResponseType {
     ok: boolean;
@@ -50,27 +50,17 @@ const Kakao: NextPage = () => {
     }, [loginHandler, authCode, kakaoServerError, router]);
 
     return (
-        <Body>
-            <SpinContainer>
-                <Oval
-                    height={80}
-                    width={80}
-                    color="#3278DE"
-                    wrapperStyle={{}}
-                    wrapperClass=""
-                    visible={true}
-                    ariaLabel="oval-loading"
-                    secondaryColor="#97B0D6"
-                    strokeWidth={2}
-                    strokeWidthSecondary={2}
-                />
-            </SpinContainer>
-        </Body>
+        <LoaderBox>
+            <HashLoader color="#3278DE" />
+        </LoaderBox>
     );
 };
 
-const SpinContainer = styled.div`
-    margin-top: 45vh;
+const LoaderBox = styled.div`
+    margin-top: 60%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `;
 
 const Body = styled.div`
