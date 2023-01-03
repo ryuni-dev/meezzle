@@ -15,16 +15,6 @@ const Kakao: NextPage = () => {
     const router = useRouter();
     const { code: authCode, error: kakaoServerError } = router.query;
 
-<<<<<<< HEAD
-  const loginHandler = useCallback(
-    async (code: string | string[]) => {
-      
-      // 백엔드에 전송
-      const response: ResponseType = await fetch(process.env.NEXT_PUBLIC_API_USER + '', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-=======
     const loginHandler = useCallback(
         async (code: string | string[]) => {
             try {
@@ -46,7 +36,6 @@ const Kakao: NextPage = () => {
             } catch (e) {
                 console.error(e);
             }
->>>>>>> 96a37bc9b2c92fe7d0d46c24f3a592e294011fa8
         },
         [router]
     );
