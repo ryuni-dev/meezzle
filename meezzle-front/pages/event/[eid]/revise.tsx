@@ -46,25 +46,26 @@ const Footer = styled.div`
 `;
 
 const ReviseEvent: NextPage = ({}) => {
-    const { query: { eid } } = useRouter();
-    console.log(eid)
+    const {
+        query: { eid },
+    } = useRouter();
+    console.log(eid);
     //@ts-ignore
     const { data, isLoading } = useEvent(eid);
-    const [ days, setDays ] = useRecoilState(eventDaySelected);
-    const [ event, setEvent ] = useRecoilState(eventInfo);
+    const [days, setDays] = useRecoilState(eventDaySelected);
+    const [event, setEvent] = useRecoilState(eventInfo);
 
     const deleteEvent = useEventDelete();
 
     const DeleteEvent = () => {
         //@ts-ignore
         deleteEvent.mutate(eid);
-    }
-    
-    useEffect(()=> {
-        if(isLoading){
-            console.log('is loading...');
-        }
-        else {
+    };
+
+    useEffect(() => {
+        if (isLoading) {
+            console.log("is loading...");
+        } else {
             // console.log('data', data[0]);
             // setEvent({
             //     ...event,
@@ -96,7 +97,12 @@ const ReviseEvent: NextPage = ({}) => {
             </EventCreate>
             <Footer>
                 <LinkBtn text="수정 완료!" href="/" color={true}></LinkBtn>
-                <LinkBtn text="이벤트 삭제하기" href="/" color={false} Click={DeleteEvent}></LinkBtn>
+                <LinkBtn
+                    text="이벤트 삭제하기"
+                    href="/"
+                    color={false}
+                    Click={DeleteEvent}
+                ></LinkBtn>
             </Footer>
         </Body>
     );

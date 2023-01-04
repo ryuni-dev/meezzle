@@ -1,7 +1,7 @@
 import { NextPage } from "next";
 import Navbar from "../components/common/Navbar";
 import Catchphrase from "../components/login/Catchphrase";
-import kakaoLogin from "../public/assets/kakao_login_large_wide.svg";
+import kakaoLogin from "../public/assets/kakao_login_large_wide.png";
 import GoogleLogin from "../components/login/GoogleLogin";
 import Image from "next/image";
 import Script from "next/script";
@@ -54,6 +54,7 @@ const LoginContainer = styled.div`
     display: flex;
     flex-direction: column;
     margin-top: 96px;
+    width: 80%;
 `;
 
 const Body = styled.div`
