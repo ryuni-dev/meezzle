@@ -1,4 +1,4 @@
-import type { NextPage } from "next";
+import type { GetServerSideProps, NextPage } from "next";
 import styled from "styled-components";
 import { useEffect } from "react";
 
@@ -129,17 +129,19 @@ const LoaderBox = styled.div`
     align-items: center;
 `;
 
-const ReviseEvent: NextPage = () => {
-    const {
-        query: { eid },
-    } = useRouter();
-    const router = useRouter();
-    console.log('eid', eid)
+interface Props {
+    params: {
+        eid: string
+    }
+}
 
-    //@ts-ignore
+const ReviseEvent: NextPage<Props> = ({ params }) => {
+    const router = useRouter();
+    const { eid } = params;
+
     const { data, isLoading } = useEvent(eid);
-    const event = isLoading ? null : data[0];
-    console.log(data)
+    const event = isLoading ? null : data.data;
+    console.log('data', event)
     const [now, setNow] = useRecoilState(voteNow);
     const [selectedDay, setSelectedDay] = useRecoilState(eventDaySelected);
     const [isLoggedIn, setIsLoggedIn] = useLogin();
@@ -150,9 +152,6 @@ const ReviseEvent: NextPage = () => {
     const guestLogin = useGuestLogin(eid ? eid : "", user);
     const participants = useParticipants();
     const [token, setToken] = useRecoilState(guestToken);
-
-    // const test = useEventCreate_test()
-    // console.log(test.data)
 
     if (!participants.isLoading) {
         console.log(participants.data[0].code);
@@ -224,13 +223,13 @@ const ReviseEvent: NextPage = () => {
                 <>
                     <TitleBox>
                         <Highlight>
-                            <TitleLargeText>{event.title}</TitleLargeText>
+                            <TitleLargeText>{event.event.title}</TitleLargeText>
                             <TitleMediumText>
                                 에 가능한 시간을 입력해주세요
                             </TitleMediumText>
                         </Highlight>
                     </TitleBox>
-                    <EventExplainDiv>{event.description}</EventExplainDiv>
+                    <EventExplainDiv>{event.event.description}</EventExplainDiv>
                     {!isLoggedIn && <VoteLogin></VoteLogin>}
                     <Footer>
                         <Btn
@@ -270,5 +269,20 @@ const ReviseEvent: NextPage = () => {
         </Body>
     );
 };
+
+
+export const getServerSideProps: GetServerSideProps = async(context) => {
+    try {
+        return {
+            props: {
+                params: context.params
+            }
+        }
+    }
+    catch(e){
+        console.log(e);
+        return {props: {}}
+    }
+}
 
 export default ReviseEvent;

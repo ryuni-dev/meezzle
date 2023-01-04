@@ -45,8 +45,14 @@ const Footer = styled.div`
     padding-left: 2vw;
 `;
 
-const ReviseEvent: NextPage = ({}) => {
-    const { query: { eid } } = useRouter();
+interface Props {
+    params: {
+        eid: string
+    }
+}
+
+const ReviseEvent: NextPage<Props> = ({ params }) => {
+    const { eid } = params;
     console.log(eid)
     //@ts-ignore
     const { data, isLoading } = useEvent(eid);
@@ -102,32 +108,18 @@ const ReviseEvent: NextPage = ({}) => {
     );
 };
 
-// export const getServerSideProps: GetServerSideProps = async(context) => {
-//     try {
-//         // const { query: { eid } } = useRouter();
-//         const eid = context.params;
-//         console.log(eid);
-//         //@ts-ignore
-//         const { data, isLoading } = useEvent(eid);
-//         console.log('aa', data)
-//         return {props: {data: data[0]}}
-
-//         // const res = await fetch(`http://localhost:3000/api/event`);
-//         // if(isLoading){
-//         //     console.log('is loading');
-//         // }
-//         // else{
-//         // }
-//         // if(res.status === 200) {
-//         //     const data = await res.json();
-//         //     return {props: {data: data}}
-//         // }
-//         // return {props: {}};
-//     }
-//     catch(e){
-//         console.log(e);
-//         return {props: {}}
-//     }
-// }
+export const getServerSideProps: GetServerSideProps = async(context) => {
+    try {
+        return {
+            props: {
+                params: context.params
+            }
+        }
+    }
+    catch(e){
+        console.log(e);
+        return {props: {}}
+    }
+}
 
 export default ReviseEvent;
