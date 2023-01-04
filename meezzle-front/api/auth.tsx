@@ -53,7 +53,7 @@ export const getAuth2 = async () => {
 export const getGuestAuth = async (eid: string | string[], user: user) => {
     try {
         const res = await axios.post(
-            `${process.env.NEXT_PUBLIC_API_EVENT}/${eid}/guests/login`,
+            `${process.env.NEXT_PUBLIC_API_EVENTS}/${eid}/guests/login`,
             {
                 name: user.name,
                 password: user.password,

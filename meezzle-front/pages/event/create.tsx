@@ -88,8 +88,7 @@ const CreatePage: NextPage = () => {
     const [timeInfo, setTimeInfo] = useRecoilState(eventTimeInfo);
     const [selected, setSelected] = useRecoilState(eventDaySelected);
 
-
-    const createEvent = useEventCreate_test()
+    const createEvent = useEventCreate_test();
 
     const ReverseStackJSX = (stage: number): JSX.Element => {
         return (
@@ -122,9 +121,12 @@ const CreatePage: NextPage = () => {
             setStage((st) => st + 1);
         } else if (stage === 5) {
             setStage(0);
-            //@ts-ignore
-            const data = JSON.stringify(Convert4ReqEvents(event, timeInfo, selected)); 
-            console.log("data",data);
+
+            const data = JSON.stringify(
+                //@ts-ignore
+                Convert4ReqEvents(event, timeInfo, selected)
+            );
+            console.log("data", data);
             createEvent.mutate(data);
         }
     };
