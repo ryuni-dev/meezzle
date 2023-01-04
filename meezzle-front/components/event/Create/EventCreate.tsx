@@ -32,8 +32,11 @@ interface EventCreateProps {
 const EventCreate = ({ text, children }: EventCreateProps) => {
     return (
         <Container>
-            <Header text={text}></Header>
-            <BodyDiv>{children}</BodyDiv>
+            <Header text={text}>
+            </Header>
+            <BodyDiv>
+                {children}
+            </BodyDiv>
         </Container>
     );
 };

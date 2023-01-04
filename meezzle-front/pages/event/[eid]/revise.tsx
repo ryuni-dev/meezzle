@@ -49,6 +49,7 @@ const ReviseEvent: NextPage = ({}) => {
     const {
         query: { eid },
     } = useRouter();
+    console.log(eid);
     //@ts-ignore
     const { data, isLoading } = useEvent(eid);
     const [days, setDays] = useRecoilState(eventDaySelected);
@@ -100,6 +101,7 @@ const ReviseEvent: NextPage = ({}) => {
                     text="이벤트 삭제하기"
                     href="/"
                     color={false}
+                    Click={DeleteEvent}
                 ></LinkBtn>
             </Footer>
         </Body>

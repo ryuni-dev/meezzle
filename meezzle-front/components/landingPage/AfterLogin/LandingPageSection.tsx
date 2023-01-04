@@ -28,9 +28,9 @@ const LandingPageSection: NextComponentType = () => {
     const events = data;
 
     useEffect(()=> {
+        // 서버 지연 생각해서 코드 수정 필요함
         refetch();
     },[]);
-
 
     return (
         <>

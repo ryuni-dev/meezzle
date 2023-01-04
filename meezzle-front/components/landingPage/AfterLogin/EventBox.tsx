@@ -4,7 +4,7 @@ import user from "../../../public/assets/user.svg";
 import share from "../../../public/assets/share.svg";
 import revise from "../../../public/assets/revise.svg";
 import Link from "next/link";
-import { useEvent, useEvents } from "../../../hooks/api/events";
+import { useEvent } from "../../../hooks/api/events";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { eventInfo } from "../../../states/eventInfo";
 

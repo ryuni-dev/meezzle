@@ -87,7 +87,7 @@ const CreatePage: NextPage = () => {
     const [timeInfo, setTimeInfo] = useRecoilState(eventTimeInfo);
     const [selected, setSelected] = useRecoilState(eventDaySelected);
 
-    console.log(timeInfo.dueTime.toISOString());
+    const createEvent = useEventCreate_test();
 
     const ReverseStackJSX = (stage: number): JSX.Element => {
         return (
