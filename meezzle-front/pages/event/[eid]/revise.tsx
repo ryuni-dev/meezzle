@@ -45,26 +45,31 @@ const Footer = styled.div`
     padding-left: 2vw;
 `;
 
-const ReviseEvent: NextPage = ({}) => {
-    const { query: { eid } } = useRouter();
+interface Props {
+    params: {
+        eid: string
+    }
+}
+
+const ReviseEvent: NextPage<Props> = ({ params }) => {
+    const { eid } = params;
     console.log(eid)
     //@ts-ignore
     const { data, isLoading } = useEvent(eid);
-    const [ days, setDays ] = useRecoilState(eventDaySelected);
-    const [ event, setEvent ] = useRecoilState(eventInfo);
+    const [days, setDays] = useRecoilState(eventDaySelected);
+    const [event, setEvent] = useRecoilState(eventInfo);
 
     const deleteEvent = useEventDelete();
 
     const DeleteEvent = () => {
         //@ts-ignore
         deleteEvent.mutate(eid);
-    }
-    
-    useEffect(()=> {
-        if(isLoading){
-            console.log('is loading...');
-        }
-        else {
+    };
+
+    useEffect(() => {
+        if (isLoading) {
+            console.log("is loading...");
+        } else {
             // console.log('data', data[0]);
             // setEvent({
             //     ...event,
@@ -96,38 +101,29 @@ const ReviseEvent: NextPage = ({}) => {
             </EventCreate>
             <Footer>
                 <LinkBtn text="수정 완료!" href="/" color={true}></LinkBtn>
-                <LinkBtn text="이벤트 삭제하기" href="/" color={false} Click={DeleteEvent}></LinkBtn>
+                <LinkBtn
+                    text="이벤트 삭제하기"
+                    href="/"
+                    color={false}
+                    Click={DeleteEvent}
+                ></LinkBtn>
             </Footer>
         </Body>
     );
 };
 
-// export const getServerSideProps: GetServerSideProps = async(context) => {
-//     try {
-//         // const { query: { eid } } = useRouter();
-//         const eid = context.params;
-//         console.log(eid);
-//         //@ts-ignore
-//         const { data, isLoading } = useEvent(eid);
-//         console.log('aa', data)
-//         return {props: {data: data[0]}}
-
-//         // const res = await fetch(`http://localhost:3000/api/event`);
-//         // if(isLoading){
-//         //     console.log('is loading');
-//         // }
-//         // else{
-//         // }
-//         // if(res.status === 200) {
-//         //     const data = await res.json();
-//         //     return {props: {data: data}}
-//         // }
-//         // return {props: {}};
-//     }
-//     catch(e){
-//         console.log(e);
-//         return {props: {}}
-//     }
-// }
+export const getServerSideProps: GetServerSideProps = async(context) => {
+    try {
+        return {
+            props: {
+                params: context.params
+            }
+        }
+    }
+    catch(e){
+        console.log(e);
+        return {props: {}}
+    }
+}
 
 export default ReviseEvent;
