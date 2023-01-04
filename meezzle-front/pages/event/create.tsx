@@ -121,8 +121,9 @@ const CreatePage: NextPage = () => {
             setStage((st) => st + 1);
         } else if (stage === 5) {
             setStage(0);
-            //@ts-ignore
+
             const data = JSON.stringify(
+                //@ts-ignore
                 Convert4ReqEvents(event, timeInfo, selected)
             );
             console.log("data", data);
