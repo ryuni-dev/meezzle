@@ -3,7 +3,11 @@ import * as api from "../../api/event";
 import { Events } from "../../types/EventProps";
 
 export const useEvent = (eid: string) => {
-    return useQuery(["event", eid], () => api.getEvent(eid));
+    return useQuery(["event", eid], () => api.getEvent(eid), {
+        retry: 1,
+        refetchOnWindowFocus: false,
+        enabled: !!eid,
+    });
 };
 
 // export const useEvents = () => {
