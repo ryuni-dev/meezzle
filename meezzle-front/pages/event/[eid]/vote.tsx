@@ -167,9 +167,6 @@ const ReviseEvent: NextPage<Props> = ( { params }) => {
         }
     };
 
-    // useEffect(() => {
-    //     // setNow(selectedDay[0]);
-    // },[]);
     useEffect(() => {
         if (!isLoading) {
             const days = Convert4ResEventDays(
