@@ -18,6 +18,7 @@ import { eventInfo, eventTimeInfo } from "../../states/eventInfo";
 import { eventDaySelected } from "../../states/eventDayBox";
 import { Convert4ReqEvents, ConvertDays4Server } from "../../utils/converter";
 import { postCreate_test } from "../../api/event";
+import { useEventCreate_test } from "../../hooks/api/events";
 
 const Body = styled.div`
     display: flex;
