@@ -1,8 +1,10 @@
 import axios from "axios";
 
-export const getParticiapants = async () => {
+export const getParticiapants = async (uuid: string) => {
     try {
-        const res = await axios.get("/api/participants");
+        const res = await axios.get(
+            `${process.env.NEXT_PUBLIC_API_EVENTS}/${uuid}`
+        );
         if (res.status === 200) {
             const data = await res.data;
             return data;

@@ -122,6 +122,26 @@ const A = styled.a`
     height: 59px;
 `;
 
+const ShareContainer = styled.div`
+    white-space: nowrap;
+    margin-top: 8px;
+
+    font-family: "Pretendard";
+    cursor: pointer;
+
+    & img {
+        height: 24px;
+        vertical-align: middle;
+    }
+`;
+
+const ShareBtn = styled.div`
+    white-space: nowrap;
+    margin-top: 12px;
+    font-family: "Pretendard";
+    cursor: pointer;
+`;
+
 const LoaderBox = styled.div`
     margin-top: 60%;
     display: flex;
@@ -141,7 +161,7 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
 
     const { data, isLoading } = useEvent(eid);
     const event = isLoading ? null : data.data;
-    // console.log("data", event);
+
     const [now, setNow] = useRecoilState(voteNow);
     const [selectedDay, setSelectedDay] = useRecoilState(eventDaySelected);
     const [isLoggedIn, setIsLoggedIn] = useLogin();
@@ -191,7 +211,6 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
         setSelectedDay(days);
         setNow(days[0]);
         resetTime();
-        // console.log("SUCCESS");
         router.push({
             pathname: "/event/[eid]/vote",
             query: { eid: eid },
@@ -214,10 +233,45 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
         // console.log("click!!");
     };
 
+    // useEffect(() => {
+    //     if (window.Kakao) {
+    //         window.Kakao.Share.createDefaultButton({
+    //             container: "#kakaotalk-sharing-btn",
+    //             objectType: "text",
+    //             text: `${event.event.title} 일정에서 가능한 시간을 입력해보세요.`,
+    //             link: {
+    //                 mobileWebUrl: `https://localhost:3000/event/${eid}/info`,
+    //                 webUrl: `https://localhost:3000/event/${eid}/info`,
+    //             },
+    //         });
+    //     }
+    // }, []);
+    const onShare = () => {
+        navigator.clipboard
+            .writeText(window.location.href)
+            .then(() => {
+                // 토스트 메세지 복사되었습니다 띄우기
+                console.log("Text copied to clipboard...");
+            })
+            .catch((err) => {
+                console.log("Something went wrong", err);
+            });
+    };
+
     return (
         <Body>
             <Navbar>
-                <></>
+                <ShareContainer>
+                    {/* <a id="kakaotalk-sharing-btn">
+                        <img
+                            src="https://developers.kakao.com/assets/img/about/logos/kakaotalksharing/kakaotalk_sharing_btn_medium.png"
+                            alt="카카오톡 공유 보내기 버튼"
+                        />
+                        <span> 공유하기</span>
+                    </a> */}
+
+                    <ShareBtn onClick={onShare}>공유하기</ShareBtn>
+                </ShareContainer>
             </Navbar>
             {isLoading ? (
                 <LoaderBox>

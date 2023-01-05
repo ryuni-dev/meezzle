@@ -1,6 +1,6 @@
-import { useQuery } from '@tanstack/react-query';
-import * as api from '../../api/participants';
+import { useQuery } from "@tanstack/react-query";
+import * as api from "../../api/participants";
 
-export const useParticipants = () => {
-    return useQuery(['participants'], () => api.getParticiapants());
-}
+export const useParticipants = (uuid: string) => {
+    return useQuery(["participants"], () => api.getParticiapants(uuid));
+};
