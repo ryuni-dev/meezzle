@@ -19,7 +19,7 @@ import HashLoader from "react-spinners/HashLoader";
 import { useParticipants } from "../../../hooks/api/participants";
 import { useGuestLogin, useTest } from "../../../hooks/api/auth";
 import { useLogin } from "../../../states/login";
-import { guestToken } from "../../../states/guest";
+import { guestLogined } from "../../../states/guest";
 import { Convert4ResEventDays } from "../../../utils/converter";
 
 const TitleBox = styled.div`
@@ -132,8 +132,8 @@ const LoaderBox = styled.div`
 
 interface Props {
     params: {
-        eid: string
-    }
+        eid: string;
+    };
 }
 
 const ReviseEvent: NextPage<Props> = ({ params }) => {
@@ -142,7 +142,7 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
 
     const { data, isLoading } = useEvent(eid);
     const event = isLoading ? null : data.data;
-    console.log('data', event)
+    console.log("data", event);
     const [now, setNow] = useRecoilState(voteNow);
     const [selectedDay, setSelectedDay] = useRecoilState(eventDaySelected);
     const [isLoggedIn, setIsLoggedIn] = useLogin();
@@ -152,7 +152,7 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
     const resetTime = useResetRecoilState(timeSelected);
     const guestLogin = useGuestLogin(eid ? eid : "", user);
     const participants = useParticipants();
-    const [token, setToken] = useRecoilState(guestToken);
+    const [isGuest, setIsGuest] = useRecoilState(guestLogined);
 
     if (!participants.isLoading) {
         console.log(participants.data[0].code);
@@ -184,10 +184,11 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
     const Click2Vote = () => {
         if (!isLoggedIn) {
             guestLogin.mutate();
+            setIsGuest(true);
         }
         const days = Convert4ResEventDays(
             data.data.selectableParticipleTimes.selectedDayOfWeeks
-            )
+        );
         setSelectedDay(days);
         setNow(days[0]);
         resetTime();
@@ -274,19 +275,17 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
     );
 };
 
-
-export const getServerSideProps: GetServerSideProps = async(context) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
     try {
         return {
             props: {
-                params: context.params
-            }
-        }
-    }
-    catch(e){
+                params: context.params,
+            },
+        };
+    } catch (e) {
         console.log(e);
-        return {props: {}}
+        return { props: {} };
     }
-}
+};
 
 export default ReviseEvent;
