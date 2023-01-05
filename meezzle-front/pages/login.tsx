@@ -1,6 +1,5 @@
 import { NextPage } from "next";
 import Navbar from "../components/common/Navbar";
-import Catchphrase from "../components/login/Catchphrase";
 import kakaoLogin from "../public/assets/kakao_login_large_wide.png";
 import GoogleLogin from "../components/login/GoogleLogin";
 import Image from "next/image";
@@ -11,6 +10,7 @@ import { useTest } from "../hooks/api/auth";
 import Link from "next/link";
 import { getAuth } from "../api/auth";
 import { useState, useEffect } from "react";
+import character from "../public/assets/character.svg";
 
 const Login: NextPage = () => {
     const router = useRouter();
@@ -34,9 +34,14 @@ const Login: NextPage = () => {
                 async
                 defer
             ></Script>
-            <Navbar />
-            <Catchphrase />
+            <NavContainer>
+                <Catchphrase>약속은 편하게 모임은 즐겁게</Catchphrase>
+                <Navbar />
+            </NavContainer>
             <LoginContainer>
+                <CharacterContainer>
+                    <Image src={character}></Image>
+                </CharacterContainer>
                 <Image
                     src={kakaoLogin}
                     onClick={KakaoLogin}
@@ -55,6 +60,41 @@ const LoginContainer = styled.div`
     flex-direction: column;
     margin-top: 96px;
     width: 80%;
+`;
+
+const CharacterContainer = styled.div`
+    margin: 0 auto;
+    margin-bottom: 60px;
+`;
+
+const NavContainer = styled.div`
+    margin-right: 5vw;
+`;
+
+const Catchphrase = styled.div`
+    position: relative;
+    font-family: "bitbit";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 27px;
+    line-height: 150%;
+
+    top: 40px;
+    letter-spacing: -0.011em;
+
+    color: #bfc8e8;
+
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    // for Galaxy fold
+    @media (max-width: 300px) {
+        font-size: 22px;
+    }
 `;
 
 const Body = styled.div`
