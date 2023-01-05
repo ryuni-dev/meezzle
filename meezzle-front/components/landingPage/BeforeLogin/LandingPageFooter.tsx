@@ -23,6 +23,7 @@ const Button = styled.button`
     text-align: center;
     font-family: "Pretendard";
     background-color: #ff9a3e;
+    font-size: 15px;
     color: white;
     border-radius: 15px;
     border: none;
