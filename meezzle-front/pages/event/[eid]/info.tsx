@@ -1,6 +1,6 @@
 import type { GetServerSideProps, NextPage } from "next";
 import styled from "styled-components";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import Navbar from "../../../components/common/Navbar";
 import VoteLogin from "../../../components/event/Vote/Login";
@@ -123,6 +123,19 @@ const A = styled.a`
     height: 59px;
 `;
 
+const ShareContainer = styled.div`
+    white-space: nowrap;
+    margin-top: 8px;
+
+    font-family: "Pretendard";
+    cursor: pointer;
+
+    & img {
+        height: 24px;
+        vertical-align: middle;
+    }
+`;
+
 const LoaderBox = styled.div`
     margin-top: 60%;
     display: flex;
@@ -215,10 +228,32 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
         // console.log("click!!");
     };
 
+    // useEffect(() => {
+    //     if (window.Kakao) {
+    //         window.Kakao.Share.createDefaultButton({
+    //             container: "#kakaotalk-sharing-btn",
+    //             objectType: "text",
+    //             text: `${event.event.title} 일정에서 가능한 시간을 입력해보세요.`,
+    //             link: {
+    //                 mobileWebUrl: `https://localhost:3000/event/${eid}/info`,
+    //                 webUrl: `https://localhost:3000/event/${eid}/info`,
+    //             },
+    //         });
+    //     }
+    // }, []);
+
     return (
         <Body>
             <Navbar>
-                <></>
+                <ShareContainer>
+                    {/* <a id="kakaotalk-sharing-btn">
+                        <img
+                            src="https://developers.kakao.com/assets/img/about/logos/kakaotalksharing/kakaotalk_sharing_btn_medium.png"
+                            alt="카카오톡 공유 보내기 버튼"
+                        />
+                        <span> 공유하기</span>
+                    </a> */}
+                </ShareContainer>
             </Navbar>
             {isLoading ? (
                 <LoaderBox>
