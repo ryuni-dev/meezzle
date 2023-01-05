@@ -64,6 +64,7 @@ const LandingPageSection: NextComponentType = () => {
                             title={e.event.title}
                             userNum={e.eventParticipants.length}
                             color={e.event.color}
+                            dday={e.event.dday}
                             ></EventBox>
                         </a>
                     </Link>
