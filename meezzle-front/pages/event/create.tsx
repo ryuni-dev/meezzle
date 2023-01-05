@@ -78,6 +78,7 @@ const CreatePage: NextPage = () => {
 
     const resetEvent = useResetRecoilState(eventInfo);
     const resetDays = useResetRecoilState(eventDaySelected);
+    const resetTimes = useResetRecoilState(eventTimeInfo);
     const resetStage = useResetRecoilState(inputStage);
     const resetBtn = useResetRecoilState(btnDisable);
     const [stage, setStage] = useRecoilState(inputStage);
@@ -111,6 +112,7 @@ const CreatePage: NextPage = () => {
     useEffect(() => {
         resetEvent();
         resetDays();
+        resetTimes();
         resetStage();
         resetBtn();
     }, []);
