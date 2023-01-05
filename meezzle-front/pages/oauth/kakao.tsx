@@ -1,5 +1,5 @@
 import axios from "axios";
-import { NextPage } from "next";
+import { GetServerSideProps, NextPage } from "next";
 import { useRouter } from "next/router";
 import { useCallback, useEffect } from "react";
 import { useLogin } from "../../states/login";
@@ -10,11 +10,17 @@ interface ResponseType {
     ok: boolean;
     error?: any;
 }
-const Kakao: NextPage = () => {
+
+type Props = { host: string | null };
+
+const Kakao: NextPage<Props> = ({ host }) => {
     const [loginState, setLoginState] = useLogin();
     const router = useRouter();
     const { code: authCode, error: kakaoServerError } = router.query;
-
+    let requestUrl = 'localhost:3000/oauth/kakao'
+    if (host !== "localhost:3000"){
+        requestUrl = "https://meezzle.vercel.app/oauth/kakao"
+    }
     const loginHandler = useCallback(
         async (code: string | string[]) => {
             try {
@@ -22,7 +28,7 @@ const Kakao: NextPage = () => {
                     .get(process.env.NEXT_PUBLIC_KAKAO_LOGIN_REDIRECT + "", {
                         params: {
                             code: code,
-                            requestUrl: "http://localhost:3000/oauth/kakao",
+                            requestUrl: requestUrl,
                         },
                     })
                     .then((res) => {
@@ -54,6 +60,14 @@ const Kakao: NextPage = () => {
         </LoaderBox>
     );
 };
+
+export const getServerSideProps: GetServerSideProps = async (context) => (
+    { 
+        props: { 
+            host: context.req.headers.host || null 
+        } 
+    }
+);
 
 const LoaderBox = styled.div`
     margin-top: 60%;
