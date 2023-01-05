@@ -1,4 +1,6 @@
 import { Events, EventTimeInfo } from "../types/EventProps"
+import setHours from "date-fns/setHours";
+import setMinutes from "date-fns/setMinutes";
 
 enum week {
     SUNDAY = 1,
@@ -222,4 +224,12 @@ export const Convert4ResEventDays = (selectedDayOfWeeks: string[]) => {
     });
 
     return result
+}
+
+export const ISO2Date = (iso: string) => {
+    const splits = iso.split(':');
+    const hour = parseInt(splits[0]);
+    const minute = parseInt(splits[1]);
+
+    return setHours(setMinutes(new Date(), minute), hour);
 }

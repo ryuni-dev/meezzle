@@ -105,14 +105,7 @@ const TextSmall = styled.text`
 `
 const EventDue: NextComponentType = ()=> {
     const [timeInfo, setTimeInfo] = useRecoilState(eventTimeInfo);
-    // const [dueDate, setDueDate] = useRecoilState(eventDueDate);
-    // const [dueTime, setDueTime] = useRecoilState(eventDueTime);
-
     const [disable, setDisable] = useState(false);
-
-    // const IsDisable = (): void => {
-
-    // }
 
     return (
         <ContainerInput>
