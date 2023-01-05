@@ -2,7 +2,6 @@ import type { GetServerSideProps, NextPage } from "next";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
 
-import LinkBtn from "../../../components/common/LinkBtn";
 import Navbar from "../../../components/common/Navbar";
 import DayBar from "../../../components/event/Vote/DayBar";
 import { voteNow } from "../../../states/eventVote";
@@ -13,10 +12,6 @@ import Btn from "../../../components/common/Btn";
 import { useRouter } from "next/router";
 import { useEvent } from "../../../hooks/api/events";
 import { Convert4ResEventDays } from "../../../utils/converter";
-import axios from "axios";
-import { dehydrate, QueryClient } from "@tanstack/react-query";
-import Link from "next/link";
-import Btn2 from "../../../components/common/Btn2";
 import { guestLogined } from "../../../states/guest";
 
 const Body = styled.div`
@@ -55,11 +50,10 @@ interface Props {
 }
 
 const ReviseEvent: NextPage<Props> = ({ params }) => {
-    //@ts-ignore
     const { eid } = params;
 
     const { data, isLoading } = useEvent(eid);
-    console.log(data);
+    // console.log(data);
 
     const [now, setNow] = useRecoilState(voteNow);
     const [selectedDay, setSelectedDay] = useRecoilState(eventDaySelected);
@@ -135,15 +129,6 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
                         useDisable={false}
                         Click={onViewInfo}
                     ></Btn>
-                    {/* <LinkBtn
-                        text="< 이벤트 설명 보기"
-                        href={{
-                            pathname: "/event/[eid]/view",
-                            query: { eid: eid },
-                        }}
-                        color={false}
-                        Click={GoPrevDay}
-                    ></LinkBtn> */}
                 </>
             );
         } else if (now === selectedDay[selectedDay.length - 1]) {

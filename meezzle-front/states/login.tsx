@@ -1,8 +1,7 @@
-import { atom, useSetRecoilState, AtomEffect, RecoilEnv } from "recoil";
+import { atom, RecoilEnv } from "recoil";
 import { recoilPersist } from "recoil-persist";
 import { useRecoilState } from "recoil";
 import { useState, useEffect } from "react";
-import { v1 } from "uuid";
 
 const sessionStorage =
     typeof window !== "undefined" ? window.sessionStorage : undefined;

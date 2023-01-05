@@ -1,6 +1,4 @@
-import { useRecoilState, useRecoilValue } from 'recoil';
 import styled from 'styled-components';
-import { btnDisable } from '../../states/eventCreate';
 
 interface Props {
     isColor: boolean | true;

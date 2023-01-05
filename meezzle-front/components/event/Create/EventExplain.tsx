@@ -1,6 +1,5 @@
 import { useRecoilState } from "recoil";
 
-import { eventExplain } from "../../../states/eventCreate";
 import InputTextLarge from "../CreateElement/InputTextLarge";
 import TextBlackMedium from "../../common/TextBlackMedium";
 import TextGraySmall from "../../common/TextGraySmall";
@@ -9,13 +8,11 @@ import { eventInfo } from "../../../states/eventInfo";
 
 const EventExplain = () => {
     const [event, setEvent] = useRecoilState(eventInfo);
-    // const [explain, setExplain] = useRecoilState(eventExplain);
     const OnChange = (e: React.FormEvent<HTMLTextAreaElement>): void => {
         setEvent({
             ...event,
             description: e.currentTarget.value,
         });
-        // setExplain(e.currentTarget.value)
     };
 
     return (

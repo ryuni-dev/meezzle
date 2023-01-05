@@ -1,6 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import * as api from "../../api/user";
-import { useLogin } from "../../states/login";
 
 interface PatchUser {
     name: string;

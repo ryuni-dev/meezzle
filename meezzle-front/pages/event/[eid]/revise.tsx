@@ -1,7 +1,6 @@
 import type { GetServerSideProps, NextPage } from "next";
 import { useRecoilState } from "recoil";
-import styled, { keyframes } from "styled-components";
-// import { CSSTransition } from 'react-transition-group'
+import styled from "styled-components";
 import setHours from "date-fns/setHours";
 import setMinutes from "date-fns/setMinutes";
 
@@ -15,11 +14,9 @@ import EventExplain from "../../../components/event/Create/EventExplain";
 
 import LinkBtn from "../../../components/common/LinkBtn";
 import Navbar from "../../../components/common/Navbar";
-import { useRouter } from "next/router";
 import { useEvent, useEventDelete } from "../../../hooks/api/events";
 import { eventInfo } from "../../../states/eventInfo";
 import { eventDaySelected } from "../../../states/eventDayBox";
-import { moveMessagePortToContext } from "worker_threads";
 import { useEffect } from "react";
 import { Convert4ResEventDays } from "../../../utils/converter";
 
@@ -63,7 +60,6 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
     const deleteEvent = useEventDelete();
 
     const DeleteEvent = () => {
-        //@ts-ignore
         deleteEvent.mutate(eid);
     };
 
@@ -71,7 +67,6 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
         if (isLoading) {
             console.log("is loading...");
         } else {
-            // console.log('data', data[0]);
             setEvent({
                 ...event,
                 title: data.data.event.title,

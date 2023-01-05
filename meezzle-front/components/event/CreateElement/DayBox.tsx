@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 
-
 const Box = styled.div`
     width: 45px;
     height: 47px;

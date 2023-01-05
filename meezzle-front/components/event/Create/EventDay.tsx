@@ -5,7 +5,7 @@ import TextBlackMedium from "../../common/TextBlackMedium";
 import TextGraySmall from "../../common/TextGraySmall";
 import ContainerInput from "../CreateElement/ContainerInput";
 import React, { useCallback, useEffect, useState } from "react";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { eventDayCurrent, eventDaySelected } from "../../../states/eventDayBox";
 import { btnDisable } from "../../../states/eventCreate";
 

@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import { useRecoilState, useResetRecoilState } from "recoil";
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 
 import { useEffect, useRef } from "react";
 
@@ -16,8 +16,7 @@ import { btnDisable, inputStage } from "../../states/eventCreate";
 import LinkBtn from "../../components/common/LinkBtn";
 import { eventInfo, eventTimeInfo } from "../../states/eventInfo";
 import { eventDaySelected } from "../../states/eventDayBox";
-import { Convert4ReqEvents, ConvertDays4Server } from "../../utils/converter";
-import { postCreate_test } from "../../api/event";
+import { Convert4ReqEvents } from "../../utils/converter";
 import { useEventCreate_test } from "../../hooks/api/events";
 
 const Body = styled.div`
@@ -43,14 +42,14 @@ const Footer = styled.div`
     position: fixed;
     bottom: 0;
 `;
-const Move = keyframes` 
-from {
-  transform: translateY(0%);
-}
-to {
-  transform: translateY(10%);
-}
-  `;
+// const Move = keyframes` 
+// from {
+//   transform: translateY(0%);
+// }
+// to {
+//   transform: translateY(10%);
+// }
+//   `;
 
 // const TransitionDiv = styled.div`
 //     animation: ${Move} 1s linear forwards infinite;
@@ -124,9 +123,8 @@ const CreatePage: NextPage = () => {
 
             const data = JSON.stringify(
                 //@ts-ignore
-                Convert4ReqEvents(event, timeInfo, selected)
+                Convert4ReqEvents(event, timeInfo, selected)    // type 수정 필요
             );
-            console.log("data", data);
             createEvent.mutate(data);
         }
     };
@@ -134,7 +132,6 @@ const CreatePage: NextPage = () => {
     return (
         <Body>
             <EventCreate text="이벤트 생성">
-                {/* {StageManager(stage)} */}
                 {ReverseStackJSX(stage)}
             </EventCreate>
             <Footer>

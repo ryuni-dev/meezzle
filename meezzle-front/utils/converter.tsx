@@ -1,5 +1,3 @@
-import { useRecoilState } from "recoil"
-import { eventInfo, eventTimeInfo } from "../states/eventInfo"
 import { Events, EventTimeInfo } from "../types/EventProps"
 
 enum week {
@@ -176,12 +174,7 @@ export const Convert4ReqEvents = (
     ): Events => {
 
         const dday = timeInfo.dueTime.toISOString();
-        // for(let i = 0; i < length; i++){
-    //     if(data[i]){
-    //         const day = week[data[i]]
-    //         selectedTimes = [...selectedTimes, day];
-    //     }
-    // }
+
         let selectableDays:string[] = [];
         for (let i = 0; i < eventDay.length; i++) {
             if(eventDay[i]){
@@ -195,8 +188,7 @@ export const Convert4ReqEvents = (
             }
         }
         selectableDays = Array.from(new Set(selectableDays))
-        // const temp = eventDay.map(eventDay => week[eventDay]);
-        // const selectableDays = Array.from(new Set(temp));
+
         const startTime = timeInfo.startTime.toISOString();
         const endTime = timeInfo.endTime.toISOString();
         const data: Events = {
