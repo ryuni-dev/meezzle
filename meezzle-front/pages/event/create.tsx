@@ -64,7 +64,7 @@ to {
 const BottomDiv = styled.div`
     display: flex;
     width: 100%;
-    margin-bottom: 70px;
+    margin-bottom: 75px;
 `;
 
 const CreatePage: NextPage = () => {
@@ -98,8 +98,8 @@ const CreatePage: NextPage = () => {
                 {stage > 2 ? <EventDue></EventDue> : null}
                 {stage > 1 ? <EventTime></EventTime> : null}
                 {stage > 0 ? <EventDay></EventDay> : null}
+                <EventName inputRef={nameRef}></EventName>
                 <BottomDiv>
-                    <EventName inputRef={nameRef}></EventName>
                 </BottomDiv>
             </>
         );
