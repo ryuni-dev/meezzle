@@ -20,6 +20,7 @@ const Button = styled.button`
     margin-right: auto;
     width: 100%;
     height: 53px;
+    font-size: 15px;
     text-align: center;
     font-family: "Pretendard";
     background-color: #ff9a3e;
