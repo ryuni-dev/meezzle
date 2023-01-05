@@ -15,10 +15,10 @@ import EventExplain from "../../../components/event/Create/EventExplain";
 import LinkBtn from "../../../components/common/LinkBtn";
 import Navbar from "../../../components/common/Navbar";
 import { useEvent, useEventDelete } from "../../../hooks/api/events";
-import { eventInfo } from "../../../states/eventInfo";
+import { eventInfo, eventTimeInfo } from "../../../states/eventInfo";
 import { eventDaySelected } from "../../../states/eventDayBox";
 import { useEffect } from "react";
-import { Convert4ResEventDays } from "../../../utils/converter";
+import { Convert4ResEventDays, ISO2Date } from "../../../utils/converter";
 
 const Body = styled.div`
     display: flex;
@@ -51,11 +51,11 @@ interface Props {
 
 const ReviseEvent: NextPage<Props> = ({ params }) => {
     const { eid } = params;
-    console.log(eid)
     const { data, isLoading } = useEvent(eid);
     console.log(data)
     const [days, setDays] = useRecoilState(eventDaySelected);
     const [event, setEvent] = useRecoilState(eventInfo);
+    const [timeInfo, setTimeInfo] = useRecoilState(eventTimeInfo)
 
     const deleteEvent = useEventDelete();
 
@@ -73,6 +73,19 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
                 color: data.data.event.color,
                 description: data.data.event.description
             });
+            setTimeInfo({
+                ...timeInfo,
+                startTime: ISO2Date(
+                    data.data.selectableParticipleTimes.beginTime
+                    ),
+                endTime: ISO2Date(
+                    data.data.selectableParticipleTimes.endTime
+                    ),
+                dueTime: new Date(
+                    data.data.event.dday
+                )
+                
+            })
             const days = Convert4ResEventDays(
                 data.data.selectableParticipleTimes.selectedDayOfWeeks
                 )
