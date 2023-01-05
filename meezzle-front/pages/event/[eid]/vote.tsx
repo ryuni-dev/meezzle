@@ -73,13 +73,26 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
         }
     };
 
+    const guestLogout = (): void => {
+        setIsGuest(false);
+        localStorage.removeItem("token");
+    };
+
     // 투표 제출시 발생하는 이벤트 핸들러
     const onVoteSubmit = (): void => {
         if (isGuest) {
-            setIsGuest(false);
-            localStorage.removeItem("token");
+            guestLogout();
         }
+        /* 제출 API 처리 필요 */
         router.push("/");
+    };
+
+    // 이벤트 설명 보기시 발생하는 이벤트 핸들러
+    const onViewInfo = (): void => {
+        if (isGuest) {
+            guestLogout();
+        }
+        router.push(`/event/${eid}/info`);
     };
 
     const GoPrevDay = (): void => {
@@ -99,12 +112,12 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
                         useDisable={false}
                         Click={onVoteSubmit}
                     ></Btn>
-                    <LinkBtn
+                    <Btn
                         text="< 이벤트 설명 보기"
-                        href={`/event/${eid}/info`}
                         color={false}
-                        Click={GoPrevDay}
-                    ></LinkBtn>
+                        useDisable={false}
+                        Click={onViewInfo}
+                    ></Btn>
                 </>
             );
         } else if (now === selectedDay[0]) {
@@ -116,19 +129,12 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
                         useDisable={false}
                         Click={GoNextDay}
                     ></Btn>
-                    <Link
-                        href={{
-                            pathname: "/event/[eid]/info",
-                            query: { eid: eid },
-                        }}
-                    >
-                        <A>
-                            <Btn2
-                                text="< 이벤트 설명 보기"
-                                color={false}
-                            ></Btn2>
-                        </A>
-                    </Link>
+                    <Btn
+                        text="< 이벤트 설명 보기"
+                        color={false}
+                        useDisable={false}
+                        Click={onViewInfo}
+                    ></Btn>
                     {/* <LinkBtn
                         text="< 이벤트 설명 보기"
                         href={{
