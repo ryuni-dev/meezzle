@@ -1,13 +1,12 @@
 import { NextComponentType } from "next";
 import styled from "styled-components";
-import { Button } from "../../../styled-components/StyledButton";
 import Link from "next/link";
 
 const LandingPageFooter: NextComponentType = () => {
     return (
         <Footer>
             <Link href="/login" prefetch>
-                <Button>이벤트를 생성해보세요!</Button>
+                <Button>meezzle로 편하게 시간 잡기</Button>
             </Link>
         </Footer>
     );
@@ -15,9 +14,25 @@ const LandingPageFooter: NextComponentType = () => {
 
 export default LandingPageFooter;
 
+const Button = styled.button`
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    height: 53px;
+    text-align: center;
+    font-family: "Pretendard";
+    background-color: #ff9a3e;
+    color: white;
+    border-radius: 15px;
+    border: none;
+    filter: drop-shadow(0px 0px 15px #ffb36f);
+    cursor: pointer;
+`;
+
 const Footer = styled.footer`
-    width: 95%;
-    max-width: 340px;
+    width: 90%;
+    max-width: 375px;
     // margin-top: 20px;
     // height: 134px;
     margin-bottom: 20px;

@@ -69,14 +69,20 @@ const Home: NextPage<Props> = ({}) => {
                 <title>Home | meezzle</title>
             </Head>
             <Body>
-                <Navbar>
-                    <Image src={profile} alt="profile" onClick={handleCilck} />
-                    {visible && (
-                        <LoginBox ref={menuRef} onClick={handleLogin}>
-                            {!isLoggedIn ? "로그인" : "로그아웃"}
-                        </LoginBox>
-                    )}
-                </Navbar>
+                {isLoggedIn && (
+                    <Navbar>
+                        <Image
+                            src={profile}
+                            alt="profile"
+                            onClick={handleCilck}
+                        />
+                        {visible && (
+                            <LoginBox ref={menuRef} onClick={handleLogin}>
+                                {!isLoggedIn ? "로그인" : "로그아웃"}
+                            </LoginBox>
+                        )}
+                    </Navbar>
+                )}
                 {!isLoggedIn && <LandingPageIntro />}
                 {!isLoggedIn && <LandingPageFooter />}
                 {isLoggedIn && <LandingPageSection />}
