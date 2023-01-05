@@ -1,7 +1,6 @@
 import type { GetServerSideProps, NextPage } from "next";
 import { useRecoilState } from "recoil";
-import styled, { keyframes } from "styled-components";
-// import { CSSTransition } from 'react-transition-group'
+import styled from "styled-components";
 import setHours from "date-fns/setHours";
 import setMinutes from "date-fns/setMinutes";
 
@@ -15,13 +14,11 @@ import EventExplain from "../../../components/event/Create/EventExplain";
 
 import LinkBtn from "../../../components/common/LinkBtn";
 import Navbar from "../../../components/common/Navbar";
-import { useRouter } from "next/router";
 import { useEvent, useEventDelete } from "../../../hooks/api/events";
-import { eventInfo } from "../../../states/eventInfo";
+import { eventInfo, eventTimeInfo } from "../../../states/eventInfo";
 import { eventDaySelected } from "../../../states/eventDayBox";
-import { moveMessagePortToContext } from "worker_threads";
 import { useEffect } from "react";
-import { Convert4ResEventDays } from "../../../utils/converter";
+import { Convert4ResEventDays, ISO2Date } from "../../../utils/converter";
 
 const Body = styled.div`
     display: flex;
@@ -54,16 +51,15 @@ interface Props {
 
 const ReviseEvent: NextPage<Props> = ({ params }) => {
     const { eid } = params;
-    console.log(eid)
     const { data, isLoading } = useEvent(eid);
     console.log(data)
     const [days, setDays] = useRecoilState(eventDaySelected);
     const [event, setEvent] = useRecoilState(eventInfo);
+    const [timeInfo, setTimeInfo] = useRecoilState(eventTimeInfo)
 
     const deleteEvent = useEventDelete();
 
     const DeleteEvent = () => {
-        //@ts-ignore
         deleteEvent.mutate(eid);
     };
 
@@ -71,13 +67,25 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
         if (isLoading) {
             console.log("is loading...");
         } else {
-            // console.log('data', data[0]);
             setEvent({
                 ...event,
                 title: data.data.event.title,
                 color: data.data.event.color,
                 description: data.data.event.description
             });
+            setTimeInfo({
+                ...timeInfo,
+                startTime: ISO2Date(
+                    data.data.selectableParticipleTimes.beginTime
+                    ),
+                endTime: ISO2Date(
+                    data.data.selectableParticipleTimes.endTime
+                    ),
+                dueTime: new Date(
+                    data.data.event.dday
+                )
+                
+            })
             const days = Convert4ResEventDays(
                 data.data.selectableParticipleTimes.selectedDayOfWeeks
                 )

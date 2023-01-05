@@ -44,7 +44,6 @@ const Kakao: NextPage = () => {
         if (authCode) {
             loginHandler(authCode);
         } else if (kakaoServerError) {
-            // router.push('/notifications/authentication-failed');
             console.log(kakaoServerError);
         }
     }, [loginHandler, authCode, kakaoServerError, router]);

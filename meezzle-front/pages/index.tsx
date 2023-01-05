@@ -8,7 +8,6 @@ import LandingPageSection from "../components/landingPage/AfterLogin/LandingPage
 import profile from "../public/assets/profile.png";
 import { useLogin } from "../states/login";
 import { LoginBox } from "../styled-components/StyledLoginBox";
-import { GlobalStyle } from "../styles/Globalstyle";
 import Head from "next/head";
 import styled from "styled-components";
 import { useUserLogout } from "../hooks/api/user";
@@ -23,11 +22,8 @@ const Body = styled.div`
     align-items: center;
 `;
 
-interface Props {
-    data: JSON;
-}
 
-const Home: NextPage<Props> = ({}) => {
+const Home: NextPage = () => {
     const [visible, setVisible] = useState<Boolean>(false);
     const [isLoggedIn, setIsLoggedIn] = useLogin();
     const logout = useUserLogout();
@@ -69,16 +65,21 @@ const Home: NextPage<Props> = ({}) => {
             <Head>
                 <title>Home | meezzle</title>
             </Head>
-            <GlobalStyle />
             <Body>
-                <Navbar>
-                    <Image src={profile} alt="profile" onClick={handleCilck} />
-                    {visible && (
-                        <LoginBox ref={menuRef} onClick={handleLogin}>
-                            {!isLoggedIn ? "로그인" : "로그아웃"}
-                        </LoginBox>
-                    )}
-                </Navbar>
+                {isLoggedIn && (
+                    <Navbar>
+                        <Image
+                            src={profile}
+                            alt="profile"
+                            onClick={handleCilck}
+                        />
+                        {visible && (
+                            <LoginBox ref={menuRef} onClick={handleLogin}>
+                                {!isLoggedIn ? "로그인" : "로그아웃"}
+                            </LoginBox>
+                        )}
+                    </Navbar>
+                )}
                 {!isLoggedIn && <LandingPageIntro />}
                 {!isLoggedIn && <LandingPageFooter />}
                 {isLoggedIn && <LandingPageSection />}
@@ -86,20 +87,5 @@ const Home: NextPage<Props> = ({}) => {
         </>
     );
 };
-
-// export const getServerSideProps: GetServerSideProps = async(context) => {
-//     try {
-//         const res = await fetch(`http://localhost:3000/api/event`);
-//         if(res.status === 200) {
-//             const data = await res.json();
-//             return {props: {data: data}}
-//         }
-//         return {props: {}};
-//     }
-//     catch(e){
-//         console.log(e);
-//         return {props: {}}
-//     }
-// }
 
 export default Home;

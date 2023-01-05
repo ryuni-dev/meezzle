@@ -2,7 +2,7 @@ import type { NextComponentType } from "next"
 import { useRecoilState } from "recoil";
 
 import styled from 'styled-components';
-import DatePicker, {ReactDatePickerProps }from 'react-datepicker'
+import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css';
 import { ko } from "date-fns/locale";
 
@@ -10,9 +10,8 @@ import DivRow from "../CreateElement/DivRow";
 import TextBlackMedium from "../../common/TextBlackMedium";
 import TextGraySmall from "../../common/TextGraySmall";
 import ContainerInput from "../CreateElement/ContainerInput";
-import { eventDueDate, eventDueTime } from "../../../states/eventCreate";
 import { useState } from "react";
-import { eventInfo, eventTimeInfo } from "../../../states/eventInfo";
+import { eventTimeInfo } from "../../../states/eventInfo";
 
 interface Props {
     disabled?: boolean | undefined;
@@ -106,14 +105,7 @@ const TextSmall = styled.text`
 `
 const EventDue: NextComponentType = ()=> {
     const [timeInfo, setTimeInfo] = useRecoilState(eventTimeInfo);
-    // const [dueDate, setDueDate] = useRecoilState(eventDueDate);
-    // const [dueTime, setDueTime] = useRecoilState(eventDueTime);
-
     const [disable, setDisable] = useState(false);
-
-    // const IsDisable = (): void => {
-
-    // }
 
     return (
         <ContainerInput>

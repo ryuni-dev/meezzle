@@ -10,10 +10,8 @@ import DivRow from "../CreateElement/DivRow";
 import TextBlackMedium from "../../common/TextBlackMedium";
 import TextGraySmall from "../../common/TextGraySmall";
 import ContainerInput from "../CreateElement/ContainerInput";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { eventEndTime, eventStartTime, inputFocus, inputStage } from "../../../states/eventCreate";
-import { useRef } from "react";
-import { eventInfo, eventTimeInfo } from "../../../states/eventInfo";
+import { useRecoilState } from "recoil";
+import { eventTimeInfo } from "../../../states/eventInfo";
 
 const TextGrayMedium = styled.text`
     font-family: 'Pretendard';
@@ -57,12 +55,7 @@ const DatePickerCumstom = styled(DatePicker)`
 `
 
 const EventTime: NextComponentType = ()=> {
-    // const [event, setEvent] = useRecoilState(eventInfo);
     const [timeInfo, setTimeInfo] = useRecoilState(eventTimeInfo);
-    // const [startTime, setStartTime] = useRecoilState(eventStartTime);
-    // const [endTime, setEndTime] = useRecoilState(eventEndTime);
-    // const stage = useRecoilValue(inputStage);
-    // const focus = useRecoilValue(inputFocus);
 
     return (
         <ContainerInput>
@@ -77,8 +70,7 @@ const EventTime: NextComponentType = ()=> {
                         setTimeInfo({
                             ...timeInfo,
                             startTime: time,
-                    })
-                        // setStartTime(time)
+                        })
                     }
                     showTimeSelect
                     showTimeSelectOnly
@@ -97,8 +89,7 @@ const EventTime: NextComponentType = ()=> {
                         setTimeInfo({
                             ...timeInfo,
                             endTime: time,
-                    })
-                        // setEndTime(time)
+                        })
                     }
                     showTimeSelect
                     showTimeSelectOnly

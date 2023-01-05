@@ -1,10 +1,8 @@
 import type { NextComponentType } from "next"
 import styled from 'styled-components';
 import React, { useCallback, useEffect, useState } from "react";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import { eventDayCurrent, eventDaySelected } from "../../../states/eventDayBox";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { btnDisable } from "../../../states/eventCreate";
-import { NIL } from "uuid";
 import { timeSelected, timeCurrent, voteNow } from "../../../states/eventVote";
 
 const Container = styled.div`
@@ -154,16 +152,12 @@ const TimeSelect: NextComponentType = ()=> {
     IsDisable();
 
     useEffect(() => {
-        // console.log(selected)
     },[selected, curr, removeMode]);
 
     const UpdateCurrent = (start: string, end: string) => {
         if(click){
             setEnd(end)
-            //@ts-ignore
             setCurr([...CalcLinear({start, end})]);
-            // console.log('cur: ', curr);
-            // setCurr(...new Set(curr));
         }
     }
     const TouchStartEvent = useCallback((
@@ -177,33 +171,29 @@ const TimeSelect: NextComponentType = ()=> {
 
             try{
                 const targetElement = e.currentTarget.getAttribute("data-time");
-                //@ts-ignore
-                setStart(targetElement);
-                selected.find(s => parseInt(start) === s) ? setRemoveMode(true) : setRemoveMode(false);
-                //@ts-ignore
-                setEnd(targetElement);
-                //@ts-ignore
-                UpdateCurrent(start, targetElement)
+                if (targetElement !== null) {
+                    setStart(targetElement);
+                    selected.find(s => parseInt(start) === s) ? setRemoveMode(true) : setRemoveMode(false);   
+                    setEnd(targetElement);
+                    UpdateCurrent(start, targetElement)
+                }
             }
             catch{
                 console.log('getAtrribute Error!');
             }
-            // 여기서 뭔가 오류가 있음
     },
     [click, start, end, removeMode, selected]);
 
     const ClickEvent = (e: React.MouseEvent, index: number) => {
         try{
             const targetElement = e.currentTarget.getAttribute("data-time");
-            //@ts-ignore
-            // console.log(selected.find(s => parseInt(targetElement) === s))
-            //@ts-ignore
-            if(selected.find(s => parseInt(targetElement) === s)){
-                setSelected(selected.filter(se => se !== (index)))
-            }
-            else {
-                //@ts-ignore
-                setSelected([...selected, index])
+            if (targetElement !== null) {
+                if(selected.find(s => parseInt(targetElement) === s)){
+                    setSelected(selected.filter(se => se !== (index)))
+                }
+                else {
+                    setSelected([...selected, index])
+                }
             }
         }
         catch{
@@ -214,9 +204,9 @@ const TimeSelect: NextComponentType = ()=> {
         e:React.MouseEvent<HTMLDivElement>): void => {
             try {
                 const targetElement = e.currentTarget.getAttribute("data-time");
-                //@ts-ignore
-                UpdateCurrent(start, targetElement);
-                // console.log("st", start);
+                if (targetElement !== null) {
+                    UpdateCurrent(start, targetElement);
+                }
             }
             catch{
                 console.log('getAtrribute Error!');
@@ -232,7 +222,6 @@ const TimeSelect: NextComponentType = ()=> {
                     const { clientX, clientY } = touches[0]
                     //@ts-ignore
                     const targetElement:any = document.elementFromPoint(clientX, clientY).getAttribute("data-time");
-                    // console.log(targetElement);
                     if((parseInt(targetElement) > 100) && (parseInt(targetElement) < 749)){
                         UpdateCurrent(start, targetElement);
                     }
@@ -255,10 +244,6 @@ const TimeSelect: NextComponentType = ()=> {
         // document.body.style.userSelect="";
         IsDisable();
         setCurr([...[]]);
-        // setSelected(Array.from(new Set(selected)))
-        // console.log(Array.from(new Set(selected)))
-        // setSelected([...Array.from(new Set(selected))]);
-        // console.log('se', selected);
         setClick(false);
         setRemoveMode(false);
     },
@@ -276,7 +261,6 @@ const TimeSelect: NextComponentType = ()=> {
 
     const FindSelected = (idx: number): boolean => {
         if (selected.find(s => s === idx)){
-            // console.log('find: ', idx);
             return true;
         }
         else {

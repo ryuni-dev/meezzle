@@ -1,12 +1,8 @@
-import Link from 'next/link';
 import React, { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
-import { useParticipants } from '../../../hooks/api/participants';
 import { btnDisable } from '../../../states/eventCreate';
 import { participant } from '../../../states/eventVote';
-import Btn from '../../common/Btn';
-import Btn2 from '../../common/Btn2';
 import TextBlackMedium from '../../common/TextBlackMedium';
 import TextGraySmall from '../../common/TextGraySmall';
 import InputText from '../CreateElement/InputText';

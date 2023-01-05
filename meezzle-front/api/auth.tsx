@@ -1,6 +1,4 @@
 import axios from "axios";
-import { useRecoilState } from "recoil";
-import { guestToken } from "../states/guest";
 
 interface user {
     name: string;
@@ -40,7 +38,6 @@ export const getAuth2 = async () => {
         );
         if (res.status === 200) {
             const token = res.data.token;
-            console.log(token);
             window.localStorage.setItem("token", token);
         }
         return {};
@@ -60,8 +57,8 @@ export const getGuestAuth = async (eid: string | string[], user: user) => {
             }
         );
         if (res.status === 200) {
-            const [token, setToken] = useRecoilState(guestToken);
-            setToken(res.data.token);
+            const token = res.data.data.token;
+            window.localStorage.setItem("token", token);
         }
     } catch (e) {
         console.log(e);

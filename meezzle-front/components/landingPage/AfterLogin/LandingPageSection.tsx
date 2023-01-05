@@ -5,7 +5,7 @@ import { Button } from "../../../styled-components/StyledButton";
 import plus from "../../../public/assets/plus.svg";
 import Image from "next/image";
 import Link from "next/link";
-import { useEvents_test } from "../../../hooks/api/events";
+import { useEvents } from "../../../hooks/api/events";
 import { EventBox } from "./EventBox";
 import HashLoader from "react-spinners/HashLoader";
 
@@ -18,17 +18,11 @@ const LoaderBox = styled.div`
 
 const LandingPageSection: NextComponentType = () => {
     // 유저가 처음 로그인 시엔 isLoading을, 로그인 한 상태에서 새로고침 시엔 isFetching을 사용
-    const { data, isFetching, isLoading, refetch } = useEvents_test();
-    // console.log("aa", data);
-    // const events = [
-    //     { key: 1, title: "미미 긴급 회의", userNum: 5 },
-    //     { key: 2, title: "팀플1 회의 - 다음주만", userNum: 5 },
-    //     { key: 3, title: "미미 팀 전체 회식", userNum: 8 },
-    // ];
+    const { data, isFetching, isLoading, refetch } = useEvents();
+
     const events = data;
 
     useEffect(()=> {
-        // 서버 지연 생각해서 코드 수정 필요함
         refetch();
     },[]);
 
