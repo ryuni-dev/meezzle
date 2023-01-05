@@ -19,14 +19,14 @@ export const voteNow = atom({
     // effects_UNSTABLE: [persistAtom],
 });
 
-export const timeSelected = atom({
+export const timeSelected = atom<number[]>({
     key: `timeSelected/${v1()}`,
     default: [],
     // effects_UNSTABLE: [persistAtom],
 
 });
 
-export const timeCurrent = atom({
+export const timeCurrent = atom<number[]>({
     key: `timeCurrent/${v1()}`,
     default: [],
 });
