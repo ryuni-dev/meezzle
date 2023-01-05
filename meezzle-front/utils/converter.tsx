@@ -215,5 +215,19 @@ export const Convert4ReqEvents = (
 }
 
 const Time2String  = (time: string) => {
-     return time.split("T")[1].split('.')[0]
+     return time.split("T")[1].split('.')[0];
+}
+
+
+export const Convert4ResEventDays = (selectedDayOfWeeks: string[]) => {
+    let result:number[] = [];
+    for (let i = 0; i < selectedDayOfWeeks.length; i++){
+        const idx = Object.values(week).indexOf(selectedDayOfWeeks[i]) + 1;
+        result = [...result, idx];
+    }
+    result.sort(function(comp1, comp2) {
+        return comp1 - comp2; 
+    });
+
+    return result
 }

@@ -1,4 +1,4 @@
-import type { NextPage } from "next";
+import type { GetServerSideProps, NextPage } from "next";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
 
@@ -12,6 +12,11 @@ import TimeSelect from "../../../components/event/Vote/TimeSelect";
 import Btn from "../../../components/common/Btn";
 import { useRouter } from "next/router";
 import { useEvent } from "../../../hooks/api/events";
+import { Convert4ResEventDays } from "../../../utils/converter";
+import axios from "axios";
+import { dehydrate, QueryClient } from "@tanstack/react-query";
+import Link from "next/link";
+import Btn2 from "../../../components/common/Btn2";
 
 const Body = styled.div`
     display: flex;
@@ -36,12 +41,26 @@ const Footer = styled.div`
     // margin-right: 0px;
 `;
 
-const ReviseEvent: NextPage = () => {
-    const {
-        query: { eid },
-    } = useRouter();
+const A = styled.a`
+    max-width: 340px;
+    width: 80%;
+    height: 59px;
+`;
+
+interface Props {
+    params: {
+        eid: string
+    }
+}
+
+const ReviseEvent: NextPage<Props> = ( { params }) => {
     //@ts-ignore
+    const { eid } = params;
+
+
     const { data, isLoading } = useEvent(eid);
+    console.log(data)
+
 
     const [now, setNow] = useRecoilState(voteNow);
     const [selectedDay, setSelectedDay] = useRecoilState(eventDaySelected);
@@ -87,12 +106,28 @@ const ReviseEvent: NextPage = () => {
                         useDisable={false}
                         Click={GoNextDay}
                     ></Btn>
-                    <LinkBtn
+                    <Link
+                        href={{
+                            pathname: "/event/[eid]/info",
+                            query: { eid: eid },
+                        }}
+                    >
+                        <A>
+                            <Btn2 
+                                text="< 이벤트 설명 보기"
+                                color={false}
+                            ></Btn2>
+                        </A>
+                    </Link>
+                    {/* <LinkBtn
                         text="< 이벤트 설명 보기"
-                        href="/"
+                        href={{
+                            pathname: "/event/[eid]/view",
+                            query: { eid: eid },
+                        }}
                         color={false}
                         Click={GoPrevDay}
-                    ></LinkBtn>
+                    ></LinkBtn> */}
                 </>
             );
         } else if (now === selectedDay[selectedDay.length - 1]) {
@@ -133,15 +168,14 @@ const ReviseEvent: NextPage = () => {
     };
 
     useEffect(() => {
-        setNow(selectedDay[0]);
-    }, []);
-    useEffect(() => {
         if (!isLoading) {
-            setSelectedDay(data[0].days);
-            setNow(data[0].days[0]);
-            // time block 서버 연동
+            const days = Convert4ResEventDays(
+                data.data.selectableParticipleTimes.selectedDayOfWeeks
+                )
+            setSelectedDay(days);
+            setNow(days[0]);
         }
-        console.log(now);
+
     }, [data]);
 
     return (
@@ -156,6 +190,20 @@ const ReviseEvent: NextPage = () => {
             </Body>
         </>
     );
+};
+
+export const getServerSideProps: GetServerSideProps = async(context) => {
+    try {
+        return {
+            props: {
+                params: context.params
+            }
+        }
+    }
+    catch(e){
+        console.log(e);
+        return {props: {}}
+    }
 };
 
 export default ReviseEvent;

@@ -21,6 +21,7 @@ import { eventInfo } from "../../../states/eventInfo";
 import { eventDaySelected } from "../../../states/eventDayBox";
 import { moveMessagePortToContext } from "worker_threads";
 import { useEffect } from "react";
+import { Convert4ResEventDays } from "../../../utils/converter";
 
 const Body = styled.div`
     display: flex;
@@ -54,8 +55,8 @@ interface Props {
 const ReviseEvent: NextPage<Props> = ({ params }) => {
     const { eid } = params;
     console.log(eid)
-    //@ts-ignore
     const { data, isLoading } = useEvent(eid);
+    console.log(data)
     const [days, setDays] = useRecoilState(eventDaySelected);
     const [event, setEvent] = useRecoilState(eventInfo);
 
@@ -71,18 +72,16 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
             console.log("is loading...");
         } else {
             // console.log('data', data[0]);
-            // setEvent({
-            //     ...event,
-            //     title: data[0].title,
-            //     color: data[0].color,
-            //     startTime: new Date(data[0].startTime),
-            //     endTime: new Date(data[0].endTime),
-            //     dueDate: new Date(data[0].dueDate),
-            //     dueTime: new Date(data[0].dueTime),
-            //     description: data[0].description
-            // });
-            setDays(data[0].days);
-            // console.log(event)
+            setEvent({
+                ...event,
+                title: data.data.event.title,
+                color: data.data.event.color,
+                description: data.data.event.description
+            });
+            const days = Convert4ResEventDays(
+                data.data.selectableParticipleTimes.selectedDayOfWeeks
+                )
+            setDays(days);
         }
     }, [data]);
 

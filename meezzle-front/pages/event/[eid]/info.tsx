@@ -20,6 +20,7 @@ import { useParticipants } from "../../../hooks/api/participants";
 import { useGuestLogin, useTest } from "../../../hooks/api/auth";
 import { useLogin } from "../../../states/login";
 import { guestToken } from "../../../states/guest";
+import { Convert4ResEventDays } from "../../../utils/converter";
 
 const TitleBox = styled.div`
     display: flex;
@@ -184,8 +185,11 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
         if (!isLoggedIn) {
             guestLogin.mutate();
         }
-        setNow(event.days[0]);
-        setSelectedDay(event.days);
+        const days = Convert4ResEventDays(
+            data.data.selectableParticipleTimes.selectedDayOfWeeks
+            )
+        setSelectedDay(days);
+        setNow(days[0]);
         resetTime();
         console.log("SUCCESS");
         router.push({
