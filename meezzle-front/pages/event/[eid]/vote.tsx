@@ -17,6 +17,7 @@ import axios from "axios";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
 import Link from "next/link";
 import Btn2 from "../../../components/common/Btn2";
+import { guestLogined } from "../../../states/guest";
 
 const Body = styled.div`
     display: flex;
@@ -49,27 +50,49 @@ const A = styled.a`
 
 interface Props {
     params: {
-        eid: string
-    }
+        eid: string;
+    };
 }
 
-const ReviseEvent: NextPage<Props> = ( { params }) => {
+const ReviseEvent: NextPage<Props> = ({ params }) => {
     //@ts-ignore
     const { eid } = params;
 
-
     const { data, isLoading } = useEvent(eid);
-    console.log(data)
-
+    console.log(data);
 
     const [now, setNow] = useRecoilState(voteNow);
     const [selectedDay, setSelectedDay] = useRecoilState(eventDaySelected);
+    const [isGuest, setIsGuest] = useRecoilState(guestLogined);
+    const router = useRouter();
 
     const GoNextDay = (): void => {
         const idx = selectedDay.findIndex((i) => i === now) + 1;
         if (idx >= 0 && idx < selectedDay.length) {
             setNow(selectedDay[idx]);
         }
+    };
+
+    const guestLogout = (): void => {
+        setIsGuest(false);
+        localStorage.removeItem("token");
+    };
+
+    // 투표 제출시 발생하는 이벤트 핸들러
+    const onVoteSubmit = (): void => {
+        if (isGuest) {
+            guestLogout();
+        }
+        /* 제출 API 처리 필요 */
+        router.push("/");
+    };
+
+    // 이벤트 설명 보기시 발생하는 이벤트 핸들러
+    const onViewInfo = (): void => {
+        if (isGuest) {
+            guestLogout();
+        }
+        router.push(`/event/${eid}/info`);
     };
 
     const GoPrevDay = (): void => {
@@ -83,18 +106,18 @@ const ReviseEvent: NextPage<Props> = ( { params }) => {
         if (selectedDay.length === 1) {
             return (
                 <>
-                    <LinkBtn
+                    <Btn
                         text="제출하기!"
-                        href="/"
                         color={true}
-                        Click={GoNextDay}
-                    ></LinkBtn>
-                    <LinkBtn
+                        useDisable={false}
+                        Click={onVoteSubmit}
+                    ></Btn>
+                    <Btn
                         text="< 이벤트 설명 보기"
-                        href="/"
                         color={false}
-                        Click={GoPrevDay}
-                    ></LinkBtn>
+                        useDisable={false}
+                        Click={onViewInfo}
+                    ></Btn>
                 </>
             );
         } else if (now === selectedDay[0]) {
@@ -106,19 +129,12 @@ const ReviseEvent: NextPage<Props> = ( { params }) => {
                         useDisable={false}
                         Click={GoNextDay}
                     ></Btn>
-                    <Link
-                        href={{
-                            pathname: "/event/[eid]/info",
-                            query: { eid: eid },
-                        }}
-                    >
-                        <A>
-                            <Btn2 
-                                text="< 이벤트 설명 보기"
-                                color={false}
-                            ></Btn2>
-                        </A>
-                    </Link>
+                    <Btn
+                        text="< 이벤트 설명 보기"
+                        color={false}
+                        useDisable={false}
+                        Click={onViewInfo}
+                    ></Btn>
                     {/* <LinkBtn
                         text="< 이벤트 설명 보기"
                         href={{
@@ -133,12 +149,12 @@ const ReviseEvent: NextPage<Props> = ( { params }) => {
         } else if (now === selectedDay[selectedDay.length - 1]) {
             return (
                 <>
-                    <LinkBtn
+                    <Btn
                         text="제출하기!"
-                        href="/"
                         color={true}
-                        Click={GoNextDay}
-                    ></LinkBtn>
+                        useDisable={false}
+                        Click={onVoteSubmit}
+                    ></Btn>
                     <Btn
                         text="< 이전 요일로 이동하기"
                         color={false}
@@ -167,15 +183,17 @@ const ReviseEvent: NextPage<Props> = ( { params }) => {
         }
     };
 
+    // useEffect(() => {
+    //     // setNow(selectedDay[0]);
+    // },[]);
     useEffect(() => {
         if (!isLoading) {
             const days = Convert4ResEventDays(
                 data.data.selectableParticipleTimes.selectedDayOfWeeks
-                )
+            );
             setSelectedDay(days);
             setNow(days[0]);
         }
-
     }, [data]);
 
     return (
@@ -192,17 +210,16 @@ const ReviseEvent: NextPage<Props> = ( { params }) => {
     );
 };
 
-export const getServerSideProps: GetServerSideProps = async(context) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
     try {
         return {
             props: {
-                params: context.params
-            }
-        }
-    }
-    catch(e){
+                params: context.params,
+            },
+        };
+    } catch (e) {
         console.log(e);
-        return {props: {}}
+        return { props: {} };
     }
 };
 

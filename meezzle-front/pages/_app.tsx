@@ -1,4 +1,4 @@
-import "../styles/Globalstyle.ts";
+import { GlobalStyle } from "../styles/Globalstyle";
 import "../public/fonts/pretendard.css";
 import type { AppProps } from "next/app";
 import { RecoilRoot } from "recoil";
@@ -28,7 +28,7 @@ function MyApp({
     function kakaoInit() {
         // 페이지가 로드되면 실행
         window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_JS_KEY);
-        console.log('kakao', window.Kakao.isInitialized());
+        console.log("kakao", window.Kakao.isInitialized());
     }
 
     return (
@@ -41,6 +41,7 @@ function MyApp({
                             content="width=device-width, initial-scale=1, user-scalable=no"
                         />
                     </Head>
+                    <GlobalStyle />
                     <Component {...pageProps} />
                     <Script
                         src="https://t1.kakaocdn.net/kakao_js_sdk/2.1.0/kakao.min.js"
