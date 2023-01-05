@@ -151,18 +151,18 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
     const [user, setUser] = useRecoilState(participant);
     const resetTime = useResetRecoilState(timeSelected);
     const guestLogin = useGuestLogin(eid ? eid : "", user);
-    const participants = useParticipants();
+    // const participants = useParticipants();
     const [isGuest, setIsGuest] = useRecoilState(guestLogined);
 
-    if (!participants.isLoading) {
-        console.log(participants.data[0].code);
-    }
+    // if (!participants.isLoading) {
+    //     console.log(participants.data[0].code);
+    // }
 
-    const LoginFunc = () => {
-        if (!participants.isLoading) {
-            return participants.data[0].code;
-        }
-    };
+    // const LoginFunc = () => {
+    //     if (!participants.isLoading) {
+    //         return participants.data[0].code;
+    //     }
+    // };
 
     const ErrorPW = () =>
         toast.error("비밀번호가 틀렸어요! 다시 입력해주세요.", {
