@@ -8,6 +8,8 @@ import Link from "next/link";
 import { useEvents } from "../../../hooks/api/events";
 import { EventBox } from "./EventBox";
 import HashLoader from "react-spinners/HashLoader";
+import character from "../../../public/assets/character.svg";
+
 
 const LoaderBox = styled.div`
     margin-top: 60%;
@@ -46,7 +48,16 @@ const LandingPageSection: NextComponentType = () => {
                 <h3>Schedule</h3>
                 
                 {Object.keys(events).length === 0 
-                ? <h3>이벤트를 생성해보세요</h3>
+                ? <Section>
+                    <Image 
+                        src={character}
+                        width={120}
+                        height={120}
+                    />
+                    <SectionText>
+                        이벤트를 생성해 보세요!
+                        </SectionText>
+                </Section>
                 :
                     //@ts-ignore
                 events.data.map((e, idx:number) => (
@@ -64,6 +75,7 @@ const LandingPageSection: NextComponentType = () => {
                             title={e.event.title}
                             userNum={e.eventParticipants.length}
                             color={e.event.color}
+                            dday={e.event.dday}
                             ></EventBox>
                         </a>
                     </Link>
@@ -113,4 +125,20 @@ const ScheduleContainer = styled.section`
         font-size: 15px;
         margin-left: 10px;
     }
+`;
+
+const Section = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 65vh;
+`;
+
+const SectionText = styled.p`
+    font-family: "bitbit";
+    font-size: 28px;
+    line-height: 150%;
+    letter-spacing: -0.011em;
+    color: #3278de;
+    text-align: center;
 `;

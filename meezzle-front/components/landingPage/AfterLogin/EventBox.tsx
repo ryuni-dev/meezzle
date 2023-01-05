@@ -8,14 +8,18 @@ interface Props {
     userNum: number;
     title: string;
     eid: number;
-    color: string 
+    color: string;
+    dday: string;
 }
 
 interface EventContainerProps {
     backgroundColor: string;
 }
 
-export const EventBox = ({ userNum, eid, title, color }: Props) => {
+export const EventBox = ({ userNum, eid, title, color, dday }: Props) => {
+    const day = dday.split('T')[0];
+    const time = dday.split('T')[1];
+    const dueDay = day + '  ' + time;
 
     return (
         <EventContainer backgroundColor={color}>
@@ -35,7 +39,7 @@ export const EventBox = ({ userNum, eid, title, color }: Props) => {
             <Clear />
             <TitleContainer>{title}</TitleContainer>
             <DueContainer>
-                마감 <DueDate>22-09-30 23:59</DueDate>
+                마감 <DueDate>{dueDay}</DueDate>
             </DueContainer>
         </EventContainer>
     );
