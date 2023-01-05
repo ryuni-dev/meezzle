@@ -1,30 +1,27 @@
-import { NextPage } from "next";
+import { GetServerSideProps, NextPage } from "next";
 import Navbar from "../components/common/Navbar";
 import kakaoLogin from "../public/assets/kakao_login_large_wide.png";
 import GoogleLogin from "../components/login/GoogleLogin";
 import Image from "next/image";
 import Script from "next/script";
 import styled from "styled-components";
-import { useRouter } from "next/router";
-import { useTest } from "../hooks/api/auth";
-import Link from "next/link";
-import { getAuth } from "../api/auth";
-import { useState, useEffect } from "react";
 import character from "../public/assets/character.svg";
 
-const Login: NextPage = () => {
-    const router = useRouter();
-    // const auth = useTest();
-    // const authFunc = () => {
-    //     if (!auth.isLoading) {
-    //         return auth.data.data.authorizationUrl;
-    //     }
-    // };
-    // const href = authFunc();
+
+type Props = { host: string | null };
+
+const Login: NextPage<Props> = ({ host }) => {
     const KakaoLogin = () => {
-        window.Kakao.Auth.authorize({
-            redirectUri: "http://localhost:3000/oauth/kakao",
-        });
+        if (host === "localhost:3000"){
+            window.Kakao.Auth.authorize({
+                redirectUri: "http://localhost:3000/oauth/kakao",
+            });
+        }
+        else {
+            window.Kakao.Auth.authorize({
+                redirectUri: "https://meezzle.vercel.app/oauth/kakao",
+            });
+        }
     };
 
     return (
@@ -52,6 +49,14 @@ const Login: NextPage = () => {
         </Body>
     );
 };
+
+export const getServerSideProps: GetServerSideProps = async (context) => (
+    { 
+        props: { 
+            host: context.req.headers.host || null 
+        } 
+    }
+);
 
 export default Login;
 
