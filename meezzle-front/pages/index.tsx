@@ -8,7 +8,6 @@ import LandingPageSection from "../components/landingPage/AfterLogin/LandingPage
 import profile from "../public/assets/profile.png";
 import { useLogin } from "../states/login";
 import { LoginBox } from "../styled-components/StyledLoginBox";
-import { GlobalStyle } from "../styles/Globalstyle";
 import Head from "next/head";
 import styled from "styled-components";
 import { useUserLogout } from "../hooks/api/user";
@@ -69,7 +68,6 @@ const Home: NextPage<Props> = ({}) => {
             <Head>
                 <title>Home | meezzle</title>
             </Head>
-            <GlobalStyle />
             <Body>
                 <Navbar>
                     <Image src={profile} alt="profile" onClick={handleCilck} />
