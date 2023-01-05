@@ -5,6 +5,8 @@ import styled from "styled-components";
 import character from "../../../public/assets/character.svg";
 import Image from "next/image";
 import OrangeBtn from "../../../components/common/OrangeBtn";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface Props {
     params: {
@@ -20,8 +22,16 @@ const Congratulations: NextPage<Props> = ({ params }) => {
         navigator.clipboard
             .writeText(window.location.href.replace("congratulations", "info"))
             .then(() => {
-                // 토스트 메세지 복사되었습니다 띄우기
-                console.log("Text copied to clipboard...");
+                toast("링크가 복사되었습니다.", {
+                    position: "top-center",
+                    autoClose: 2000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: false,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
             })
             .catch((err) => {
                 console.log("Something went wrong", err);
@@ -37,6 +47,17 @@ const Congratulations: NextPage<Props> = ({ params }) => {
             <Navbar>
                 <></>
             </Navbar>
+            <Container
+                position="top-center"
+                autoClose={2000}
+                hideProgressBar
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                draggable
+                pauseOnHover={false}
+                theme="light"
+            />
             <Section>
                 <Image src={character} />
                 <SectionText>이벤트가 생성되었어요!</SectionText>
@@ -64,6 +85,15 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         return { props: {} };
     }
 };
+
+export const Container = styled(ToastContainer)`
+    .Toastify__toast {
+        font-family: "Pretendard";
+        font-weight: 500;
+        margin-top: 20px;
+        text-align: center;
+    }
+`;
 
 const Body = styled.div`
     display: flex;
