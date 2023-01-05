@@ -2,10 +2,8 @@ import InputText from "../CreateElement/InputText";
 import TextBlackMedium from "../../common/TextBlackMedium";
 import ContainerInput from "../CreateElement/ContainerInput";
 import { useRecoilState, useSetRecoilState } from "recoil";
-import { btnDisable, eventName, inputStage } from "../../../states/eventCreate";
-import { useEffect, useRef } from "react";
+import { btnDisable, inputStage } from "../../../states/eventCreate";
 import { eventInfo } from "../../../states/eventInfo";
-// import useFocus from "../../../hooks/useFocus";
 
 interface Props {
     inputRef?: any;
@@ -13,7 +11,6 @@ interface Props {
 
 const EventName = ({inputRef}: Props)=> {
     const [event, setEvent] = useRecoilState(eventInfo);
-    // const [name, setName] = useRecoilState(eventName);
     const [disable, setDisable] = useRecoilState(btnDisable);
     const setStage = useSetRecoilState(inputStage);
 

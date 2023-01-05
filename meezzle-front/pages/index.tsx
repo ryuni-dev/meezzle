@@ -22,11 +22,8 @@ const Body = styled.div`
     align-items: center;
 `;
 
-interface Props {
-    data: JSON;
-}
 
-const Home: NextPage<Props> = ({}) => {
+const Home: NextPage = () => {
     const [visible, setVisible] = useState<Boolean>(false);
     const [isLoggedIn, setIsLoggedIn] = useLogin();
     const logout = useUserLogout();
@@ -90,20 +87,5 @@ const Home: NextPage<Props> = ({}) => {
         </>
     );
 };
-
-// export const getServerSideProps: GetServerSideProps = async(context) => {
-//     try {
-//         const res = await fetch(`http://localhost:3000/api/event`);
-//         if(res.status === 200) {
-//             const data = await res.json();
-//             return {props: {data: data}}
-//         }
-//         return {props: {}};
-//     }
-//     catch(e){
-//         console.log(e);
-//         return {props: {}}
-//     }
-// }
 
 export default Home;

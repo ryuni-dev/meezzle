@@ -4,10 +4,6 @@ import user from "../../../public/assets/user.svg";
 import share from "../../../public/assets/share.svg";
 import revise from "../../../public/assets/revise.svg";
 import Link from "next/link";
-import { useEvent } from "../../../hooks/api/events";
-import { useRecoilState, useSetRecoilState } from "recoil";
-import { eventInfo } from "../../../states/eventInfo";
-
 interface Props {
     userNum: number;
     title: string;
@@ -20,36 +16,7 @@ interface EventContainerProps {
 }
 
 export const EventBox = ({ userNum, eid, title, color }: Props) => {
-    // const { data, isFetching, isLoading } = useEvents();
-    // const backgroundColors: string[] = [
-    //     "#FFE86D",
-    //     "#A1EAD8",
-    //     "#FFBDBD",
-    //     "#8AD4FD",
-    //     "#BEA5F3",
-    // ];
-    // const [ event, setEvent ] = useRecoilState(eventInfo);
-    // const Click2Revise = (eid: string) => {
-    //     const { data, isFetching, isLoading } = useEvent(eid);
-    //     console.log('cl', data);
-    //     console.log('aaa')
-    //     if(isFetching){
-    //         console.log('Fetching...');
-    //     }
-    //     else {
-    //         setEvent({
-    //             title: data[0].title,
-    //             color: data[0].color,
-    //             startTime: data[0].startTime,
-    //             endTime: data[0].endTime,
-    //             dueDate: data[0].dueDate,
-    //             dueTime: data[0].dueTime,
-    //             description: data[0].description
-    //         });
-    //         console.log(event)
-    //     }
-    // }
-    // const backgroundColor = backgroundColors[idx % 5];
+
     return (
         <EventContainer backgroundColor={color}>
             <IconContainer>

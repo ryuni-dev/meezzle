@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 import Navbar from "../../../components/common/Navbar";
 import VoteLogin from "../../../components/event/Vote/Login";
-import { useEvent, useEventCreate_test } from "../../../hooks/api/events";
+import { useEvent } from "../../../hooks/api/events";
 import Link from "next/link";
 import Btn from "../../../components/common/Btn";
 import { useRouter } from "next/router";
@@ -16,8 +16,7 @@ import Btn2 from "../../../components/common/Btn2";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import HashLoader from "react-spinners/HashLoader";
-import { useParticipants } from "../../../hooks/api/participants";
-import { useGuestLogin, useTest } from "../../../hooks/api/auth";
+import { useGuestLogin } from "../../../hooks/api/auth";
 import { useLogin } from "../../../states/login";
 import { guestLogined } from "../../../states/guest";
 import { Convert4ResEventDays } from "../../../utils/converter";
@@ -162,7 +161,7 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
 
     const { data, isLoading } = useEvent(eid);
     const event = isLoading ? null : data.data;
-    console.log("data", event);
+    // console.log("data", event);
     const [now, setNow] = useRecoilState(voteNow);
     const [selectedDay, setSelectedDay] = useRecoilState(eventDaySelected);
     const [isLoggedIn, setIsLoggedIn] = useLogin();
@@ -212,7 +211,7 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
         setSelectedDay(days);
         setNow(days[0]);
         resetTime();
-        console.log("SUCCESS");
+        // console.log("SUCCESS");
         router.push({
             pathname: "/event/[eid]/vote",
             query: { eid: eid },

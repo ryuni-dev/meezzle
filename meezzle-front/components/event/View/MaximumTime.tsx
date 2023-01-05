@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import Toggle from "./Toggle";
-import { MouseEvent, useState } from "react";
+import { useState } from "react";
 
 type Props = {
     times: {

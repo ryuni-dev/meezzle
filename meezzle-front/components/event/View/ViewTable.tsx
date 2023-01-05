@@ -1,4 +1,4 @@
-import React, { ReactNode, MouseEvent, TouchEventHandler } from "react";
+import React, { ReactNode, MouseEvent } from "react";
 import { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 
