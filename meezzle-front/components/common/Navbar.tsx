@@ -14,7 +14,7 @@ const Navbar = ({ children }: NavbarProps) => {
             <LogoContainer>
                 <Link href={{ pathname: "/" }} passHref>
                     <a>
-                        <Image src={logo} alt="logo" />
+                        <Image src={logo} alt="logo" priority={true} />
                     </a>
                 </Link>
             </LogoContainer>
@@ -27,10 +27,13 @@ export default Navbar;
 
 const Nav = styled.nav`
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    margin-top: 25px;
+    flex-direction: row;
+    margin-top: 40px;
     max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
     width: 100%;
     height: 40px;
     line-height: 42px;
@@ -45,9 +48,7 @@ const Nav = styled.nav`
 `;
 
 const LogoContainer = styled.div`
-    display: flex;
-    float: left;
-    margin-right: 50%;
+    margin-left: 8px;
     width: 119px;
     height: 100%;
     line-height: 40px;
@@ -59,7 +60,7 @@ const LogoContainer = styled.div`
 const ContentContainer = styled.div`
     float: right;
     vertical-align: middle;
-    margin-right: 16px;
+    margin-right: 8px;
     position: relative;
     & > span {
         line-height: 44px;
