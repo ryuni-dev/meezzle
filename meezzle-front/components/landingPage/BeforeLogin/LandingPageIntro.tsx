@@ -57,6 +57,7 @@ const Button = styled.button`
     height: 53px;
     text-align: center;
     font-family: "Pretendard";
+    font-weight: 600;
     font-size: 15px;
     line-height: 150%;
     color: white;
