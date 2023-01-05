@@ -136,6 +136,13 @@ const ShareContainer = styled.div`
     }
 `;
 
+const ShareBtn = styled.div`
+    white-space: nowrap;
+    margin-top: 12px;
+    font-family: "Pretendard";
+    cursor: pointer;
+`;
+
 const LoaderBox = styled.div`
     margin-top: 60%;
     display: flex;
@@ -241,6 +248,16 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
     //         });
     //     }
     // }, []);
+    const onShare = () => {
+        navigator.clipboard
+            .writeText(window.location.href)
+            .then(() => {
+                console.log("Text copied to clipboard...");
+            })
+            .catch((err) => {
+                console.log("Something went wrong", err);
+            });
+    };
 
     return (
         <Body>
@@ -253,6 +270,8 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
                         />
                         <span> 공유하기</span>
                     </a> */}
+
+                    <ShareBtn onClick={onShare}>공유하기</ShareBtn>
                 </ShareContainer>
             </Navbar>
             {isLoading ? (

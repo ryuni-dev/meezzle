@@ -68,10 +68,14 @@ const CharacterContainer = styled.div`
 `;
 
 const NavContainer = styled.div`
-    margin-right: 5vw;
+    width: 100%;
+    margin-left: 17px;
+    margin-top: 24px;
 `;
 
 const Catchphrase = styled.div`
+    margin-left: 8px;
+    margin-bottom: 32px;
     position: relative;
     font-family: "bitbit";
     font-style: normal;
