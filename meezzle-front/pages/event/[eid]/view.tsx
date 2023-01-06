@@ -1,4 +1,3 @@
-import { NextPage } from "next";
 import { useEffect, useState } from "react";
 import ViewTable from "../../../components/event/View/ViewTable";
 import Navbar from "../../../components/common/Navbar";
@@ -8,6 +7,9 @@ import H1 from "../../../components/event/View/Title";
 import Tooltip from "../../../components/event/View/Tooltip";
 import Attendee from "../../../components/event/View/Attendee";
 import styled from "styled-components";
+import type { GetServerSideProps, NextPage } from "next";
+import { useRouter } from "next/router";
+import { useParticipants } from "../../../hooks/api/participants";
 
 type tableInfoType = {
     row: number;
@@ -34,7 +36,19 @@ const Body = styled.div`
     align-items: center;
 `;
 
-const Test: NextPage = () => {
+interface Props {
+    params: {
+        eid: string;
+    };
+}
+
+const TableView: NextPage<Props> = ({ params }) => {
+    const router = useRouter();
+    const { eid } = params;
+    const { data, isLoading } = useParticipants(eid);
+    const selectableTimes = isLoading ? null : data.data;
+    console.log(selectableTimes);
+
     const [tableInfo, setTableInfo] = useState<tableInfoType>({
         row: 48,
         col: {
@@ -55,27 +69,6 @@ const Test: NextPage = () => {
                 absentee: ["세호", "재석"],
             },
             {
-                time: 106,
-                attendee: ["경륜", "상오", "영로"],
-                absentee: ["세호", "재석"],
-            },
-
-            {
-                time: 121,
-                attendee: ["경륜", "상오", "지금"],
-                absentee: ["세호", "재석"],
-            },
-            {
-                time: 122,
-                attendee: ["경륜", "상오", "지동"],
-                absentee: ["세호", "재석"],
-            },
-            {
-                time: 123,
-                attendee: ["경륜", "상오", "지은"],
-                absentee: ["세호", "재석"],
-            },
-            {
                 time: 124,
                 attendee: ["경륜", "상오", "영로"],
                 absentee: ["세호", "재석"],
@@ -90,27 +83,6 @@ const Test: NextPage = () => {
             {
                 time: 126,
                 attendee: ["경륜", "상오", "윤하"],
-                absentee: ["세호", "재석"],
-            },
-
-            {
-                time: 127,
-                attendee: ["경륜", "상오", "재상"],
-                absentee: ["세호", "재석"],
-            },
-            {
-                time: 136,
-                attendee: ["경륜", "상오", "영로"],
-                absentee: ["세호", "재석"],
-            },
-            {
-                time: 137,
-                attendee: ["경륜", "상오", "영로"],
-                absentee: ["세호", "재석"],
-            },
-            {
-                time: 138,
-                attendee: ["경륜", "상오", "영로"],
                 absentee: ["세호", "재석"],
             },
         ],
@@ -170,7 +142,20 @@ const Test: NextPage = () => {
     );
 };
 
-export default Test;
+export const getServerSideProps: GetServerSideProps = async (context) => {
+    try {
+        return {
+            props: {
+                params: context.params,
+            },
+        };
+    } catch (e) {
+        console.log(e);
+        return { props: {} };
+    }
+};
+
+export default TableView;
 
 const Container = styled.div`
     width: 372px;
