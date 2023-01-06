@@ -15,6 +15,24 @@ const LandingPageFooter: NextComponentType = () => {
 
 export default LandingPageFooter;
 
+const Button = styled.button`
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    height: 53px;
+    font-size: 15px;
+    text-align: center;
+    font-weight: 600;
+    font-family: "Pretendard";
+    background-color: #ff9a3e;
+    color: white;
+    border-radius: 15px;
+    border: none;
+    filter: drop-shadow(0px 0px 15px #ffb36f);
+    cursor: pointer;
+`;
+
 const Footer = styled.footer`
     width: 90%;
     max-width: 375px;
