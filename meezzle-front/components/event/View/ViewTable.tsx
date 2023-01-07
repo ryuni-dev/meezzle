@@ -14,7 +14,7 @@ type ViewTableProps = {
         attendee: string[];
         absentee: string[];
     }[];
-    selectedWeeks: any;
+    checkableTimes: number[];
     total: number;
 };
 
@@ -32,7 +32,7 @@ const ViewTable = ({
     info,
     setClickedTime,
     timeData,
-    selectedWeeks,
+    checkableTimes,
     total,
 }: ViewTableProps) => {
     const [rows, setRows] = useState<ReactNode[]>([]);
@@ -90,10 +90,6 @@ const ViewTable = ({
     const ref = useRef<boolean>(false);
 
     useEffect(() => {
-        for (let i = 0; i < selectedWeeks.length; i++) {
-            //@ts-ignore
-            selectedWeeks[i] = week[selectedWeeks[i]];
-        }
         // 가상의 fetch
         // setRows([]);
         const makeRows = (info: any, r: number) => {
@@ -102,7 +98,7 @@ const ViewTable = ({
                     {info.col.names.map((_: string, idx: number) => {
                         const key = (idx + 1) * 100 + r;
                         const colorWeight = getAttendeePercent(key, total);
-                        const disabled = selectedWeeks.includes(idx + 1)
+                        const disabled = checkableTimes.includes(key)
                             ? false
                             : true;
 
@@ -158,7 +154,6 @@ const TimeRow = styled.p`
 
 const Container = styled.div`
     width: 97%;
-    height: 845px;
     margin: 0 auto;
     font-weight: 300;
     font-family: "Pretendard";

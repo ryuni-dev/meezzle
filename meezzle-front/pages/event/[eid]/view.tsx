@@ -11,7 +11,14 @@ import type { GetServerSideProps, NextPage } from "next";
 import { useRouter } from "next/router";
 import { useParticipants } from "../../../hooks/api/participants";
 import { HashLoader } from "react-spinners";
-import { ConvertDays4Client } from "../../../utils/converter";
+import {
+    ConvertDays4Client,
+    Convert4ResEventDays,
+    CheckAbleTime,
+} from "../../../utils/converter";
+import OrangeBtn from "../../../components/common/OrangeBtn";
+import { ToastContainer, toast } from "react-toastify";
+import { HomeBtn } from "./congratulations";
 
 type tableInfoType = {
     row: number;
@@ -64,6 +71,7 @@ const TableView: NextPage<Props> = ({ params }) => {
     const [isTableDone, setIsTableDone] = useState<boolean>(false);
     const [isAllDone, setIsAllDone] = useState<boolean>(false);
     const [names, setNames] = useState<string[]>([]);
+    const [checkableTimes, setCheckableTimes] = useState<number[]>([]);
 
     useEffect(() => {
         const clicked: TimeDataType[0] | undefined = timeData.find(
@@ -79,18 +87,15 @@ const TableView: NextPage<Props> = ({ params }) => {
     ) {
         for (let j = 0; j < attendTimes.length; j++) {
             let flag = false;
-            console.log(timeDataTemp.length, timeDataTemp);
+
             for (let i = 0; i < timeDataTemp.length; i++) {
-                console.log(attendTimes[j] === timeDataTemp[i].time);
                 if (timeDataTemp[i].time === attendTimes[j]) {
-                    console.log("겹치는 시간이 존재합니다");
                     timeDataTemp[i].attendee.push(name);
                     flag = true;
                     break;
                 }
             }
             if (!flag) {
-                console.log("겹치지 않는 시간입니다");
                 timeDataTemp.push({
                     time: attendTimes[j],
                     attendee: [name],
@@ -98,7 +103,6 @@ const TableView: NextPage<Props> = ({ params }) => {
                 });
             }
         }
-        console.log(name, timeDataTemp);
         setTimeData(timeDataTemp);
     }
 
@@ -127,8 +131,12 @@ const TableView: NextPage<Props> = ({ params }) => {
         if (isSuccess) {
             // 참여한 사람 순회
             let timeDataTemp: TimeDataType = [];
+            const participleTimes = `${data.data.selectableParticipleTimes.beginTime}-${data.data.selectableParticipleTimes.endTime}`;
+            const days = Convert4ResEventDays(
+                data.data.selectableParticipleTimes.selectedDayOfWeeks
+            );
+            setCheckableTimes(CheckAbleTime(participleTimes, days));
             for (let i = 0; i < participateData.length; i++) {
-                console.log(participateData[i]);
                 setNames((cur) => {
                     return [...cur, participateData[i].name];
                 });
@@ -145,17 +153,35 @@ const TableView: NextPage<Props> = ({ params }) => {
 
     useEffect(() => {
         if (isTableDone) {
-            console.log(timeData);
             addAbsentee(timeData, names);
             setIsAllDone(true);
         }
     }, [isTableDone]);
 
-    useEffect(() => {
-        if (isAllDone) {
-            console.log(timeData);
-        }
-    }, [isAllDone]);
+    const onShare = () => {
+        navigator.clipboard
+            .writeText(window.location.href)
+            .then(() => {
+                toast("링크가 복사되었습니다.", {
+                    position: "top-center",
+                    autoClose: 2000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: false,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
+            })
+            .catch((err) => {
+                console.log("Something went wrong", err);
+            });
+    };
+
+    const goHome = () => {
+        router.push("/");
+    };
+
     return (
         <Body>
             {isLoading && (
@@ -174,7 +200,7 @@ const TableView: NextPage<Props> = ({ params }) => {
                         timeData={timeData}
                         info={tableInfo}
                         setClickedTime={setClickedTime}
-                        selectedWeeks={selectableTimes}
+                        checkableTimes={checkableTimes}
                         total={participateData.length}
                     />
                     {clickedData && (
@@ -182,6 +208,23 @@ const TableView: NextPage<Props> = ({ params }) => {
                             <Attendee clickedData={clickedData} />
                         </Container>
                     )}
+                    <Footer>
+                        <OrangeBtn style={{ filter: "none" }} onClick={onShare}>
+                            공유하기
+                        </OrangeBtn>
+                        <HomeBtn onClick={goHome}>홈으로 돌아갈래요</HomeBtn>
+                    </Footer>
+                    <ToastContainer
+                        position="top-center"
+                        autoClose={2000}
+                        hideProgressBar
+                        newestOnTop={false}
+                        closeOnClick
+                        rtl={false}
+                        draggable
+                        pauseOnHover={false}
+                        theme="light"
+                    />
                 </>
             )}
         </Body>
@@ -202,6 +245,24 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 };
 
 export default TableView;
+
+const Footer = styled.div`
+    display: flex;
+    width: 80%;
+    margin-top: 45px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+`;
+
+const ContainerToast = styled(ToastContainer)`
+    .Toastify__toast {
+        font-family: "Pretendard";
+        font-weight: 500;
+        margin-top: 20px;
+        text-align: center;
+    }
+`;
 
 const Container = styled.div`
     width: 372px;
