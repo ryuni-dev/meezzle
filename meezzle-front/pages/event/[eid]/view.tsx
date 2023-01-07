@@ -18,7 +18,7 @@ import {
 } from "../../../utils/converter";
 import OrangeBtn from "../../../components/common/OrangeBtn";
 import { ToastContainer, toast } from "react-toastify";
-import { HomeBtn } from "./congratulations";
+import { HomeBtn } from "../../../components/common/HomeBtn";
 
 type tableInfoType = {
     row: number;

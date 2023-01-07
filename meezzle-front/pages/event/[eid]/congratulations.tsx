@@ -7,6 +7,7 @@ import Image from "next/image";
 import OrangeBtn from "../../../components/common/OrangeBtn";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { HomeBtn } from "../../../components/common/HomeBtn";
 
 interface Props {
     params: {
@@ -156,20 +157,6 @@ const FooterText = styled.p`
     font-size: 14px;
     line-height: 150%;
     margin-bottom: 8px;
-`;
-
-const HomeBtn = styled.p`
-    margin-top: 20px;
-    cursor: pointer;
-    font-family: "Pretendard";
-    font-weight: 500;
-    font-size: 13px;
-    line-height: 150%;
-
-    letter-spacing: -0.011em;
-    text-decoration-line: underline;
-
-    color: #656565;
 `;
 
 export default Congratulations;
