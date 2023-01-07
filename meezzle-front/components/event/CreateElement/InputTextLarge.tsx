@@ -58,7 +58,6 @@ const InputTextLarge = ({ placeholder, input, OnChange }: Props) => {
             placeholder={placeholder}
             value={input}
             onChange={OnChange}
-            autoFocus
         ></InputLarge>
     );
 };
