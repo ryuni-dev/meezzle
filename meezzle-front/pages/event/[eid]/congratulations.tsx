@@ -5,9 +5,10 @@ import styled from "styled-components";
 import character from "../../../public/assets/character.svg";
 import Image from "next/image";
 import OrangeBtn from "../../../components/common/OrangeBtn";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { HomeBtn } from "../../../components/common/HomeBtn";
+import ContainerToast from "../../../components/common/ContainerToast";
 
 interface Props {
     params: {
@@ -60,7 +61,7 @@ const Congratulations: NextPage<Props> = ({ params }) => {
             <Navbar>
                 <></>
             </Navbar>
-            <Container
+            <ContainerToast
                 position="top-center"
                 autoClose={2000}
                 hideProgressBar
@@ -106,15 +107,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         return { props: {} };
     }
 };
-
-export const Container = styled(ToastContainer)`
-    .Toastify__toast {
-        font-family: "Pretendard";
-        font-weight: 500;
-        margin-top: 20px;
-        text-align: center;
-    }
-`;
 
 const Body = styled.div`
     display: flex;

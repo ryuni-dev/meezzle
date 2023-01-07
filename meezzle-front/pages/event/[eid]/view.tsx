@@ -17,8 +17,9 @@ import {
     CheckAbleTime,
 } from "../../../utils/converter";
 import OrangeBtn from "../../../components/common/OrangeBtn";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { HomeBtn } from "../../../components/common/HomeBtn";
+import ContainerToast from "../../../components/common/ContainerToast";
 
 type tableInfoType = {
     row: number;
@@ -194,6 +195,17 @@ const TableView: NextPage<Props> = ({ params }) => {
                     <Navbar>
                         <></>
                     </Navbar>
+                    <ContainerToast
+                        position="top-center"
+                        autoClose={2000}
+                        hideProgressBar
+                        newestOnTop={false}
+                        closeOnClick
+                        rtl={false}
+                        draggable
+                        pauseOnHover={false}
+                        theme="light"
+                    />
                     <H1>총 {participateData.length}명이 참여했어요!</H1>
                     <Tooltip>*시간을 클릭해보세요.</Tooltip>
                     <ViewTable
@@ -214,17 +226,6 @@ const TableView: NextPage<Props> = ({ params }) => {
                         </OrangeBtn>
                         <HomeBtn onClick={goHome}>홈으로 돌아갈래요</HomeBtn>
                     </Footer>
-                    <ToastContainer
-                        position="top-center"
-                        autoClose={2000}
-                        hideProgressBar
-                        newestOnTop={false}
-                        closeOnClick
-                        rtl={false}
-                        draggable
-                        pauseOnHover={false}
-                        theme="light"
-                    />
                 </>
             )}
         </Body>
@@ -253,15 +254,6 @@ const Footer = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-`;
-
-const ContainerToast = styled(ToastContainer)`
-    .Toastify__toast {
-        font-family: "Pretendard";
-        font-weight: 500;
-        margin-top: 20px;
-        text-align: center;
-    }
 `;
 
 const Container = styled.div`
