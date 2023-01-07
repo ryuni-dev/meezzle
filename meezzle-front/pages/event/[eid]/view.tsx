@@ -46,8 +46,9 @@ const TableView: NextPage<Props> = ({ params }) => {
     const router = useRouter();
     const { eid } = params;
     const { data, isLoading } = useParticipants(eid);
-    const selectableTimes = isLoading ? null : data.data;
-    console.log(selectableTimes);
+    const selectableTimes = isLoading
+        ? null
+        : data.data.selectableParticipleTimes.selectedDayOfWeeks;
 
     const [tableInfo, setTableInfo] = useState<tableInfoType>({
         row: 48,
@@ -93,25 +94,6 @@ const TableView: NextPage<Props> = ({ params }) => {
         TimeDataType["times"][0] | undefined
     >();
 
-    // const [mostJoinTimes, setMostJoinTimes] = useState<TimeDataType["times"]>(
-    //     []
-    // );
-
-    // useEffect(() => {
-    // let joinMax = 0;
-
-    // for (let i = 0; i < timeData.times.length; i++) {
-    //     joinMax =
-    //         timeData.times[i].attendee.length > joinMax
-    //             ? timeData.times[i].attendee.length
-    //             : joinMax;
-    // }
-    // for (let i = 0; i < timeData.times.length; i++) {
-    //     if (joinMax === timeData.times[i].attendee.length) {
-    //         setMostJoinTimes([...mostJoinTimes, timeData.times[i]]);
-    //     }
-    // }
-    // }, []);
     useEffect(() => {
         const clicked: TimeDataType["times"][0] | undefined = timeData[
             "times"
@@ -121,22 +103,27 @@ const TableView: NextPage<Props> = ({ params }) => {
 
     return (
         <Body>
-            <Navbar>
-                <Image src={shareNav} alt="share" />
-            </Navbar>
-            <H1>총 {timeData.total}명이 참여했어요!</H1>
-            <Tooltip>*시간을 클릭해보세요.</Tooltip>
-            <ViewTable
-                timeData={timeData}
-                info={tableInfo}
-                setClickedTime={setClickedTime}
-            />
-            {clickedData && (
-                <Container>
-                    <Attendee clickedData={clickedData} />
-                    {/* <ThinLine />
+            {!isLoading && (
+                <>
+                    <Navbar>
+                        <Image src={shareNav} alt="share" />
+                    </Navbar>
+                    <H1>총 {timeData.total}명이 참여했어요!</H1>
+                    <Tooltip>*시간을 클릭해보세요.</Tooltip>
+                    <ViewTable
+                        timeData={timeData}
+                        info={tableInfo}
+                        setClickedTime={setClickedTime}
+                        selectedWeeks={selectableTimes}
+                    />
+                    {clickedData && (
+                        <Container>
+                            <Attendee clickedData={clickedData} />
+                            {/* <ThinLine />
                     <MaximumTime times={mostJoinTimes} /> */}
-                </Container>
+                        </Container>
+                    )}
+                </>
             )}
         </Body>
     );

@@ -1,6 +1,7 @@
 import React, { ReactNode, MouseEvent } from "react";
 import { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
+import css from "styled-jsx/css";
 
 type ViewTableProps = {
     info: {
@@ -16,9 +17,25 @@ type ViewTableProps = {
         }[];
         total: number;
     };
+    selectedWeeks: any;
 };
 
-const ViewTable = ({ info, setClickedTime, timeData }: ViewTableProps) => {
+const week = {
+    SUNDAY: 1,
+    MONDAY: 2,
+    TUESDAY: 3,
+    WEDNESDAY: 4,
+    THURSDAY: 5,
+    FRIDAY: 6,
+    SATURDAY: 7,
+};
+
+const ViewTable = ({
+    info,
+    setClickedTime,
+    timeData,
+    selectedWeeks,
+}: ViewTableProps) => {
     const [rows, setRows] = useState<ReactNode[]>([]);
     const [head, setHead] = useState<ReactNode[]>([]);
     const [time, setTime] = useState<ReactNode[]>([]);
@@ -74,6 +91,10 @@ const ViewTable = ({ info, setClickedTime, timeData }: ViewTableProps) => {
     const ref = useRef<boolean>(false);
 
     useEffect(() => {
+        for (let i = 0; i < selectedWeeks.length; i++) {
+            //@ts-ignore
+            selectedWeeks[i] = week[selectedWeeks[i]];
+        }
         // 가상의 fetch
         // setRows([]);
         const makeRows = (info: any, r: number) => {
@@ -85,6 +106,10 @@ const ViewTable = ({ info, setClickedTime, timeData }: ViewTableProps) => {
                             key,
                             timeData.total
                         );
+                        const disabled = selectedWeeks.includes(idx + 1)
+                            ? false
+                            : true;
+
                         return (
                             <TimeBlock
                                 col={info.col.length}
@@ -98,6 +123,7 @@ const ViewTable = ({ info, setClickedTime, timeData }: ViewTableProps) => {
                                 onTouchEnd={touchEnd}
                                 onTouchMove={touchMove}
                                 colorWeight={colorWeight}
+                                disabled={disabled}
                             ></TimeBlock>
                         );
                     })}
@@ -171,11 +197,17 @@ const TableBody = styled.div`
     }
 `;
 
-const TimeBlock = styled.span<{ col: number; colorWeight: number }>`
+const TimeBlock = styled.span<{
+    col: number;
+    colorWeight: number;
+    disabled: boolean;
+}>`
     display: block;
     width: ${(props) => (props.col ? `${100 / props.col}%` : "10%")};
     background-color: ${(props) =>
-        props.colorWeight
+        props.disabled
+            ? "#2B2B2B"
+            : props.colorWeight
             ? `rgba(50, 120, 222,${props.colorWeight})`
             : "#FFFFFF"};
     height: 13px;
