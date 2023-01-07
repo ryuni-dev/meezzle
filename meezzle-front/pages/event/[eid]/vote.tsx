@@ -11,8 +11,9 @@ import TimeSelect from "../../../components/event/Vote/TimeSelect";
 import Btn from "../../../components/common/Btn";
 import { useRouter } from "next/router";
 import { useEvent, useEventVote4Guest, useEventVote4Host } from "../../../hooks/api/events";
-import { Convert4ResEventDays, ConvertDays4Server } from "../../../utils/converter";
+import { Convert4ResEventDays, ConvertDays4Client, ConvertDays4Server } from "../../../utils/converter";
 import { guestLogined } from "../../../states/guest";
+import { useUser } from "../../../hooks/api/user";
 
 const Body = styled.div`
     display: flex;
@@ -52,10 +53,10 @@ interface Props {
 const ReviseEvent: NextPage<Props> = ({ params }) => {
     const { eid } = params;
 
-    const { data, isLoading } = useEvent(eid);
+    const { data, isLoading, isFetching } = useEvent(eid);
     const voteHost = useEventVote4Host(eid)
     const voteGuest = useEventVote4Guest(eid)
-
+    // const user = useUser();
 
     // console.log(data);
 
@@ -116,10 +117,30 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
         }
     };
 
+    const FindData = () => {
+        const eventParticipants = data.data.eventParticipants;
+        // console.log(user)
+        console.log(localStorage.getItem("name"))
+
+        for(let i=0; i < eventParticipants.length; i++) {
+            if(eventParticipants[i].name === localStorage.getItem("name")){
+                const ableDaysAndTimes = eventParticipants[i].ableDaysAndTimes;
+                console.log(ableDaysAndTimes)
+                const convertedData = ConvertDays4Client(ableDaysAndTimes);
+                setSelectedTime(convertedData);
+            }
+        }
+    }
     useEffect(() => {
         if (localStorage.getItem("token") === null) {
             alert("잘못된 로그인 정보입니다.");
             router.push(`/event/${eid}/info`);
+        }
+        else{
+            console.log(data)
+            if(!(isLoading || isFetching)){
+                FindData();
+            }
         }
     }, []);
 
