@@ -79,9 +79,12 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
         localStorage.removeItem("token");
     };
 
+    const filterDisable = () => {
+        setSelectedTime(selectedTime.filter(se => !ableTimes.includes(se)))
+    }
     // 투표 제출시 발생하는 이벤트 핸들러
     const onVoteSubmit = (): void => {
-        console.log(selectedTime)
+        filterDisable()
         const voteData = JSON.stringify({
             //@ts-ignore
             ableDaysAndTimes: ConvertDays4Server(selectedTime)
