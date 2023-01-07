@@ -136,12 +136,6 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
             alert("잘못된 로그인 정보입니다.");
             router.push(`/event/${eid}/info`);
         }
-        else{
-            console.log(data)
-            if(!(isLoading || isFetching)){
-                FindData();
-            }
-        }
     }, []);
 
     const BtnPrint = (): JSX.Element => {
@@ -226,6 +220,7 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
             );
             setSelectedDay(days);
             setNow(days[0]);
+            FindData();
         }
     }, [data]);
 
