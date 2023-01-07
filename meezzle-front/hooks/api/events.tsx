@@ -31,7 +31,7 @@ export const useEventPatch = (eventId: string) => {
     );
 };
 
-export const useEventVote4User = (eventId: string) => {
+export const useEventVote4Host = (eventId: string) => {
     return useMutation(["eventVote-user"], (data:string) =>
         api.voteEvent4Host(data, eventId)
     );

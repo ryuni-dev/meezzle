@@ -109,7 +109,7 @@ export const patchEvent = async (data: string, eventId: string) => {
 
 export const voteEvent4Host = async (data: string, eventId: string) => {
     try {
-        const res = await axios.patch(
+        const res = await axios.post(
             process.env.NEXT_PUBLIC_API_EVENTS + '/' + eventId + '/user/participate',
             data,
             {
@@ -133,7 +133,7 @@ export const voteEvent4Host = async (data: string, eventId: string) => {
 
 export const voteEvent4Guest = async (data: string, eventId: string) => {
     try {
-        const res = await axios.patch(
+        const res = await axios.post(
             process.env.NEXT_PUBLIC_API_EVENTS + '/' + eventId + '/guests/participate',
             data,
             {

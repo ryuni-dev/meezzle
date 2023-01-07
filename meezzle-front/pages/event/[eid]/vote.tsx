@@ -4,14 +4,14 @@ import styled from "styled-components";
 
 import Navbar from "../../../components/common/Navbar";
 import DayBar from "../../../components/event/Vote/DayBar";
-import { voteNow } from "../../../states/eventVote";
+import { timeSelected, voteNow } from "../../../states/eventVote";
 import { eventDaySelected } from "../../../states/eventDayBox";
 import { useEffect } from "react";
 import TimeSelect from "../../../components/event/Vote/TimeSelect";
 import Btn from "../../../components/common/Btn";
 import { useRouter } from "next/router";
-import { useEvent } from "../../../hooks/api/events";
-import { Convert4ResEventDays } from "../../../utils/converter";
+import { useEvent, useEventVote4Guest, useEventVote4Host } from "../../../hooks/api/events";
+import { Convert4ResEventDays, ConvertDays4Server } from "../../../utils/converter";
 import { guestLogined } from "../../../states/guest";
 
 const Body = styled.div`
@@ -53,10 +53,15 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
     const { eid } = params;
 
     const { data, isLoading } = useEvent(eid);
+    const voteHost = useEventVote4Host(eid)
+    const voteGuest = useEventVote4Guest(eid)
+
+
     // console.log(data);
 
     const [now, setNow] = useRecoilState(voteNow);
     const [selectedDay, setSelectedDay] = useRecoilState(eventDaySelected);
+    const [selectedTime, setSelectedTime] = useRecoilState(timeSelected);
     const [isGuest, setIsGuest] = useRecoilState(guestLogined);
     const router = useRouter();
 
@@ -74,8 +79,20 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
 
     // 투표 제출시 발생하는 이벤트 핸들러
     const onVoteSubmit = (): void => {
+        console.log(selectedTime)
+        const voteData = JSON.stringify({
+            //@ts-ignore
+            ableDaysAndTimes: ConvertDays4Server(selectedTime)
+        })
+        console.log(voteData)
         if (isGuest) {
+            // Guest 투표
+            voteGuest.mutate(voteData)
             guestLogout();
+        }
+        else{
+            // Host 투표
+            voteHost.mutate(voteData)
         }
         /* 제출 API 처리 필요 */
         router.push({
