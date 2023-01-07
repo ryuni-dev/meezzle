@@ -4,14 +4,14 @@ import styled from "styled-components";
 
 import Navbar from "../../../components/common/Navbar";
 import DayBar from "../../../components/event/Vote/DayBar";
-import { timeSelected, voteNow } from "../../../states/eventVote";
+import { ableTime, timeSelected, voteNow } from "../../../states/eventVote";
 import { eventDaySelected } from "../../../states/eventDayBox";
 import { useEffect } from "react";
 import TimeSelect from "../../../components/event/Vote/TimeSelect";
 import Btn from "../../../components/common/Btn";
 import { useRouter } from "next/router";
 import { useEvent, useEventVote4Guest, useEventVote4Host } from "../../../hooks/api/events";
-import { Convert4ResEventDays, ConvertDays4Client, ConvertDays4Server } from "../../../utils/converter";
+import { CheckAbleTime, Convert4ResEventDays, ConvertDays4Client, ConvertDays4Server } from "../../../utils/converter";
 import { guestLogined } from "../../../states/guest";
 import { useUser } from "../../../hooks/api/user";
 
@@ -63,6 +63,7 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
     const [now, setNow] = useRecoilState(voteNow);
     const [selectedDay, setSelectedDay] = useRecoilState(eventDaySelected);
     const [selectedTime, setSelectedTime] = useRecoilState(timeSelected);
+    const [ableTimes, setAbleTimes] = useRecoilState(ableTime);
     const [isGuest, setIsGuest] = useRecoilState(guestLogined);
     const router = useRouter();
 
@@ -210,14 +211,16 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
         }
     };
 
-    // useEffect(() => {
-    //     // setNow(selectedDay[0]);
-    // },[]);
     useEffect(() => {
         if (!isLoading) {
             const days = Convert4ResEventDays(
                 data.data.selectableParticipleTimes.selectedDayOfWeeks
             );
+            const participleTimes = data.data.selectableParticipleTimes.beginTime + '-' + data.data.selectableParticipleTimes.endTime;
+            const ableTimeArr = CheckAbleTime(participleTimes, days)
+            if (typeof ableTimeArr !== undefined){
+                setAbleTimes(ableTimeArr);
+            }
             setSelectedDay(days);
             setNow(days[0]);
             FindData();
