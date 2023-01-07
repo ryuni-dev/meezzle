@@ -26,7 +26,7 @@ export const EventBox = ({ userNum, eid, title, color, dday }: Props) => {
             <IconContainer>
                 <Image src={user} alt="user" />
                 {userNum}
-                <Image src={share} alt="share" />
+                {/* <Image src={share} alt="share" /> */}
                 <Link 
                     href={{
                         pathname: '/event/[eid]/revise',
