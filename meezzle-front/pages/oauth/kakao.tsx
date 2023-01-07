@@ -35,7 +35,14 @@ const Kakao: NextPage<Props> = ({ host }) => {
                         const token = res.data.data.token
                             ? res.data.data.token
                             : "";
+
+                        const name = res.data.data.name
+                        ? res.data.data.name
+                        : "";
+
                         window.localStorage.setItem("token", token);
+                        window.localStorage.setItem("name", name);
+
                         if (localStorage.getItem("token")) setLoginState(true);
                         router.push("/");
                     });

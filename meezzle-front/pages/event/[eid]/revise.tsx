@@ -14,11 +14,11 @@ import EventExplain from "../../../components/event/Create/EventExplain";
 
 import LinkBtn from "../../../components/common/LinkBtn";
 import Navbar from "../../../components/common/Navbar";
-import { useEvent, useEventDelete } from "../../../hooks/api/events";
+import { useEvent, useEventDelete, useEventPatch } from "../../../hooks/api/events";
 import { eventInfo, eventTimeInfo } from "../../../states/eventInfo";
 import { eventDaySelected } from "../../../states/eventDayBox";
 import { useEffect } from "react";
-import { Convert4ResEventDays, ISO2Date } from "../../../utils/converter";
+import { Convert4ReqEvents, Convert4ResEventDays, ISO2Date } from "../../../utils/converter";
 
 const Body = styled.div`
     display: flex;
@@ -58,10 +58,19 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
     const [timeInfo, setTimeInfo] = useRecoilState(eventTimeInfo)
 
     const deleteEvent = useEventDelete();
+    const patchEvent = useEventPatch(eid);
 
     const DeleteEvent = () => {
         deleteEvent.mutate(eid);
     };
+
+    const PatchEvent = () => {
+        const data = JSON.stringify(
+            //@ts-ignore
+            Convert4ReqEvents(event, timeInfo, days)    // type 수정 필요
+        )
+        patchEvent.mutate(data)
+    }
 
     useEffect(() => {
         if (isLoading) {
@@ -107,7 +116,12 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
                 <EventExplain></EventExplain>
             </EventCreate>
             <Footer>
-                <LinkBtn text="수정 완료!" href="/" color={true}></LinkBtn>
+                <LinkBtn 
+                    text="수정 완료!" 
+                    href="/" 
+                    color={true}
+                    Click={PatchEvent}    
+                ></LinkBtn>
                 <LinkBtn
                     text="이벤트 삭제하기"
                     href="/"

@@ -4,15 +4,16 @@ import styled from "styled-components";
 
 import Navbar from "../../../components/common/Navbar";
 import DayBar from "../../../components/event/Vote/DayBar";
-import { voteNow } from "../../../states/eventVote";
+import { ableTime, timeSelected, voteNow } from "../../../states/eventVote";
 import { eventDaySelected } from "../../../states/eventDayBox";
 import { useEffect } from "react";
 import TimeSelect from "../../../components/event/Vote/TimeSelect";
 import Btn from "../../../components/common/Btn";
 import { useRouter } from "next/router";
-import { useEvent } from "../../../hooks/api/events";
-import { Convert4ResEventDays } from "../../../utils/converter";
+import { useEvent, useEventVote4Guest, useEventVote4Host } from "../../../hooks/api/events";
+import { CheckAbleTime, Convert4ResEventDays, ConvertDays4Client, ConvertDays4Server } from "../../../utils/converter";
 import { guestLogined } from "../../../states/guest";
+import { useUser } from "../../../hooks/api/user";
 
 const Body = styled.div`
     display: flex;
@@ -52,11 +53,17 @@ interface Props {
 const ReviseEvent: NextPage<Props> = ({ params }) => {
     const { eid } = params;
 
-    const { data, isLoading } = useEvent(eid);
+    const { data, isLoading, isFetching } = useEvent(eid);
+    const voteHost = useEventVote4Host(eid)
+    const voteGuest = useEventVote4Guest(eid)
+    // const user = useUser();
+
     // console.log(data);
 
     const [now, setNow] = useRecoilState(voteNow);
     const [selectedDay, setSelectedDay] = useRecoilState(eventDaySelected);
+    const [selectedTime, setSelectedTime] = useRecoilState(timeSelected);
+    const [ableTimes, setAbleTimes] = useRecoilState(ableTime);
     const [isGuest, setIsGuest] = useRecoilState(guestLogined);
     const router = useRouter();
 
@@ -72,10 +79,25 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
         localStorage.removeItem("token");
     };
 
+    const filterDisable = () => {
+        setSelectedTime(selectedTime.filter(se => !ableTimes.includes(se)))
+    }
     // 투표 제출시 발생하는 이벤트 핸들러
     const onVoteSubmit = (): void => {
+        filterDisable()
+        const voteData = JSON.stringify({
+            //@ts-ignore
+            ableDaysAndTimes: ConvertDays4Server(selectedTime)
+        })
+        console.log(voteData)
         if (isGuest) {
+            // Guest 투표
+            voteGuest.mutate(voteData)
             guestLogout();
+        }
+        else{
+            // Host 투표
+            voteHost.mutate(voteData)
         }
         /* 제출 API 처리 필요 */
         router.push({
@@ -99,6 +121,20 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
         }
     };
 
+    const FindData = () => {
+        const eventParticipants = data.data.eventParticipants;
+        // console.log(user)
+        console.log(localStorage.getItem("name"))
+
+        for(let i=0; i < eventParticipants.length; i++) {
+            if(eventParticipants[i].name === localStorage.getItem("name")){
+                const ableDaysAndTimes = eventParticipants[i].ableDaysAndTimes;
+                console.log(ableDaysAndTimes)
+                const convertedData = ConvertDays4Client(ableDaysAndTimes);
+                setSelectedTime(convertedData);
+            }
+        }
+    }
     useEffect(() => {
         if (localStorage.getItem("token") === null) {
             alert("잘못된 로그인 정보입니다.");
@@ -178,16 +214,19 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
         }
     };
 
-    // useEffect(() => {
-    //     // setNow(selectedDay[0]);
-    // },[]);
     useEffect(() => {
         if (!isLoading) {
             const days = Convert4ResEventDays(
                 data.data.selectableParticipleTimes.selectedDayOfWeeks
             );
+            const participleTimes = data.data.selectableParticipleTimes.beginTime + '-' + data.data.selectableParticipleTimes.endTime;
+            const ableTimeArr = CheckAbleTime(participleTimes, days)
+            if (typeof ableTimeArr !== undefined){
+                setAbleTimes(ableTimeArr);
+            }
             setSelectedDay(days);
             setNow(days[0]);
+            FindData();
         }
     }, [data]);
 
