@@ -21,7 +21,7 @@ const LoaderBox = styled.div`
 const LandingPageSection: NextComponentType = () => {
     // 유저가 처음 로그인 시엔 isLoading을, 로그인 한 상태에서 새로고침 시엔 isFetching을 사용
     const { data, isFetching, isLoading, refetch } = useEvents();
-
+    console.log(data)
     const events = data;
 
     useEffect(()=> {
