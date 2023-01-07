@@ -139,7 +139,7 @@ const ViewTable = ({
             })
         );
         for (let i = 0; i <= 24; i++) {
-            setTime((time) => [...time, <p key={i}>{i}:00</p>]);
+            setTime((time) => [...time, <TimeRow key={i}>{i}:00</TimeRow>]);
         }
     }, []);
 
@@ -155,6 +155,10 @@ const ViewTable = ({
 };
 
 export default ViewTable;
+
+const TimeRow = styled.p`
+    margin: 8px 0 14px 0;
+`;
 
 const Container = styled.div`
     width: 97%;
@@ -222,8 +226,4 @@ const Time = styled.div`
     margin-top: 5px;
     text-align: right;
     margin-right: 3px;
-
-    & > p {
-        margin-bottom: 16px;
-    }
 `;
