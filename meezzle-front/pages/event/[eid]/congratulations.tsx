@@ -5,6 +5,8 @@ import styled from "styled-components";
 import character from "../../../public/assets/character.svg";
 import Image from "next/image";
 import OrangeBtn from "../../../components/common/OrangeBtn";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface Props {
     params: {
@@ -16,16 +18,36 @@ const Congratulations: NextPage<Props> = ({ params }) => {
     const router = useRouter();
     const { eid } = params;
 
+    const isVoter = router.query.voter === "true";
+
     const onShare = () => {
-        navigator.clipboard
-            .writeText(window.location.href.replace("congratulations", "info"))
-            .then(() => {
-                // 토스트 메세지 복사되었습니다 띄우기
-                console.log("Text copied to clipboard...");
-            })
-            .catch((err) => {
-                console.log("Something went wrong", err);
-            });
+        let URL = "";
+        if (isVoter) {
+            URL = window.location.href.replace(
+                "congratulations?voter=true",
+                "view"
+            );
+            router.push(URL);
+        } else {
+            URL = window.location.href.replace("congratulations", "info");
+            navigator.clipboard
+                .writeText(URL)
+                .then(() => {
+                    toast("링크가 복사되었습니다.", {
+                        position: "top-center",
+                        autoClose: 2000,
+                        hideProgressBar: true,
+                        closeOnClick: true,
+                        pauseOnHover: false,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                    });
+                })
+                .catch((err) => {
+                    console.log("Something went wrong", err);
+                });
+        }
     };
 
     const goHome = () => {
@@ -37,14 +59,33 @@ const Congratulations: NextPage<Props> = ({ params }) => {
             <Navbar>
                 <></>
             </Navbar>
+            <Container
+                position="top-center"
+                autoClose={2000}
+                hideProgressBar
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                draggable
+                pauseOnHover={false}
+                theme="light"
+            />
             <Section>
                 <Image src={character} />
-                <SectionText>이벤트가 생성되었어요!</SectionText>
+                <SectionText>
+                    {isVoter
+                        ? "투표가 완료되었어요!"
+                        : "이벤트가 생성되었어요!"}
+                </SectionText>
             </Section>
             <Footer>
-                <FooterText>다른 친구들에게 공유해봐요!</FooterText>
+                <FooterText>
+                    {isVoter
+                        ? "다른 사람들은 어디에 투표했을까?"
+                        : "다른 친구들에게 공유해봐요!"}
+                </FooterText>
                 <OrangeBtn style={{ filter: "none" }} onClick={onShare}>
-                    공유하기
+                    {isVoter ? "통계보기" : "공유하기"}
                 </OrangeBtn>
                 <HomeBtn onClick={goHome}>홈으로 돌아갈래요</HomeBtn>
             </Footer>
@@ -64,6 +105,15 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         return { props: {} };
     }
 };
+
+export const Container = styled(ToastContainer)`
+    .Toastify__toast {
+        font-family: "Pretendard";
+        font-weight: 500;
+        margin-top: 20px;
+        text-align: center;
+    }
+`;
 
 const Body = styled.div`
     display: flex;

@@ -78,7 +78,10 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
             guestLogout();
         }
         /* 제출 API 처리 필요 */
-        router.push("/");
+        router.push({
+            pathname: `/event/${eid}/congratulations`,
+            query: { voter: "true" },
+        });
     };
 
     // 이벤트 설명 보기시 발생하는 이벤트 핸들러
@@ -95,6 +98,13 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
             setNow(selectedDay[idx]);
         }
     };
+
+    useEffect(() => {
+        if (localStorage.getItem("token") === null) {
+            alert("잘못된 로그인 정보입니다.");
+            router.push(`/event/${eid}/info`);
+        }
+    }, []);
 
     const BtnPrint = (): JSX.Element => {
         if (selectedDay.length === 1) {

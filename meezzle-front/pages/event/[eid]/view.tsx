@@ -1,4 +1,3 @@
-import { NextPage } from "next";
 import { useEffect, useState } from "react";
 import ViewTable from "../../../components/event/View/ViewTable";
 import Navbar from "../../../components/common/Navbar";
@@ -8,6 +7,9 @@ import H1 from "../../../components/event/View/Title";
 import Tooltip from "../../../components/event/View/Tooltip";
 import Attendee from "../../../components/event/View/Attendee";
 import styled from "styled-components";
+import type { GetServerSideProps, NextPage } from "next";
+import { useRouter } from "next/router";
+import { useParticipants } from "../../../hooks/api/participants";
 
 type tableInfoType = {
     row: number;
@@ -34,7 +36,20 @@ const Body = styled.div`
     align-items: center;
 `;
 
-const Test: NextPage = () => {
+interface Props {
+    params: {
+        eid: string;
+    };
+}
+
+const TableView: NextPage<Props> = ({ params }) => {
+    const router = useRouter();
+    const { eid } = params;
+    const { data, isLoading } = useParticipants(eid);
+    const selectableTimes = isLoading
+        ? null
+        : data.data.selectableParticipleTimes.selectedDayOfWeeks;
+
     const [tableInfo, setTableInfo] = useState<tableInfoType>({
         row: 48,
         col: {
@@ -55,27 +70,6 @@ const Test: NextPage = () => {
                 absentee: ["세호", "재석"],
             },
             {
-                time: 106,
-                attendee: ["경륜", "상오", "영로"],
-                absentee: ["세호", "재석"],
-            },
-
-            {
-                time: 121,
-                attendee: ["경륜", "상오", "지금"],
-                absentee: ["세호", "재석"],
-            },
-            {
-                time: 122,
-                attendee: ["경륜", "상오", "지동"],
-                absentee: ["세호", "재석"],
-            },
-            {
-                time: 123,
-                attendee: ["경륜", "상오", "지은"],
-                absentee: ["세호", "재석"],
-            },
-            {
                 time: 124,
                 attendee: ["경륜", "상오", "영로"],
                 absentee: ["세호", "재석"],
@@ -92,27 +86,6 @@ const Test: NextPage = () => {
                 attendee: ["경륜", "상오", "윤하"],
                 absentee: ["세호", "재석"],
             },
-
-            {
-                time: 127,
-                attendee: ["경륜", "상오", "재상"],
-                absentee: ["세호", "재석"],
-            },
-            {
-                time: 136,
-                attendee: ["경륜", "상오", "영로"],
-                absentee: ["세호", "재석"],
-            },
-            {
-                time: 137,
-                attendee: ["경륜", "상오", "영로"],
-                absentee: ["세호", "재석"],
-            },
-            {
-                time: 138,
-                attendee: ["경륜", "상오", "영로"],
-                absentee: ["세호", "재석"],
-            },
         ],
         total: 5,
     });
@@ -121,25 +94,6 @@ const Test: NextPage = () => {
         TimeDataType["times"][0] | undefined
     >();
 
-    // const [mostJoinTimes, setMostJoinTimes] = useState<TimeDataType["times"]>(
-    //     []
-    // );
-
-    // useEffect(() => {
-    // let joinMax = 0;
-
-    // for (let i = 0; i < timeData.times.length; i++) {
-    //     joinMax =
-    //         timeData.times[i].attendee.length > joinMax
-    //             ? timeData.times[i].attendee.length
-    //             : joinMax;
-    // }
-    // for (let i = 0; i < timeData.times.length; i++) {
-    //     if (joinMax === timeData.times[i].attendee.length) {
-    //         setMostJoinTimes([...mostJoinTimes, timeData.times[i]]);
-    //     }
-    // }
-    // }, []);
     useEffect(() => {
         const clicked: TimeDataType["times"][0] | undefined = timeData[
             "times"
@@ -149,28 +103,46 @@ const Test: NextPage = () => {
 
     return (
         <Body>
-            <Navbar>
-                <Image src={shareNav} alt="share" />
-            </Navbar>
-            <H1>총 {timeData.total}명이 참여했어요!</H1>
-            <Tooltip>*시간을 클릭해보세요.</Tooltip>
-            <ViewTable
-                timeData={timeData}
-                info={tableInfo}
-                setClickedTime={setClickedTime}
-            />
-            {clickedData && (
-                <Container>
-                    <Attendee clickedData={clickedData} />
-                    {/* <ThinLine />
+            {!isLoading && (
+                <>
+                    <Navbar>
+                        <Image src={shareNav} alt="share" />
+                    </Navbar>
+                    <H1>총 {timeData.total}명이 참여했어요!</H1>
+                    <Tooltip>*시간을 클릭해보세요.</Tooltip>
+                    <ViewTable
+                        timeData={timeData}
+                        info={tableInfo}
+                        setClickedTime={setClickedTime}
+                        selectedWeeks={selectableTimes}
+                    />
+                    {clickedData && (
+                        <Container>
+                            <Attendee clickedData={clickedData} />
+                            {/* <ThinLine />
                     <MaximumTime times={mostJoinTimes} /> */}
-                </Container>
+                        </Container>
+                    )}
+                </>
             )}
         </Body>
     );
 };
 
-export default Test;
+export const getServerSideProps: GetServerSideProps = async (context) => {
+    try {
+        return {
+            props: {
+                params: context.params,
+            },
+        };
+    } catch (e) {
+        console.log(e);
+        return { props: {} };
+    }
+};
+
+export default TableView;
 
 const Container = styled.div`
     width: 372px;

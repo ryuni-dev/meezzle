@@ -1,7 +1,7 @@
 import type { GetServerSideProps, NextPage } from "next";
 import styled from "styled-components";
 import { useEffect } from "react";
-
+import { Container } from "./congratulations";
 import Navbar from "../../../components/common/Navbar";
 import VoteLogin from "../../../components/event/Vote/Login";
 import { useEvent } from "../../../hooks/api/events";
@@ -250,8 +250,16 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
         navigator.clipboard
             .writeText(window.location.href)
             .then(() => {
-                // 토스트 메세지 복사되었습니다 띄우기
-                console.log("Text copied to clipboard...");
+                toast("링크가 복사되었습니다.", {
+                    position: "top-center",
+                    autoClose: 2000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: false,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                });
             })
             .catch((err) => {
                 console.log("Something went wrong", err);
@@ -296,7 +304,18 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
                             useDisable={!isLoggedIn && true}
                             Click={Click2Vote}
                         ></Btn>
-                        <ToastContainer
+                        <Container
+                            position="top-center"
+                            autoClose={2000}
+                            hideProgressBar
+                            newestOnTop={false}
+                            closeOnClick
+                            rtl={false}
+                            draggable
+                            pauseOnHover={false}
+                            theme="light"
+                        />
+                        {/* <ToastContainer
                             position="bottom-center"
                             autoClose={2000}
                             hideProgressBar
@@ -307,7 +326,7 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
                             draggable
                             pauseOnHover={false}
                             theme="colored"
-                        />
+                        /> */}
                         <Link
                             href={{
                                 pathname: "/event/[eid]/view",
