@@ -10,14 +10,12 @@ type ViewTableProps = {
     };
     setClickedTime(key: number): void;
     timeData: {
-        times: {
-            time: number;
-            attendee: string[];
-            absentee: string[];
-        }[];
-        total: number;
-    };
+        time: number;
+        attendee: string[];
+        absentee: string[];
+    }[];
     selectedWeeks: any;
+    total: number;
 };
 
 const week = {
@@ -35,6 +33,7 @@ const ViewTable = ({
     setClickedTime,
     timeData,
     selectedWeeks,
+    total,
 }: ViewTableProps) => {
     const [rows, setRows] = useState<ReactNode[]>([]);
     const [head, setHead] = useState<ReactNode[]>([]);
@@ -46,7 +45,7 @@ const ViewTable = ({
     };
 
     const getAttendeePercent = (id: number, total: number) => {
-        const data = timeData.times.find((el) => el.time === id);
+        const data = timeData.find((el) => el.time === id);
         if (data === undefined || total === 0) return 0;
         return data?.attendee.length === total
             ? 1
@@ -102,10 +101,7 @@ const ViewTable = ({
                 <div key={r}>
                     {info.col.names.map((_: string, idx: number) => {
                         const key = (idx + 1) * 100 + r;
-                        const colorWeight = getAttendeePercent(
-                            key,
-                            timeData.total
-                        );
+                        const colorWeight = getAttendeePercent(key, total);
                         const disabled = selectedWeeks.includes(idx + 1)
                             ? false
                             : true;
