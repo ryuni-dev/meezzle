@@ -39,7 +39,7 @@ const LandingPageSection: NextComponentType = () => {
                 </Link>
             </ButtonContainer>
             {
-                isLoading ?
+                (isLoading || isFetching) ?
                 <LoaderBox>
                     <HashLoader color="#3278DE" />
                 </LoaderBox>
