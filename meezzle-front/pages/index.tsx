@@ -42,6 +42,10 @@ const Home: NextPage = () => {
         }
     };
 
+    useEffect(() => {
+        if (localStorage.getItem("token")) setIsLoggedIn(true)
+    }, []);
+
     const menuRef = useRef<HTMLDivElement>(null);
 
     // 로그인 메뉴 이외의 곳을 클릭하면 로그인 메뉴가 사라짐
