@@ -233,3 +233,26 @@ export const ISO2Date = (iso: string) => {
 
     return setHours(setMinutes(new Date(), minute), hour);
 }
+
+
+
+export const CheckAbleTime = (participleTimes: string, ableDayOfWeeks: number[]): number[] => {
+    // participleTimes : startTime-endTime
+    const timeArr = [];
+    for (let i = 0; i < ableDayOfWeeks.length; i++){
+        const day = ableDayOfWeeks[i];
+        try {
+            const times = participleTimes;
+            const time = times.split('-');
+            const startTime = 100 * day + 2 * Number(time[0].split(':')[0]) + (Number(time[0].split(':')[1]) % 30);
+            const endTime = 100 * day + 2 * Number(time[1].split(':')[0]) + (Number(time[1].split(':')[1]) % 30);
+            for(let t = startTime; t <= endTime; t++){
+                timeArr.push(t);
+            }
+        }
+        catch (e){
+            console.log('CheckAbleTime() Error : ', e);
+        }
+    }
+    return timeArr;   
+}

@@ -1,9 +1,9 @@
 import type { NextComponentType } from "next"
 import styled from 'styled-components';
 import React, { useCallback, useEffect, useState } from "react";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { btnDisable } from "../../../states/eventCreate";
-import { timeSelected, timeCurrent, voteNow } from "../../../states/eventVote";
+import { timeSelected, timeCurrent, voteNow, ableTime } from "../../../states/eventVote";
 
 const Container = styled.div`
     display: flex;
@@ -74,26 +74,32 @@ const TimeBox = styled.div`
     margin-bottom: 23px;
     border-left: 1px solid #FFFFFF;
     background-color: ${(props:BoxProps) => {
-        if (props.current) {
-            if (!props.removeMode) {
+        if(props.disable){
+            return "#686868";
+        }
+        else{
+            if (props.current) {
+                if (!props.removeMode) {
+                    return "#3278DE";
+                }
+                else {
+                    return  "#F2F2F2;";
+                }
+            }
+            else if (props.selected){
                 return "#3278DE";
             }
             else {
                 return  "#F2F2F2;";
             }
         }
-        else if (props.selected){
-            return "#3278DE";
-        }
-        else {
-            return  "#F2F2F2;";
-        }
     }};
 `
 interface BoxProps {
     selected: boolean;
     current: boolean;
-    removeMode: boolean; 
+    removeMode: boolean;
+    disable: boolean; 
 }
 interface LinearProps {
     start: string;
@@ -140,6 +146,7 @@ const TimeSelect: NextComponentType = ()=> {
     const setDisable = useSetRecoilState(btnDisable);
 
     const [nowDay, setNowDay] = useRecoilState(voteNow);
+    const ableTimes = useRecoilValue(ableTime);
 
     const IsDisable = () => {
         if(selected.length === 0){
@@ -171,7 +178,8 @@ const TimeSelect: NextComponentType = ()=> {
 
             try{
                 const targetElement = e.currentTarget.getAttribute("data-time");
-                if (targetElement !== null) {
+                const targetDisable = e.currentTarget.getAttribute("data-disalbe");
+                if ((targetElement !== null) && !targetDisable) {
                     setStart(targetElement);
                     selected.find(s => parseInt(start) === s) ? setRemoveMode(true) : setRemoveMode(false);   
                     setEnd(targetElement);
@@ -187,7 +195,8 @@ const TimeSelect: NextComponentType = ()=> {
     const ClickEvent = (e: React.MouseEvent, index: number) => {
         try{
             const targetElement = e.currentTarget.getAttribute("data-time");
-            if (targetElement !== null) {
+            const targetDisable = e.currentTarget.getAttribute("data-disalbe");
+            if ((targetElement !== null) && !targetDisable) {
                 if(selected.find(s => parseInt(targetElement) === s)){
                     setSelected(selected.filter(se => se !== (index)))
                 }
@@ -267,6 +276,15 @@ const TimeSelect: NextComponentType = ()=> {
             return false;
         }
     };
+
+    const FindIsDisable = (idx: number): boolean => {
+        if (ableTimes.find(t => t === idx)){
+            return false
+        }
+        else{
+            return true;
+        }
+    }
     useEffect(()=> {
         TouchEndEvent();
     },[selected]);
@@ -294,6 +312,8 @@ const TimeSelect: NextComponentType = ()=> {
                             FindCurrent(nowDay * 100 + index)
                         }
                         removeMode={removeMode}
+                        disable={FindIsDisable(nowDay * 100 + index)}
+                        data-disable={FindIsDisable(nowDay * 100 + index)}
                         onMouseDown={TouchStartEvent}
                         onMouseMove={MouseMoveEvent}
                         onMouseUp={TouchEndEvent}
@@ -326,6 +346,8 @@ const TimeSelect: NextComponentType = ()=> {
                             FindCurrent(nowDay * 100 + index+12)
                         }
                         removeMode={removeMode}
+                        disable={FindIsDisable(nowDay * 100 + index+12)}
+                        data-disable={FindIsDisable(nowDay * 100 + index+12)}
                         onMouseDown={TouchStartEvent}
                         onMouseMove={MouseMoveEvent}
                         onMouseUp={TouchEndEvent}
@@ -359,6 +381,8 @@ const TimeSelect: NextComponentType = ()=> {
                             FindCurrent(nowDay * 100 + index+24)
                         }
                         removeMode={removeMode}
+                        disable={FindIsDisable(nowDay * 100 + index+24)}
+                        data-disable={FindIsDisable(nowDay * 100 + index+24)}
                         onMouseDown={TouchStartEvent}
                         onMouseMove={MouseMoveEvent}
                         onMouseUp={TouchEndEvent}
@@ -391,6 +415,8 @@ const TimeSelect: NextComponentType = ()=> {
                             FindCurrent(nowDay * 100 + index+36)
                         }
                         removeMode={removeMode}
+                        disable={FindIsDisable(nowDay * 100 + index+36)}
+                        data-disable={FindIsDisable(nowDay * 100 + index+36)}
                         onMouseDown={TouchStartEvent}
                         onMouseMove={MouseMoveEvent}
                         onMouseUp={TouchEndEvent}

@@ -59,9 +59,12 @@ export const postLeave = async () => {
 
 export const getUser = async (): Promise<User | {}> => {
     try {
-        const res = await axios.get(`${process.env.NEXT_PUTBLIC_API_USER}/me`, {
-            //headers: getJWTHeader(user),
-        });
+        const res = await axios.get(process.env.NEXT_PUTBLIC_API_USER+'/me', 
+            {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                }
+            });
         if (res.status === 200) {
             const data = await res.data;
             return data;

@@ -16,6 +16,11 @@ export const timeCurrent = atom<number[]>({
     default: [],
 });
 
+export const ableTime = atom<number[]>({
+    key: `ableTime/${v1()}`,
+    default: [],
+});
+
 export const participant = atom({
     key: `participant/${v1()}`,
     default: {
