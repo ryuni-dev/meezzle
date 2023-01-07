@@ -17,20 +17,19 @@ interface EventContainerProps {
 }
 
 export const EventBox = ({ userNum, eid, title, color, dday }: Props) => {
-    const day = dday.split('T')[0];
-    const time = dday.split('T')[1];
-    const dueDay = day + '  ' + time;
+    const day = dday.split("T")[0];
+    const time = dday.split("T")[1];
+    const dueDay = day + "  " + time;
 
     return (
         <EventContainer backgroundColor={color}>
             <IconContainer>
                 <Image src={user} alt="user" />
                 {userNum}
-                <Image src={share} alt="share" />
-                <Link 
+                <Link
                     href={{
-                        pathname: '/event/[eid]/revise',
-                        query: {eid: eid}
+                        pathname: "/event/[eid]/revise",
+                        query: { eid: eid },
                     }}
                 >
                     <Image src={revise} alt="revise" />
