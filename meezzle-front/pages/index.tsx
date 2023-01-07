@@ -27,6 +27,7 @@ const Home: NextPage = () => {
     const [visible, setVisible] = useState<Boolean>(false);
     const [isLoggedIn, setIsLoggedIn] = useLogin();
     const logout = useUserLogout();
+    const [csr, setCsr] = useState(false);
 
     // 프로필 클릭 시 메뉴 나오기
     const handleCilck = () => {
@@ -39,11 +40,13 @@ const Home: NextPage = () => {
         } else {
             logout.mutate();
             setIsLoggedIn(false);
+            window.localStorage.clear();
         }
     };
 
     useEffect(() => {
-        if (localStorage.getItem("token")) setIsLoggedIn(true)
+        if (localStorage.getItem("token")) setIsLoggedIn(true);
+        setCsr(true);
     }, []);
 
     const menuRef = useRef<HTMLDivElement>(null);
@@ -84,9 +87,9 @@ const Home: NextPage = () => {
                         )}
                     </Navbar>
                 )}
-                {!isLoggedIn && <LandingPageIntro />}
-                {!isLoggedIn && <LandingPageFooter />}
-                {isLoggedIn && <LandingPageSection />}
+                {csr && !isLoggedIn && <LandingPageIntro />}
+                {csr && !isLoggedIn && <LandingPageFooter />}
+                {csr && isLoggedIn && <LandingPageSection />}
             </Body>
         </>
     );
