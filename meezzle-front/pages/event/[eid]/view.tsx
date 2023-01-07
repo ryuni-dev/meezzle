@@ -192,7 +192,7 @@ const TableView: NextPage<Props> = ({ params }) => {
             {!isLoading && isAllDone && (
                 <>
                     <Navbar>
-                        <Image src={shareNav} alt="share" />
+                        <></>
                     </Navbar>
                     <H1>총 {participateData.length}명이 참여했어요!</H1>
                     <Tooltip>*시간을 클릭해보세요.</Tooltip>
