@@ -5,8 +5,10 @@ import styled from "styled-components";
 import character from "../../../public/assets/character.svg";
 import Image from "next/image";
 import OrangeBtn from "../../../components/common/OrangeBtn";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { HomeBtn } from "../../../components/common/HomeBtn";
+import ContainerToast from "../../../components/common/ContainerToast";
 
 interface Props {
     params: {
@@ -59,7 +61,7 @@ const Congratulations: NextPage<Props> = ({ params }) => {
             <Navbar>
                 <></>
             </Navbar>
-            <Container
+            <ContainerToast
                 position="top-center"
                 autoClose={2000}
                 hideProgressBar
@@ -106,15 +108,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     }
 };
 
-export const Container = styled(ToastContainer)`
-    .Toastify__toast {
-        font-family: "Pretendard";
-        font-weight: 500;
-        margin-top: 20px;
-        text-align: center;
-    }
-`;
-
 const Body = styled.div`
     display: flex;
     max-width: 400px;
@@ -156,20 +149,6 @@ const FooterText = styled.p`
     font-size: 14px;
     line-height: 150%;
     margin-bottom: 8px;
-`;
-
-const HomeBtn = styled.p`
-    margin-top: 20px;
-    cursor: pointer;
-    font-family: "Pretendard";
-    font-weight: 500;
-    font-size: 13px;
-    line-height: 150%;
-
-    letter-spacing: -0.011em;
-    text-decoration-line: underline;
-
-    color: #656565;
 `;
 
 export default Congratulations;

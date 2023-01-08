@@ -1,7 +1,6 @@
 import type { GetServerSideProps, NextPage } from "next";
 import styled from "styled-components";
 import { useEffect } from "react";
-import { Container } from "./congratulations";
 import Navbar from "../../../components/common/Navbar";
 import VoteLogin from "../../../components/event/Vote/Login";
 import { useEvent } from "../../../hooks/api/events";
@@ -13,13 +12,14 @@ import { participant, timeSelected, voteNow } from "../../../states/eventVote";
 import { eventDaySelected } from "../../../states/eventDayBox";
 import { btnDisable } from "../../../states/eventCreate";
 import Btn2 from "../../../components/common/Btn2";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import HashLoader from "react-spinners/HashLoader";
 import { useGuestLogin } from "../../../hooks/api/auth";
 import { useLogin } from "../../../states/login";
 import { guestLogined } from "../../../states/guest";
 import { Convert4ResEventDays } from "../../../utils/converter";
+import ContainerToast from "../../../components/common/ContainerToast";
 
 const TitleBox = styled.div`
     display: flex;
@@ -304,7 +304,7 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
                             useDisable={!isLoggedIn && true}
                             Click={Click2Vote}
                         ></Btn>
-                        <Container
+                        <ContainerToast
                             position="top-center"
                             autoClose={2000}
                             hideProgressBar

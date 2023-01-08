@@ -10,14 +10,12 @@ type ViewTableProps = {
     };
     setClickedTime(key: number): void;
     timeData: {
-        times: {
-            time: number;
-            attendee: string[];
-            absentee: string[];
-        }[];
-        total: number;
-    };
-    selectedWeeks: any;
+        time: number;
+        attendee: string[];
+        absentee: string[];
+    }[];
+    checkableTimes: number[];
+    total: number;
 };
 
 const week = {
@@ -34,7 +32,8 @@ const ViewTable = ({
     info,
     setClickedTime,
     timeData,
-    selectedWeeks,
+    checkableTimes,
+    total,
 }: ViewTableProps) => {
     const [rows, setRows] = useState<ReactNode[]>([]);
     const [head, setHead] = useState<ReactNode[]>([]);
@@ -46,7 +45,7 @@ const ViewTable = ({
     };
 
     const getAttendeePercent = (id: number, total: number) => {
-        const data = timeData.times.find((el) => el.time === id);
+        const data = timeData.find((el) => el.time === id);
         if (data === undefined || total === 0) return 0;
         return data?.attendee.length === total
             ? 1
@@ -91,10 +90,6 @@ const ViewTable = ({
     const ref = useRef<boolean>(false);
 
     useEffect(() => {
-        for (let i = 0; i < selectedWeeks.length; i++) {
-            //@ts-ignore
-            selectedWeeks[i] = week[selectedWeeks[i]];
-        }
         // 가상의 fetch
         // setRows([]);
         const makeRows = (info: any, r: number) => {
@@ -102,11 +97,8 @@ const ViewTable = ({
                 <div key={r}>
                     {info.col.names.map((_: string, idx: number) => {
                         const key = (idx + 1) * 100 + r;
-                        const colorWeight = getAttendeePercent(
-                            key,
-                            timeData.total
-                        );
-                        const disabled = selectedWeeks.includes(idx + 1)
+                        const colorWeight = getAttendeePercent(key, total);
+                        const disabled = checkableTimes.includes(key)
                             ? false
                             : true;
 
@@ -139,7 +131,7 @@ const ViewTable = ({
             })
         );
         for (let i = 0; i <= 24; i++) {
-            setTime((time) => [...time, <p key={i}>{i}:00</p>]);
+            setTime((time) => [...time, <TimeRow key={i}>{i}:00</TimeRow>]);
         }
     }, []);
 
@@ -156,9 +148,12 @@ const ViewTable = ({
 
 export default ViewTable;
 
+const TimeRow = styled.p`
+    margin: 8px 0 14px 0;
+`;
+
 const Container = styled.div`
     width: 97%;
-    height: 845px;
     margin: 0 auto;
     font-weight: 300;
     font-family: "Pretendard";
@@ -222,8 +217,4 @@ const Time = styled.div`
     margin-top: 5px;
     text-align: right;
     margin-right: 3px;
-
-    & > p {
-        margin-bottom: 16px;
-    }
 `;
