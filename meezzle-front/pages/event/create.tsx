@@ -112,16 +112,13 @@ const CreatePage: NextPage = () => {
     };
 
     useEffect(() => {
-        nameRef.current?.focus();
-    });
-
-    useEffect(() => {
         resetEvent();
         resetDays();
         resetTimes();
         resetStage();
         resetBtn();
         resetDdayDisable();
+        nameRef.current?.focus();
     }, []);
 
     const ChangeStage = () => {
