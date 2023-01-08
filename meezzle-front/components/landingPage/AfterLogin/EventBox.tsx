@@ -24,9 +24,8 @@ export const EventBox = ({ userNum, eid, title, color, dday }: Props) => {
         }
         else {
             const day = dday.split("T")[0];
-            const time = dday.split("T")[1];
+            const time = dday.split("T")[1].slice(0,5);
             const dueDay = day + "  " + time;
-
             return dueDay
         }
     } 
