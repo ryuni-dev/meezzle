@@ -174,7 +174,7 @@ const TimeSelect: NextComponentType = ()=> {
             document.body.style.touchAction="none";
             document.body.style.userSelect="none";
 
-            setClick(() => true)
+            setClick(true)
 
             try{
                 const targetElement = e.currentTarget.getAttribute("data-time");

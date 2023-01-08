@@ -7,11 +7,11 @@ export interface Events {
     }
     color: string,
     description: string,
-    dday: string,
+    dday: string | null,
 }
 
 export interface EventTimeInfo {
     startTime: Date,
     endTime: Date,
-    dueTime: Date,
+    dueTime: Date | null,
 }

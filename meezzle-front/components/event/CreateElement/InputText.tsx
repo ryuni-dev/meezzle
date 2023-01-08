@@ -54,7 +54,7 @@ type Props = {
 const InputText= React.forwardRef<HTMLInputElement, Props>(({type, placeholder, input, OnChange, OnKeyPress}, ref) => {
     // ref={ref}
     return (
-        <Input type={type} placeholder={placeholder} value={input} onChange={OnChange} onKeyPress={OnKeyPress}></Input>
+        <Input type={type} placeholder={placeholder} value={input} onChange={OnChange} onKeyPress={OnKeyPress} ref={ref}></Input>
     )
 })
 InputText.displayName = "InputText";

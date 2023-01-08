@@ -79,6 +79,7 @@ const Home: NextPage = () => {
                             src={profile}
                             alt="profile"
                             onClick={handleCilck}
+                            priority
                         />
                         {visible && (
                             <LoginBox ref={menuRef} onClick={handleLogin}>

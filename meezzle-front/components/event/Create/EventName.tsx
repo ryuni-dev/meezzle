@@ -29,6 +29,8 @@ const EventName = ({inputRef}: Props)=> {
 
     const OnKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if((e.key === 'Enter') && (!disable)) {
+            inputRef.current?.blur();
+            // (document.activeElement as HTMLElement).blur()
             setStage((st) => st + 1);
         }
     }
@@ -37,8 +39,7 @@ const EventName = ({inputRef}: Props)=> {
     return (
         <ContainerInput>
             <TextBlackMedium text='이벤트 명'></TextBlackMedium>
-            {/* ref={inputRef} */}
-            <InputText placeholder='이벤트 명을 입력해 주세요.' input={event.title} OnChange={OnChange} OnKeyPress={OnKeyPress}></InputText>
+            <InputText placeholder='이벤트 명을 입력해 주세요.' input={event.title} OnChange={OnChange} OnKeyPress={OnKeyPress} ref={inputRef}></InputText>
         </ContainerInput>
     );
 }

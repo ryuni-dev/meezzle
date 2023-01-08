@@ -37,12 +37,13 @@ const Login: NextPage<Props> = ({ host }) => {
             </NavContainer>
             <LoginContainer>
                 <CharacterContainer>
-                    <Image src={character}></Image>
+                    <Image src={character} priority></Image>
                 </CharacterContainer>
                 <Image
                     src={kakaoLogin}
                     onClick={KakaoLogin}
                     style={{ cursor: "pointer" }}
+                    priority
                 />
                 {/* <GoogleLogin /> */}
             </LoginContainer>
