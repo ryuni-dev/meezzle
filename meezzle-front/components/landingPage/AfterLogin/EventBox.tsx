@@ -17,9 +17,19 @@ interface EventContainerProps {
 }
 
 export const EventBox = ({ userNum, eid, title, color, dday }: Props) => {
-    const day = dday.split("T")[0];
-    const time = dday.split("T")[1];
-    const dueDay = day + "  " + time;
+
+    const checkDday = (dday:string) => {
+        if (dday === null) {
+            return '설정 되어있지 않아요!'
+        }
+        else {
+            const day = dday.split("T")[0];
+            const time = dday.split("T")[1];
+            const dueDay = day + "  " + time;
+
+            return dueDay
+        }
+    } 
 
     return (
         <EventContainer backgroundColor={color}>
@@ -38,7 +48,7 @@ export const EventBox = ({ userNum, eid, title, color, dday }: Props) => {
             <Clear />
             <TitleContainer>{title}</TitleContainer>
             <DueContainer>
-                마감 <DueDate>{dueDay}</DueDate>
+                마감 <DueDate>{checkDday(dday)}</DueDate>
             </DueContainer>
         </EventContainer>
     );

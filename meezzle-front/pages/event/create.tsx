@@ -18,6 +18,7 @@ import { eventInfo, eventTimeInfo } from "../../states/eventInfo";
 import { eventDaySelected } from "../../states/eventDayBox";
 import { Convert4ReqEvents } from "../../utils/converter";
 import { useEventCreate_test } from "../../hooks/api/events";
+import { settingISOLocalTimeZone } from "../../utils/time";
 
 const Body = styled.div`
     display: flex;
@@ -90,6 +91,12 @@ const CreatePage: NextPage = () => {
 
     const createEvent = useEventCreate_test();
 
+    console.log(settingISOLocalTimeZone(timeInfo.dueTime))
+
+
+
+
+
     const ReverseStackJSX = (stage: number): JSX.Element => {
         return (
             <>
@@ -127,6 +134,8 @@ const CreatePage: NextPage = () => {
                 //@ts-ignore
                 Convert4ReqEvents(event, timeInfo, selected)    // type 수정 필요
             );
+
+
             createEvent.mutate(data);
         }
     };

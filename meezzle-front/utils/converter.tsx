@@ -1,6 +1,7 @@
 import { Events, EventTimeInfo } from "../types/EventProps"
 import setHours from "date-fns/setHours";
 import setMinutes from "date-fns/setMinutes";
+import { settingISOLocalTimeZone } from "./time";
 
 enum week {
     SUNDAY = 1,
@@ -175,7 +176,7 @@ export const Convert4ReqEvents = (
     events: Events, timeInfo: EventTimeInfo, eventDay: number[]
     ): Events => {
 
-        const dday = timeInfo.dueTime.toISOString();
+        const dday = settingISOLocalTimeZone(timeInfo.dueTime)
 
         let selectableDays:string[] = [];
         for (let i = 0; i < eventDay.length; i++) {
@@ -191,8 +192,8 @@ export const Convert4ReqEvents = (
         }
         selectableDays = Array.from(new Set(selectableDays))
 
-        const startTime = timeInfo.startTime.toISOString();
-        const endTime = timeInfo.endTime.toISOString();
+        const startTime = settingISOLocalTimeZone(timeInfo.startTime);
+        const endTime = settingISOLocalTimeZone(timeInfo.endTime);
         const data: Events = {
             title: events.title,
             selectableParticipleTimes :{

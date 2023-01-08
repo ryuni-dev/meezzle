@@ -17,7 +17,7 @@ export const eventInfo = atom({
         selectableDays: [''],
         startTime: '',
         endTime: '',
-        color: '#FFE86D',
+        color: '#ffe86d',
 
         description: '',
         dday: '',
