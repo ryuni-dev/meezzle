@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import { useRecoilState, useResetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue, useResetRecoilState } from "recoil";
 import styled from "styled-components";
 
 import { useEffect, useRef } from "react";
@@ -12,7 +12,7 @@ import EventDue from "../../components/event/Create/EventDue";
 import EventColor from "../../components/event/Create/EventColor";
 import EventExplain from "../../components/event/Create/EventExplain";
 import Btn from "../../components/common/Btn";
-import { btnDisable, inputStage } from "../../states/eventCreate";
+import { btnDisable, ddayDisable, inputStage } from "../../states/eventCreate";
 import LinkBtn from "../../components/common/LinkBtn";
 import { eventInfo, eventTimeInfo } from "../../states/eventInfo";
 import { eventDaySelected } from "../../states/eventDayBox";
@@ -82,18 +82,17 @@ const CreatePage: NextPage = () => {
     const resetTimes = useResetRecoilState(eventTimeInfo);
     const resetStage = useResetRecoilState(inputStage);
     const resetBtn = useResetRecoilState(btnDisable);
+    const resetDdayDisable = useResetRecoilState(ddayDisable);
+
     const [stage, setStage] = useRecoilState(inputStage);
     const nameRef = useRef<HTMLInputElement>();
 
     const [event, setEvent] = useRecoilState(eventInfo);
     const [timeInfo, setTimeInfo] = useRecoilState(eventTimeInfo);
     const [selected, setSelected] = useRecoilState(eventDaySelected);
+    const ddayDisableState = useRecoilValue(ddayDisable);
 
     const createEvent = useEventCreate_test();
-
-    console.log(settingISOLocalTimeZone(timeInfo.dueTime))
-
-
 
 
 
@@ -122,6 +121,7 @@ const CreatePage: NextPage = () => {
         resetTimes();
         resetStage();
         resetBtn();
+        resetDdayDisable();
     }, []);
 
     const ChangeStage = () => {
@@ -129,12 +129,19 @@ const CreatePage: NextPage = () => {
             setStage((st) => st + 1);
         } else if (stage === 5) {
             setStage(0);
-
+            console.log(ddayDisableState)
+            if(ddayDisableState){
+                setTimeInfo({
+                    ...timeInfo,
+                    dueTime: null
+                })
+            }
             const data = JSON.stringify(
                 //@ts-ignore
-                Convert4ReqEvents(event, timeInfo, selected)    // type 수정 필요
+                Convert4ReqEvents(event, timeInfo, selected)
+                    // type 수정 필요
             );
-
+            console.log(data)
 
             createEvent.mutate(data);
         }

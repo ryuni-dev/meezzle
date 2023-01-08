@@ -2,6 +2,7 @@ import { atom  } from "recoil";
 import { v1 } from "uuid";
 import setHours from "date-fns/setHours";
 import setMinutes from "date-fns/setMinutes";
+import { EventTimeInfo } from "../types/EventProps";
 
 const SettingToday = () => {
     const date = new Date().toISOString();
@@ -24,11 +25,11 @@ export const eventInfo = atom({
     },
 });
 
-export const eventTimeInfo = atom({
+export const eventTimeInfo = atom<EventTimeInfo>({
     key: `eventTimeInfo/${v1()}`,
     default: {
         startTime: setHours(setMinutes(new Date(), 0), 9),
         endTime: setHours(setMinutes(new Date(), 0), 22),
-        dueTime: SettingToday()
+        dueTime: setHours(setMinutes(new Date(), 30), 23)
     },
 })

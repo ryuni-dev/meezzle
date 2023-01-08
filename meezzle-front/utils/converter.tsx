@@ -176,7 +176,11 @@ export const Convert4ReqEvents = (
     events: Events, timeInfo: EventTimeInfo, eventDay: number[]
     ): Events => {
 
-        const dday = settingISOLocalTimeZone(timeInfo.dueTime)
+        let dday = null
+        if (timeInfo.dueTime !== null){
+            dday = settingISOLocalTimeZone(timeInfo.dueTime)
+        }
+        
 
         let selectableDays:string[] = [];
         for (let i = 0; i < eventDay.length; i++) {
