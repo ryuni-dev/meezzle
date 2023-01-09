@@ -62,6 +62,6 @@ export const getGuestAuth = async (eid: string | string[], user: user) => {
         }
     } catch (e) {
         console.log(e);
-        return {};
+        return "error";
     }
 };
