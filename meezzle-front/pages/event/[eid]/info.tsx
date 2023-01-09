@@ -203,7 +203,12 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
     const Click2Vote = () => {
         if (!isLoggedIn) {
             guestLogin.mutate();
-            setIsGuest(true);
+            if (guestLogin.isSuccess) {
+                setIsGuest(true);
+            } else {
+                ErrorPW();
+                return;
+            }
         }
         const days = Convert4ResEventDays(
             data.data.selectableParticipleTimes.selectedDayOfWeeks
