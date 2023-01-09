@@ -14,7 +14,7 @@ const EventName = ({inputRef}: Props)=> {
     const [disable, setDisable] = useRecoilState(btnDisable);
     const setStage = useSetRecoilState(inputStage);
 
-    const OnChange = (e:React.ChangeEvent<HTMLInputElement>): void => {
+    const onChange = (e:React.ChangeEvent<HTMLInputElement>): void => {
         setEvent({
                 ...event,
                 title: e.target.value,
@@ -27,10 +27,10 @@ const EventName = ({inputRef}: Props)=> {
         }
     }
 
-    const OnKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    const onKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if((e.key === 'Enter') && (!disable)) {
-            inputRef.current?.blur();
-            // (document.activeElement as HTMLElement).blur()
+            // inputRef.current?.blur();
+            (document.activeElement as HTMLElement).blur()
             setStage((st) => st + 1);
         }
     }
@@ -39,7 +39,13 @@ const EventName = ({inputRef}: Props)=> {
     return (
         <ContainerInput>
             <TextBlackMedium text='이벤트 명'></TextBlackMedium>
-            <InputText placeholder='이벤트 명을 입력해 주세요.' input={event.title} OnChange={OnChange} OnKeyPress={OnKeyPress} ref={inputRef}></InputText>
+            <InputText 
+                placeholder='이벤트 명을 입력해 주세요.' 
+                input={event.title} 
+                OnChange={onChange} 
+                OnKeyPress={onKeyPress} 
+                ref={inputRef}
+            ></InputText>
         </ContainerInput>
     );
 }
