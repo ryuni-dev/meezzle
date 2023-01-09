@@ -66,4 +66,6 @@ const InputTextLarge = React.forwardRef<HTMLTextAreaElement, Props>(({ placehold
     );
 });
 
+InputTextLarge.displayName = "InputTextLarge";
+
 export default InputTextLarge;
