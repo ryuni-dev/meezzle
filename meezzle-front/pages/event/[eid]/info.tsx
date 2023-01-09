@@ -1,6 +1,6 @@
 import type { GetServerSideProps, NextPage } from "next";
 import styled from "styled-components";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "../../../components/common/Navbar";
 import VoteLogin from "../../../components/event/Vote/Login";
 import { useEvent } from "../../../hooks/api/events";
@@ -20,6 +20,7 @@ import { useLogin } from "../../../states/login";
 import { guestLogined } from "../../../states/guest";
 import { Convert4ResEventDays } from "../../../utils/converter";
 import ContainerToast from "../../../components/common/ContainerToast";
+import Body from "../../../styled-components/StyledBody";
 
 const TitleBox = styled.div`
     display: flex;
@@ -92,18 +93,6 @@ const InputExplainDiv = styled.div`
     margin-bottom: 5px;
 `;
 
-const Body = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    margin: 0 auto;
-    max-width: 400px;
-    // padding-left: 1%;
-    width: 100%;
-    overflow-x: hidden;
-`;
-
 const Footer = styled.div`
     display: flex;
     justify-content: center;
@@ -169,7 +158,11 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
     const resetUser = useResetRecoilState(participant);
     const [user, setUser] = useRecoilState(participant);
     const resetTime = useResetRecoilState(timeSelected);
-    const guestLogin = useGuestLogin(eid ? eid : "", user);
+    const {
+        mutate,
+        isSuccess,
+        data: guestLoginData,
+    } = useGuestLogin(eid ? eid : "", user);
     // const participants = useParticipants();
     const [isGuest, setIsGuest] = useRecoilState(guestLogined);
 
@@ -184,27 +177,29 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
     // };
 
     const ErrorPW = () =>
-        toast.error("비밀번호가 틀렸어요! 다시 입력해주세요.", {
-            position: "bottom-center",
-            autoClose: 2000,
-            hideProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: true,
-            progress: undefined,
-            theme: "colored",
-        });
+        toast.error(
+            <span>
+                비밀번호가 틀렸어요!
+                <br /> 투표가 처음이라면 다른 이름을 사용해주세요.
+            </span>,
+            {
+                position: "bottom-center",
+                autoClose: 3000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+            }
+        );
 
     useEffect(() => {
         resetBtn();
         resetUser();
     }, []);
 
-    const Click2Vote = () => {
-        if (!isLoggedIn) {
-            guestLogin.mutate();
-            setIsGuest(true);
-        }
+    const goVote = () => {
         const days = Convert4ResEventDays(
             data.data.selectableParticipleTimes.selectedDayOfWeeks
         );
@@ -215,23 +210,26 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
             pathname: "/event/[eid]/vote",
             query: { eid: eid },
         });
-        // ErrorPW();
-        // const loginResult = LoginFunc();
-        // console.log(loginResult);
-        // if (loginResult === "SUCCESS") {
-        //     setNow(event.days[0]);
-        //     setSelectedDay(event.days);
-        //     resetTime();
-        //     console.log("SUCCESS");
-        //     router.push({
-        //         pathname: "/event/[eid]/vote",
-        //         query: { eid: eid },
-        //     });
-        // } else {
-        //     ErrorPW();
-        // }
-        // console.log("click!!");
     };
+
+    const Click2Vote = () => {
+        if (!isLoggedIn) {
+            mutate();
+        } else {
+            goVote();
+        }
+    };
+
+    useEffect(() => {
+        if (isSuccess) {
+            if (guestLoginData === "error") {
+                ErrorPW();
+            } else {
+                setIsGuest(true);
+                goVote();
+            }
+        }
+    }, [isSuccess]);
 
     // useEffect(() => {
     //     if (window.Kakao) {

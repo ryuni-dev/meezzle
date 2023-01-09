@@ -37,8 +37,8 @@ const Kakao: NextPage<Props> = ({ host }) => {
                             : "";
 
                         const name = res.data.data.name
-                        ? res.data.data.name
-                        : "";
+                            ? res.data.data.name
+                            : "";
 
                         window.localStorage.setItem("token", token);
                         window.localStorage.setItem("name", name);
@@ -77,16 +77,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => ({
 const LoaderBox = styled.div`
     margin-top: 50vh;
     display: flex;
-    justify-content: center;
-    align-items: center;
-`;
-
-const Body = styled.div`
-    display: flex;
-    max-width: 400px;
-    margin: 0 auto;
-    width: 100%;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
 `;
