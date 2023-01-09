@@ -64,6 +64,7 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
     };
 
     const PatchEvent = () => {
+        console.log(ddayDisableState)
         if (ddayDisableState) {
             setTimeInfo({
                 ...timeInfo,
@@ -107,6 +108,16 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
             setDays(days);
         }
     }, [data]);
+
+    useEffect(() => {
+        console.log(ddayDisableState)
+        if (ddayDisableState) {
+            setTimeInfo({
+                ...timeInfo,
+                dueTime: null,
+            });
+        }
+    }, [ddayDisableState]);
 
     return (
         <Body>

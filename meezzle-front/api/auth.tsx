@@ -58,7 +58,9 @@ export const getGuestAuth = async (eid: string | string[], user: user) => {
         );
         if (res.status === 200) {
             const token = res.data.data.token;
+            const name = res.data.data.name;
             window.localStorage.setItem("token", token);
+            window.localStorage.setItem("name", name);
         }
     } catch (e) {
         console.log(e);

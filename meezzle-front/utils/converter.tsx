@@ -177,6 +177,7 @@ export const Convert4ReqEvents = (
     ): Events => {
 
         let dday = null
+        console.log(timeInfo.dueTime)
         if (timeInfo.dueTime !== null){
             dday = settingISOLocalTimeZone(timeInfo.dueTime)
         }

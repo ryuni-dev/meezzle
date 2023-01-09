@@ -79,6 +79,8 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
     const guestLogout = (): void => {
         setIsGuest(false);
         localStorage.removeItem("token");
+        localStorage.removeItem("name");
+
     };
 
     const filterDisable = () => {
