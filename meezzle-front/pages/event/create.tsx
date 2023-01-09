@@ -92,6 +92,7 @@ const CreatePage: NextPage = () => {
     const [selected, setSelected] = useRecoilState(eventDaySelected);
     const ddayDisableState = useRecoilValue(ddayDisable);
 
+
     const createEvent = useEventCreate_test();
 
 
@@ -124,23 +125,31 @@ const CreatePage: NextPage = () => {
     const ChangeStage = () => {
         if (stage < 5) {
             setStage((st) => st + 1);
-        } else if (stage === 5) {
+        } 
+        else if (stage === 5) {
             setStage(0);
-            console.log(ddayDisableState)
             if(ddayDisableState){
                 setTimeInfo({
                     ...timeInfo,
                     dueTime: null
                 })
-            }
-            const data = JSON.stringify(
-                //@ts-ignore
-                Convert4ReqEvents(event, timeInfo, selected)
+                const data = JSON.stringify(
+                    //@ts-ignore
+                    Convert4ReqEvents(event, timeInfo, selected)
                     // type 수정 필요
-            );
-            console.log(data)
-
-            createEvent.mutate(data);
+                );
+                console.log(data)
+                createEvent.mutate(data);
+            }
+            else{
+                const data = JSON.stringify(
+                    //@ts-ignore
+                    Convert4ReqEvents(event, timeInfo, selected)
+                    // type 수정 필요
+                );
+                console.log(data)
+                createEvent.mutate(data);
+            }
         }
     };
 

@@ -180,7 +180,7 @@ export const Convert4ReqEvents = (
         if (timeInfo.dueTime !== null){
             dday = settingISOLocalTimeZone(timeInfo.dueTime)
         }
-        
+        console.log(dday)
 
         let selectableDays:string[] = [];
         for (let i = 0; i < eventDay.length; i++) {

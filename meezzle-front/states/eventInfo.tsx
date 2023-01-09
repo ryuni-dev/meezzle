@@ -1,8 +1,9 @@
-import { atom  } from "recoil";
+import { atom, selector  } from "recoil";
 import { v1 } from "uuid";
 import setHours from "date-fns/setHours";
 import setMinutes from "date-fns/setMinutes";
 import { EventTimeInfo } from "../types/EventProps";
+import { ddayDisable } from "./eventCreate";
 
 const SettingToday = () => {
     const date = new Date().toISOString();
@@ -32,4 +33,13 @@ export const eventTimeInfo = atom<EventTimeInfo>({
         endTime: setHours(setMinutes(new Date(), 0), 22),
         dueTime: setHours(setMinutes(new Date(), 30), 23)
     },
+})
+
+export const checkDday = selector({
+    key: `checkDday/${v1()}`,
+    get: async ({ get }) => {
+        const disable = get(ddayDisable);
+
+        return disable
+    }
 })
