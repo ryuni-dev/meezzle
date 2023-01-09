@@ -52,12 +52,20 @@ type Props = {
     placeholder: string;
     input: string;
     OnChange(e: React.FormEvent<HTMLTextAreaElement>): void;
+    OnKeyPress?(e: React.KeyboardEvent<HTMLTextAreaElement>): void
+
 };
 
-const InputTextLarge = ({ placeholder, input, OnChange }: Props) => {
+const InputTextLarge = React.forwardRef<HTMLTextAreaElement, Props>(({ placeholder, input, OnChange, OnKeyPress}, ref) => {
     return (
-        <InputLarge placeholder={placeholder} onChange={OnChange}>{input}</InputLarge>
+        <InputLarge
+            placeholder={placeholder}
+            value={input}
+            onChange={OnChange}
+            onKeyPress={OnKeyPress} 
+            ref={ref}
+        ></InputLarge>
     );
-};
+});
 
 export default InputTextLarge;

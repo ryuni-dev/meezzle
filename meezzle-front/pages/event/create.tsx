@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 import { useRecoilState, useRecoilValue, useResetRecoilState } from "recoil";
 import styled from "styled-components";
 
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 
 import EventCreate from "../../components/event/Create/EventCreate";
 import EventName from "../../components/event/Create/EventName";
@@ -13,13 +13,21 @@ import EventColor from "../../components/event/Create/EventColor";
 import EventExplain from "../../components/event/Create/EventExplain";
 import Btn from "../../components/common/Btn";
 import { btnDisable, ddayDisable, inputStage } from "../../states/eventCreate";
-import LinkBtn from "../../components/common/LinkBtn";
 import { eventInfo, eventTimeInfo } from "../../states/eventInfo";
 import { eventDaySelected } from "../../states/eventDayBox";
 import { Convert4ReqEvents } from "../../utils/converter";
 import { useEventCreate_test } from "../../hooks/api/events";
-import { settingISOLocalTimeZone } from "../../utils/time";
 import Body from "../../styled-components/StyledBody";
+import { useRouter } from "next/router";
+import { HashLoader } from "react-spinners";
+
+
+const LoaderBox = styled.div`
+    margin-top: 50vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`;
 
 const Footer = styled.div`
     display: flex;
@@ -67,6 +75,8 @@ const CreatePage: NextPage = () => {
         "이벤트 생성하기!",
     ];
 
+    const router = useRouter();
+
     const resetEvent = useResetRecoilState(eventInfo);
     const resetDays = useResetRecoilState(eventDaySelected);
     const resetTimes = useResetRecoilState(eventTimeInfo);
@@ -75,20 +85,20 @@ const CreatePage: NextPage = () => {
     const resetDdayDisable = useResetRecoilState(ddayDisable);
 
     const [stage, setStage] = useRecoilState(inputStage);
-    const nameRef = useRef<HTMLInputElement>();
-
     const [event, setEvent] = useRecoilState(eventInfo);
     const [timeInfo, setTimeInfo] = useRecoilState(eventTimeInfo);
     const [selected, setSelected] = useRecoilState(eventDaySelected);
     const ddayDisableState = useRecoilValue(ddayDisable);
 
+    const nameRef = useRef<HTMLInputElement>();
+    const explainRef = useRef<HTMLTextAreaElement>();
 
     const createEvent = useEventCreate_test();
 
     const ReverseStackJSX = (stage: number): JSX.Element => {
         return (
             <>
-                {stage > 4 ? <EventExplain></EventExplain> : null}
+                {stage > 4 ? <EventExplain inputRef={explainRef}></EventExplain> : null}
                 {stage > 3 ? <EventColor></EventColor> : null}
                 {stage > 2 ? <EventDue></EventDue> : null}
                 {stage > 1 ? <EventTime></EventTime> : null}
@@ -106,8 +116,25 @@ const CreatePage: NextPage = () => {
         resetStage();
         resetBtn();
         resetDdayDisable();
-        nameRef.current?.focus();
+        nameRef.current && nameRef.current.focus();
     }, []);
+
+    useEffect(() => {
+        explainRef.current && explainRef.current.focus();
+      });
+
+    const handleSubmit = useCallback(
+        async (data: string) => {
+            const res = await createEvent.mutateAsync(data);
+            const resultData = await res.data;
+            const eid = await resultData.event.id;
+            router.push({
+                    pathname: `/event/${eid}/congratulations`,
+                    query: { voter: "false" },
+                });
+            },
+        [createEvent],
+    )
 
     const ChangeStage = () => {
         if (stage < 5) {
@@ -115,53 +142,54 @@ const CreatePage: NextPage = () => {
         } 
         else if (stage === 5) {
             setStage(0);
+            console.log(ddayDisableState);
             if(ddayDisableState){
                 setTimeInfo({
                     ...timeInfo,
                     dueTime: null
-                })
-                const data = JSON.stringify(
-                    //@ts-ignore
-                    Convert4ReqEvents(event, timeInfo, selected)
-                    // type 수정 필요
-                );
-                console.log(data)
-                createEvent.mutate(data);
+                });
             }
-            else{
-                const data = JSON.stringify(
-                    //@ts-ignore
-                    Convert4ReqEvents(event, timeInfo, selected)
-                    // type 수정 필요
-                );
-                console.log(data)
-                createEvent.mutate(data);
-            }
+            const data = JSON.stringify(
+                //@ts-ignore
+                Convert4ReqEvents(event, timeInfo, selected)
+                // type 수정 필요
+            );
+            console.log(data);
+            handleSubmit(data);
         }
     };
 
     return (
         <Body>
-            <EventCreate text="이벤트 생성">
-                {ReverseStackJSX(stage)}
-            </EventCreate>
-            <Footer>
-                {stage !== 5 ? (
-                    <Btn
-                        Click={ChangeStage}
-                        text={BtnText[stage]}
-                        useDisable={true}
-                        color={true}
-                    ></Btn>
-                ) : (
-                    <LinkBtn
-                        Click={ChangeStage}
-                        text={BtnText[stage]}
-                        href="/"
-                        color={true}
-                    ></LinkBtn>
-                )}
-            </Footer>
+            {
+                createEvent.isLoading
+                ?  
+                <LoaderBox>
+                    <HashLoader color="#3278DE" />
+                </LoaderBox>
+                : <>
+                    <EventCreate text="이벤트 생성">
+                        {ReverseStackJSX(stage)}
+                    </EventCreate>
+                    <Footer>
+                        {stage !== 5 ? (
+                            <Btn
+                                Click={ChangeStage}
+                                text={BtnText[stage]}
+                                useDisable={true}
+                                color={true}
+                            ></Btn>
+                        ) : (
+                            <Btn
+                                Click={ChangeStage}
+                                text={BtnText[stage]}
+                                useDisable={true}
+                                color={true}
+                            ></Btn>
+                        )}
+                    </Footer>
+                </>
+            }
         </Body>
     );
 };

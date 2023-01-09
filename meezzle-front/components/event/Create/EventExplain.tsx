@@ -6,14 +6,26 @@ import TextGraySmall from "../../common/TextGraySmall";
 import ContainerInput from "../CreateElement/ContainerInput";
 import { eventInfo } from "../../../states/eventInfo";
 
-const EventExplain = () => {
+interface Props {
+    inputRef?: any;
+}
+
+
+const EventExplain = ({inputRef}: Props) => {
     const [event, setEvent] = useRecoilState(eventInfo);
-    const OnChange = (e: React.FormEvent<HTMLTextAreaElement>): void => {
+    const onChange = (e: React.FormEvent<HTMLTextAreaElement>): void => {
         setEvent({
             ...event,
             description: e.currentTarget.value,
         });
     };
+
+const onKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if((e.key === 'Enter')) {
+        inputRef.current?.blur();
+        // (document.activeElement as HTMLElement).blur()
+    }
+}
 
     return (
         <ContainerInput>
@@ -22,7 +34,9 @@ const EventExplain = () => {
             <InputTextLarge
                 placeholder="내용을 입력해주세요."
                 input={event.description}
-                OnChange={OnChange}
+                OnChange={onChange}
+                OnKeyPress={onKeyPress}
+                ref={inputRef}
             ></InputTextLarge>
         </ContainerInput>
     );

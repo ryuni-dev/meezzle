@@ -5,7 +5,7 @@ import Navbar from "../../../components/common/Navbar";
 import DayBar from "../../../components/event/Vote/DayBar";
 import { ableTime, timeSelected, voteNow } from "../../../states/eventVote";
 import { eventDaySelected } from "../../../states/eventDayBox";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import TimeSelect from "../../../components/event/Vote/TimeSelect";
 import Btn from "../../../components/common/Btn";
 import { useRouter } from "next/router";
@@ -21,8 +21,15 @@ import {
     ConvertDays4Server,
 } from "../../../utils/converter";
 import { guestLogined } from "../../../states/guest";
-import { useUser } from "../../../hooks/api/user";
 import Body from "../../../styled-components/StyledBody";
+import { HashLoader } from "react-spinners";
+
+const LoaderBox = styled.div`
+    margin-top: 50vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`;
 
 const Footer = styled.div`
     display: flex;
@@ -53,10 +60,7 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
     const { data, isLoading, isFetching } = useEvent(eid);
     const voteHost = useEventVote4Host(eid);
     const voteGuest = useEventVote4Guest(eid);
-    // const user = useUser();
     const [isVoted, setIsVoted] = useState<boolean>(false);
-
-    // console.log(data);
 
     const [now, setNow] = useRecoilState(voteNow);
     const [selectedDay, setSelectedDay] = useRecoilState(eventDaySelected);
@@ -80,26 +84,48 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
     const filterDisable = () => {
         setSelectedTime(selectedTime.filter((se) => !ableTimes.includes(se)));
     };
+
+    const submitGuest = useCallback(
+        async (data: string) => {
+            await voteGuest.mutateAsync(data)
+            await router.push({
+                pathname: `/event/${eid}/congratulations`,
+                query: { voter: "false" },
+            });
+            },
+    [voteGuest])
+
+    const submitHost = useCallback(
+        async (data: string) => {
+            await voteHost.mutateAsync(data)
+            await router.push({
+                    pathname: `/event/${eid}/congratulations`,
+                    query: { voter: "false" },
+                });
+            },
+    [voteHost])
+
     // 투표 제출시 발생하는 이벤트 핸들러
-    const onVoteSubmit = (): void => {
-        filterDisable();
-        const voteData = JSON.stringify({
-            //@ts-ignore
-            ableDaysAndTimes: ConvertDays4Server(selectedTime),
-        });
-        console.log(voteData);
-        if (isGuest) {
-            // Guest 투표
-            voteGuest.mutate(voteData);
-        } else {
-            // Host 투표
-            voteHost.mutate(voteData);
-        }
-        /* 제출 API 처리 필요 */
-        router.push({
-            pathname: `/event/${eid}/congratulations`,
-            query: { voter: "true" },
-        });
+    const onVoteSubmit = () => {
+            filterDisable();
+            const voteData = JSON.stringify({
+                //@ts-ignore
+                ableDaysAndTimes: ConvertDays4Server(selectedTime),
+            });
+            console.log(voteData);
+            if (isGuest) {
+                // Guest 투표
+                submitGuest(voteData);
+            } else {
+                // Host 투표
+                // voteHost.mutate(voteData);
+                submitHost(voteData);
+            }
+            /* 제출 API 처리 필요 */
+            // router.push({
+            //     pathname: `/event/${eid}/congratulations`,
+            //     query: { voter: "true" },
+            // });
     };
 
     useEffect(() => {
@@ -241,9 +267,19 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
                 <Navbar>
                     <></>
                 </Navbar>
-                <DayBar></DayBar>
-                <TimeSelect></TimeSelect>
-                <Footer>{BtnPrint()}</Footer>
+                {
+                    voteGuest.isLoading || voteHost.isLoading
+                    ?
+                    <LoaderBox>
+                        <HashLoader color="#3278DE" />
+                    </LoaderBox>
+                    :
+                    <>
+                        <DayBar></DayBar>
+                        <TimeSelect></TimeSelect>
+                        <Footer>{BtnPrint()}</Footer>
+                    </>
+                }
             </Body>
         </>
     );
