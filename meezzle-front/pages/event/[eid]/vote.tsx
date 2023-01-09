@@ -1,31 +1,28 @@
 import type { GetServerSideProps, NextPage } from "next";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
-
 import Navbar from "../../../components/common/Navbar";
 import DayBar from "../../../components/event/Vote/DayBar";
 import { ableTime, timeSelected, voteNow } from "../../../states/eventVote";
 import { eventDaySelected } from "../../../states/eventDayBox";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import TimeSelect from "../../../components/event/Vote/TimeSelect";
 import Btn from "../../../components/common/Btn";
 import { useRouter } from "next/router";
-import { useEvent, useEventVote4Guest, useEventVote4Host } from "../../../hooks/api/events";
-import { CheckAbleTime, Convert4ResEventDays, ConvertDays4Client, ConvertDays4Server } from "../../../utils/converter";
+import {
+    useEvent,
+    useEventVote4Guest,
+    useEventVote4Host,
+} from "../../../hooks/api/events";
+import {
+    CheckAbleTime,
+    Convert4ResEventDays,
+    ConvertDays4Client,
+    ConvertDays4Server,
+} from "../../../utils/converter";
 import { guestLogined } from "../../../states/guest";
 import { useUser } from "../../../hooks/api/user";
-
-const Body = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    margin: 0 auto;
-    max-width: 400px;
-    // padding-left: 1%;
-    width: 100%;
-    overflow-x: hidden;
-`;
+import Body from "../../../styled-components/StyledBody";
 
 const Footer = styled.div`
     display: flex;
@@ -54,9 +51,10 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
     const { eid } = params;
 
     const { data, isLoading, isFetching } = useEvent(eid);
-    const voteHost = useEventVote4Host(eid)
-    const voteGuest = useEventVote4Guest(eid)
+    const voteHost = useEventVote4Host(eid);
+    const voteGuest = useEventVote4Guest(eid);
     // const user = useUser();
+    const [isVoted, setIsVoted] = useState<boolean>(false);
 
     // console.log(data);
 
@@ -80,24 +78,22 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
     };
 
     const filterDisable = () => {
-        setSelectedTime(selectedTime.filter(se => !ableTimes.includes(se)))
-    }
+        setSelectedTime(selectedTime.filter((se) => !ableTimes.includes(se)));
+    };
     // 투표 제출시 발생하는 이벤트 핸들러
     const onVoteSubmit = (): void => {
-        filterDisable()
+        filterDisable();
         const voteData = JSON.stringify({
             //@ts-ignore
-            ableDaysAndTimes: ConvertDays4Server(selectedTime)
-        })
-        console.log(voteData)
+            ableDaysAndTimes: ConvertDays4Server(selectedTime),
+        });
+        console.log(voteData);
         if (isGuest) {
             // Guest 투표
-            voteGuest.mutate(voteData)
-            guestLogout();
-        }
-        else{
+            voteGuest.mutate(voteData);
+        } else {
             // Host 투표
-            voteHost.mutate(voteData)
+            voteHost.mutate(voteData);
         }
         /* 제출 API 처리 필요 */
         router.push({
@@ -105,6 +101,12 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
             query: { voter: "true" },
         });
     };
+
+    useEffect(() => {
+        if (voteGuest.isSuccess) {
+            guestLogout();
+        }
+    }, [voteGuest.isSuccess]);
 
     // 이벤트 설명 보기시 발생하는 이벤트 핸들러
     const onViewInfo = (): void => {
@@ -124,17 +126,17 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
     const FindData = () => {
         const eventParticipants = data.data.eventParticipants;
         // console.log(user)
-        console.log(localStorage.getItem("name"))
+        console.log(localStorage.getItem("name"));
 
-        for(let i=0; i < eventParticipants.length; i++) {
-            if(eventParticipants[i].name === localStorage.getItem("name")){
+        for (let i = 0; i < eventParticipants.length; i++) {
+            if (eventParticipants[i].name === localStorage.getItem("name")) {
                 const ableDaysAndTimes = eventParticipants[i].ableDaysAndTimes;
-                console.log(ableDaysAndTimes)
+                console.log(ableDaysAndTimes);
                 const convertedData = ConvertDays4Client(ableDaysAndTimes);
                 setSelectedTime(convertedData);
             }
         }
-    }
+    };
     useEffect(() => {
         if (localStorage.getItem("token") === null) {
             alert("잘못된 로그인 정보입니다.");
@@ -219,9 +221,12 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
             const days = Convert4ResEventDays(
                 data.data.selectableParticipleTimes.selectedDayOfWeeks
             );
-            const participleTimes = data.data.selectableParticipleTimes.beginTime + '-' + data.data.selectableParticipleTimes.endTime;
-            const ableTimeArr = CheckAbleTime(participleTimes, days)
-            if (typeof ableTimeArr !== undefined){
+            const participleTimes =
+                data.data.selectableParticipleTimes.beginTime +
+                "-" +
+                data.data.selectableParticipleTimes.endTime;
+            const ableTimeArr = CheckAbleTime(participleTimes, days);
+            if (typeof ableTimeArr !== undefined) {
                 setAbleTimes(ableTimeArr);
             }
             setSelectedDay(days);

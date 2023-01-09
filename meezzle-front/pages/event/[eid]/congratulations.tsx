@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { HomeBtn } from "../../../components/common/HomeBtn";
 import ContainerToast from "../../../components/common/ContainerToast";
+import Body from "../../../styled-components/StyledBody";
 
 interface Props {
     params: {
@@ -107,16 +108,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         return { props: {} };
     }
 };
-
-const Body = styled.div`
-    display: flex;
-    max-width: 400px;
-    margin: 0 auto;
-    width: 100%;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-`;
 
 const Section = styled.div`
     display: flex;

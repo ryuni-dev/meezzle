@@ -6,18 +6,17 @@ import Image from "next/image";
 import Script from "next/script";
 import styled from "styled-components";
 import character from "../public/assets/character.svg";
-
+import Body from "../styled-components/StyledBody";
 
 type Props = { host: string | null };
 
 const Login: NextPage<Props> = ({ host }) => {
     const KakaoLogin = () => {
-        if (host === "localhost:3000"){
+        if (host === "localhost:3000") {
             window.Kakao.Auth.authorize({
                 redirectUri: "http://localhost:3000/oauth/kakao",
             });
-        }
-        else {
+        } else {
             window.Kakao.Auth.authorize({
                 redirectUri: "https://meezzle.vercel.app/oauth/kakao",
             });
@@ -51,13 +50,11 @@ const Login: NextPage<Props> = ({ host }) => {
     );
 };
 
-export const getServerSideProps: GetServerSideProps = async (context) => (
-    { 
-        props: { 
-            host: context.req.headers.host || null 
-        } 
-    }
-);
+export const getServerSideProps: GetServerSideProps = async (context) => ({
+    props: {
+        host: context.req.headers.host || null,
+    },
+});
 
 export default Login;
 
@@ -105,14 +102,4 @@ const Catchphrase = styled.div`
     @media (max-width: 300px) {
         font-size: 22px;
     }
-`;
-
-const Body = styled.div`
-    display: flex;
-    max-width: 400px;
-    margin: 0 auto;
-    width: 100%;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
 `;

@@ -19,17 +19,7 @@ import { eventDaySelected } from "../../states/eventDayBox";
 import { Convert4ReqEvents } from "../../utils/converter";
 import { useEventCreate_test } from "../../hooks/api/events";
 import { settingISOLocalTimeZone } from "../../utils/time";
-
-const Body = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0 auto;
-    max-width: 400px;
-    // padding-left: 1%;
-    width: 100%;
-    overflow-x: hidden;
-`;
+import Body from "../../styled-components/StyledBody";
 
 const Footer = styled.div`
     display: flex;
@@ -43,7 +33,7 @@ const Footer = styled.div`
     position: fixed;
     bottom: 0;
 `;
-// const Move = keyframes` 
+// const Move = keyframes`
 // from {
 //   transform: translateY(0%);
 // }
@@ -95,8 +85,6 @@ const CreatePage: NextPage = () => {
 
     const createEvent = useEventCreate_test();
 
-
-
     const ReverseStackJSX = (stage: number): JSX.Element => {
         return (
             <>
@@ -106,8 +94,7 @@ const CreatePage: NextPage = () => {
                 {stage > 1 ? <EventTime></EventTime> : null}
                 {stage > 0 ? <EventDay></EventDay> : null}
                 <EventName inputRef={nameRef}></EventName>
-                <BottomDiv>
-                </BottomDiv>
+                <BottomDiv></BottomDiv>
             </>
         );
     };
