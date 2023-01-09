@@ -14,24 +14,21 @@ import EventExplain from "../../../components/event/Create/EventExplain";
 
 import LinkBtn from "../../../components/common/LinkBtn";
 import Navbar from "../../../components/common/Navbar";
-import { useEvent, useEventDelete, useEventPatch } from "../../../hooks/api/events";
+import {
+    useEvent,
+    useEventDelete,
+    useEventPatch,
+} from "../../../hooks/api/events";
 import { eventInfo, eventTimeInfo } from "../../../states/eventInfo";
 import { eventDaySelected } from "../../../states/eventDayBox";
 import { useEffect } from "react";
-import { Convert4ReqEvents, Convert4ResEventDays, ISO2Date } from "../../../utils/converter";
+import {
+    Convert4ReqEvents,
+    Convert4ResEventDays,
+    ISO2Date,
+} from "../../../utils/converter";
 import { ddayDisable } from "../../../states/eventCreate";
-
-const Body = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    margin: 0 auto;
-    max-width: 400px;
-    // padding-left: 1%;
-    width: 100%;
-    overflow-x: hidden;
-`;
+import Body from "../../../styled-components/StyledBody";
 
 const Footer = styled.div`
     display: flex;
@@ -46,17 +43,17 @@ const Footer = styled.div`
 
 interface Props {
     params: {
-        eid: string
-    }
+        eid: string;
+    };
 }
 
 const ReviseEvent: NextPage<Props> = ({ params }) => {
     const { eid } = params;
     const { data, isLoading } = useEvent(eid);
-    console.log(data)
+    console.log(data);
     const [days, setDays] = useRecoilState(eventDaySelected);
     const [event, setEvent] = useRecoilState(eventInfo);
-    const [timeInfo, setTimeInfo] = useRecoilState(eventTimeInfo)
+    const [timeInfo, setTimeInfo] = useRecoilState(eventTimeInfo);
     const [ddayDisableState, setDdayDisableState] = useRecoilState(ddayDisable);
 
     const deleteEvent = useEventDelete();
@@ -67,18 +64,18 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
     };
 
     const PatchEvent = () => {
-        if (ddayDisableState){
+        if (ddayDisableState) {
             setTimeInfo({
                 ...timeInfo,
-                dueTime: null
-            })
+                dueTime: null,
+            });
         }
         const data = JSON.stringify(
             //@ts-ignore
-            Convert4ReqEvents(event, timeInfo, days)    // type 수정 필요
-        )
-        patchEvent.mutate(data)
-    }
+            Convert4ReqEvents(event, timeInfo, days) // type 수정 필요
+        );
+        patchEvent.mutate(data);
+    };
 
     useEffect(() => {
         if (isLoading) {
@@ -88,27 +85,25 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
                 ...event,
                 title: data.data.event.title,
                 color: data.data.event.color,
-                description: data.data.event.description
+                description: data.data.event.description,
             });
 
             let dday = null;
 
-            if(data.data.event.dday !== null){
-                dday = new Date(data.data.event.dday)
+            if (data.data.event.dday !== null) {
+                dday = new Date(data.data.event.dday);
             }
             setTimeInfo({
                 ...timeInfo,
                 startTime: ISO2Date(
                     data.data.selectableParticipleTimes.beginTime
-                    ),
-                endTime: ISO2Date(
-                    data.data.selectableParticipleTimes.endTime
-                    ),
-                dueTime: dday
-            })
+                ),
+                endTime: ISO2Date(data.data.selectableParticipleTimes.endTime),
+                dueTime: dday,
+            });
             const days = Convert4ResEventDays(
                 data.data.selectableParticipleTimes.selectedDayOfWeeks
-                )
+            );
             setDays(days);
         }
     }, [data]);
@@ -127,11 +122,11 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
                 <EventExplain></EventExplain>
             </EventCreate>
             <Footer>
-                <LinkBtn 
-                    text="수정 완료!" 
-                    href="/" 
+                <LinkBtn
+                    text="수정 완료!"
+                    href="/"
                     color={true}
-                    Click={PatchEvent}    
+                    Click={PatchEvent}
                 ></LinkBtn>
                 <LinkBtn
                     text="이벤트 삭제하기"
@@ -144,18 +139,17 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
     );
 };
 
-export const getServerSideProps: GetServerSideProps = async(context) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
     try {
         return {
             props: {
-                params: context.params
-            }
-        }
-    }
-    catch(e){
+                params: context.params,
+            },
+        };
+    } catch (e) {
         console.log(e);
-        return {props: {}}
+        return { props: {} };
     }
-}
+};
 
 export default ReviseEvent;

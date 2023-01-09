@@ -22,18 +22,7 @@ import {
 } from "../../../utils/converter";
 import { guestLogined } from "../../../states/guest";
 import { useUser } from "../../../hooks/api/user";
-
-const Body = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    margin: 0 auto;
-    max-width: 400px;
-    // padding-left: 1%;
-    width: 100%;
-    overflow-x: hidden;
-`;
+import Body from "../../../styled-components/StyledBody";
 
 const Footer = styled.div`
     display: flex;

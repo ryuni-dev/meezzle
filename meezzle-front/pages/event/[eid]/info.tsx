@@ -20,6 +20,7 @@ import { useLogin } from "../../../states/login";
 import { guestLogined } from "../../../states/guest";
 import { Convert4ResEventDays } from "../../../utils/converter";
 import ContainerToast from "../../../components/common/ContainerToast";
+import Body from "../../../styled-components/StyledBody";
 
 const TitleBox = styled.div`
     display: flex;
@@ -90,18 +91,6 @@ const InputExplainDiv = styled.div`
     margin-left: 7%;
     margin-top: 10px;
     margin-bottom: 5px;
-`;
-
-const Body = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    margin: 0 auto;
-    max-width: 400px;
-    // padding-left: 1%;
-    width: 100%;
-    overflow-x: hidden;
 `;
 
 const Footer = styled.div`

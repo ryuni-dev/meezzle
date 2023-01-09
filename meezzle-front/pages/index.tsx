@@ -11,17 +11,7 @@ import { LoginBox } from "../styled-components/StyledLoginBox";
 import Head from "next/head";
 import styled from "styled-components";
 import { useUserLogout } from "../hooks/api/user";
-
-const Body = styled.div`
-    display: flex;
-    max-width: 400px;
-    margin: 0 auto;
-    width: 100%;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-`;
-
+import Body from "../styled-components/StyledBody";
 
 const Home: NextPage = () => {
     const [visible, setVisible] = useState<Boolean>(false);

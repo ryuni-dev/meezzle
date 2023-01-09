@@ -20,6 +20,7 @@ import OrangeBtn from "../../../components/common/OrangeBtn";
 import { toast } from "react-toastify";
 import { HomeBtn } from "../../../components/common/HomeBtn";
 import ContainerToast from "../../../components/common/ContainerToast";
+import Body from "../../../styled-components/StyledBody";
 
 type tableInfoType = {
     row: number;
@@ -32,16 +33,6 @@ type TimeDataType = {
     attendee: string[]; // 참여자들
     absentee: string[];
 }[];
-
-const Body = styled.div`
-    display: flex;
-    max-width: 400px;
-    margin: 0 auto;
-    width: 100%;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-`;
 
 interface Props {
     params: {

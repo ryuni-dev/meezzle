@@ -19,17 +19,7 @@ import { eventDaySelected } from "../../states/eventDayBox";
 import { Convert4ReqEvents } from "../../utils/converter";
 import { useEventCreate_test } from "../../hooks/api/events";
 import { settingISOLocalTimeZone } from "../../utils/time";
-
-const Body = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0 auto;
-    max-width: 400px;
-    // padding-left: 1%;
-    width: 100%;
-    overflow-x: hidden;
-`;
+import Body from "../../styled-components/StyledBody";
 
 const Footer = styled.div`
     display: flex;
@@ -43,7 +33,7 @@ const Footer = styled.div`
     position: fixed;
     bottom: 0;
 `;
-// const Move = keyframes` 
+// const Move = keyframes`
 // from {
 //   transform: translateY(0%);
 // }
@@ -94,8 +84,6 @@ const CreatePage: NextPage = () => {
 
     const createEvent = useEventCreate_test();
 
-
-
     const ReverseStackJSX = (stage: number): JSX.Element => {
         return (
             <>
@@ -105,8 +93,7 @@ const CreatePage: NextPage = () => {
                 {stage > 1 ? <EventTime></EventTime> : null}
                 {stage > 0 ? <EventDay></EventDay> : null}
                 <EventName inputRef={nameRef}></EventName>
-                <BottomDiv>
-                </BottomDiv>
+                <BottomDiv></BottomDiv>
             </>
         );
     };
@@ -126,19 +113,19 @@ const CreatePage: NextPage = () => {
             setStage((st) => st + 1);
         } else if (stage === 5) {
             setStage(0);
-            console.log(ddayDisableState)
-            if(ddayDisableState){
+            console.log(ddayDisableState);
+            if (ddayDisableState) {
                 setTimeInfo({
                     ...timeInfo,
-                    dueTime: null
-                })
+                    dueTime: null,
+                });
             }
             const data = JSON.stringify(
                 //@ts-ignore
                 Convert4ReqEvents(event, timeInfo, selected)
-                    // type 수정 필요
+                // type 수정 필요
             );
-            console.log(data)
+            console.log(data);
 
             createEvent.mutate(data);
         }
