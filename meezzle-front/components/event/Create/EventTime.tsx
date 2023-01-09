@@ -78,6 +78,7 @@ const EventTime: NextComponentType = ()=> {
                     placeholderText="시작 시간"
                     timeCaption="시작 시간"
                     dateFormat="H시 mm분 시작"
+                    onFocus={e => e.target.blur()}
                     />
                 </DatePickerDiv>
                 <TextGrayMedium>~</TextGrayMedium>
@@ -99,6 +100,7 @@ const EventTime: NextComponentType = ()=> {
                     dateFormat="H시 mm분 마감"
                     minTime={timeInfo.startTime}
                     maxTime={setHours(setMinutes(new Date(), 30), 23)}
+                    onFocus={e => e.target.blur()}
                     />
                 </DatePickerDiv>
             </DivRow>
