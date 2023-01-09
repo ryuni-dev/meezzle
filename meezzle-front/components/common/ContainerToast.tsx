@@ -8,6 +8,8 @@ export const ContainerToast = styled(ToastContainer)`
         font-weight: 500;
         margin-top: 20px;
         text-align: center;
+        width: 80%;
+        margin-left: 10%;
     }
 `;
 

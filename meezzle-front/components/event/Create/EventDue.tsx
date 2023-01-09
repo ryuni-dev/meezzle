@@ -127,6 +127,7 @@ const EventDue: NextComponentType = ()=> {
                     }
                     minDate={new Date()}
                     disabled={disable}
+                    onFocus={e => e.target.blur()}
                     />
                 </DatePickerDiv>
                 <DatePickerDiv>
@@ -147,6 +148,7 @@ const EventDue: NextComponentType = ()=> {
                     timeCaption="마감 시간"
                     dateFormat="마감 시간 : H시 mm분"
                     disabled={disable}
+                    onFocus={e => e.target.blur()}
                     />
                 </DatePickerDiv>
             </DivRow>
