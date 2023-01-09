@@ -250,7 +250,7 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
             .then(() => {
                 toast("링크가 복사되었습니다.", {
                     position: "top-center",
-                    autoClose: 2000,
+                    autoClose: 1300,
                     hideProgressBar: true,
                     closeOnClick: true,
                     pauseOnHover: false,
@@ -304,7 +304,7 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
                         ></Btn>
                         <ContainerToast
                             position="top-center"
-                            autoClose={2000}
+                            autoClose={1300}
                             hideProgressBar
                             newestOnTop={false}
                             closeOnClick
