@@ -48,7 +48,7 @@ const Nav = styled.nav`
 `;
 
 const LogoContainer = styled.div`
-    margin-left: 8px;
+    margin-left: 20px;
     width: 119px;
     height: 100%;
     line-height: 40px;
@@ -60,7 +60,7 @@ const LogoContainer = styled.div`
 const ContentContainer = styled.div`
     float: right;
     vertical-align: middle;
-    margin-right: 8px;
+    margin-right: 20px;
     position: relative;
     & > span {
         line-height: 44px;

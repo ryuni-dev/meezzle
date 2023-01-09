@@ -12,6 +12,7 @@ import TextGraySmall from "../../common/TextGraySmall";
 import ContainerInput from "../CreateElement/ContainerInput";
 import { useState } from "react";
 import { eventTimeInfo } from "../../../states/eventInfo";
+import { ddayDisable } from "../../../states/eventCreate";
 
 interface Props {
     disabled?: boolean | undefined;
@@ -105,7 +106,7 @@ const TextSmall = styled.text`
 `
 const EventDue: NextComponentType = ()=> {
     const [timeInfo, setTimeInfo] = useRecoilState(eventTimeInfo);
-    const [disable, setDisable] = useState(false);
+    const [disable, setDisable] = useRecoilState(ddayDisable);
 
     return (
         <ContainerInput>

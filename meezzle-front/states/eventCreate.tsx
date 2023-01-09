@@ -15,3 +15,8 @@ export const inputFocus = atom({
     key: `inputFocus/${v1()}`,
     default: [],
 });
+
+export const ddayDisable = atom<boolean>({
+    key: `ddayDisable/${v1()}`,
+    default: false,
+});

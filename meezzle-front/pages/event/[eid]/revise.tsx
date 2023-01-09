@@ -19,6 +19,7 @@ import { eventInfo, eventTimeInfo } from "../../../states/eventInfo";
 import { eventDaySelected } from "../../../states/eventDayBox";
 import { useEffect } from "react";
 import { Convert4ReqEvents, Convert4ResEventDays, ISO2Date } from "../../../utils/converter";
+import { ddayDisable } from "../../../states/eventCreate";
 
 const Body = styled.div`
     display: flex;
@@ -56,6 +57,7 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
     const [days, setDays] = useRecoilState(eventDaySelected);
     const [event, setEvent] = useRecoilState(eventInfo);
     const [timeInfo, setTimeInfo] = useRecoilState(eventTimeInfo)
+    const [ddayDisableState, setDdayDisableState] = useRecoilState(ddayDisable);
 
     const deleteEvent = useEventDelete();
     const patchEvent = useEventPatch(eid);
@@ -65,6 +67,12 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
     };
 
     const PatchEvent = () => {
+        if (ddayDisableState){
+            setTimeInfo({
+                ...timeInfo,
+                dueTime: null
+            })
+        }
         const data = JSON.stringify(
             //@ts-ignore
             Convert4ReqEvents(event, timeInfo, days)    // type 수정 필요
@@ -82,6 +90,12 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
                 color: data.data.event.color,
                 description: data.data.event.description
             });
+
+            let dday = null;
+
+            if(data.data.event.dday !== null){
+                dday = new Date(data.data.event.dday)
+            }
             setTimeInfo({
                 ...timeInfo,
                 startTime: ISO2Date(
@@ -90,10 +104,7 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
                 endTime: ISO2Date(
                     data.data.selectableParticipleTimes.endTime
                     ),
-                dueTime: new Date(
-                    data.data.event.dday
-                )
-                
+                dueTime: dday
             })
             const days = Convert4ResEventDays(
                 data.data.selectableParticipleTimes.selectedDayOfWeeks
