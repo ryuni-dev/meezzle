@@ -20,7 +20,7 @@ import { useEventCreate } from "../../hooks/api/events";
 import Body from "../../styled-components/StyledBody";
 import { useRouter } from "next/router";
 import { HashLoader } from "react-spinners";
-
+import Head from "next/head";
 
 const LoaderBox = styled.div`
     margin-top: 50vh;
@@ -98,12 +98,16 @@ const CreatePage: NextPage = () => {
     const ReverseStackJSX = (stage: number): JSX.Element => {
         return (
             <>
-                {stage > 4 ? <EventExplain inputRef={explainRef}></EventExplain> : null}
+                {stage > 4 ? (
+                    <EventExplain inputRef={explainRef}></EventExplain>
+                ) : null}
                 {stage > 3 ? <EventColor></EventColor> : null}
                 {stage > 2 ? <EventDue></EventDue> : null}
                 {stage > 1 ? <EventTime></EventTime> : null}
                 {stage > 0 ? <EventDay></EventDay> : null}
-                {stage === 0 ? <EventName inputRef={nameRef}></EventName> : null}
+                {stage === 0 ? (
+                    <EventName inputRef={nameRef}></EventName>
+                ) : null}
                 <BottomDiv></BottomDiv>
             </>
         );
@@ -121,7 +125,7 @@ const CreatePage: NextPage = () => {
 
     useEffect(() => {
         explainRef.current && explainRef.current.focus();
-      });
+    });
 
     useEffect(() => {
         if (stage === 0) {
@@ -135,24 +139,23 @@ const CreatePage: NextPage = () => {
             const resultData = await res.data;
             const eid = await resultData.event.id;
             router.push({
-                    pathname: `/event/${eid}/congratulations`,
-                    query: { voter: "false" },
-                });
-            },
-        [createEvent],
-    )
+                pathname: `/event/${eid}/congratulations`,
+                query: { voter: "false" },
+            });
+        },
+        [createEvent]
+    );
 
     const ChangeStage = () => {
         if (stage < 5) {
             setStage((st) => st + 1);
-        } 
-        else if (stage === 5) {
+        } else if (stage === 5) {
             setStage(-1);
             console.log(ddayDisableState);
-            if(ddayDisableState){
+            if (ddayDisableState) {
                 setTimeInfo({
                     ...timeInfo,
-                    dueTime: null
+                    dueTime: null,
                 });
             }
             const data = JSON.stringify(
@@ -167,13 +170,15 @@ const CreatePage: NextPage = () => {
 
     return (
         <Body>
-            {
-                createEvent.isLoading
-                ?  
+            {createEvent.isLoading ? (
                 <LoaderBox>
                     <HashLoader color="#3278DE" />
                 </LoaderBox>
-                : <>
+            ) : (
+                <>
+                    <Head>
+                        <title>이벤트 생성 | meezzle</title>
+                    </Head>
                     <EventCreate text="이벤트 생성">
                         {ReverseStackJSX(stage)}
                     </EventCreate>
@@ -195,7 +200,7 @@ const CreatePage: NextPage = () => {
                         )}
                     </Footer>
                 </>
-            }
+            )}
         </Body>
     );
 };

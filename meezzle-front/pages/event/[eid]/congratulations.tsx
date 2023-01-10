@@ -10,6 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { HomeBtn } from "../../../components/common/HomeBtn";
 import ContainerToast from "../../../components/common/ContainerToast";
 import Body from "../../../styled-components/StyledBody";
+import Head from "next/head";
 
 interface Props {
     params: {
@@ -59,6 +60,11 @@ const Congratulations: NextPage<Props> = ({ params }) => {
 
     return (
         <Body>
+            <Head>
+                <title>
+                    {isVoter ? "투표 완료!" : "이벤트 생성 완료!"} | meezzle
+                </title>
+            </Head>
             <Navbar>
                 <></>
             </Navbar>

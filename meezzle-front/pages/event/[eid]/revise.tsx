@@ -3,6 +3,7 @@ import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import setHours from "date-fns/setHours";
 import setMinutes from "date-fns/setMinutes";
+import Head from "next/head";
 
 import EventCreate from "../../../components/event/Create/EventCreate";
 import EventName from "../../../components/event/Create/EventName";
@@ -64,7 +65,7 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
     };
 
     const PatchEvent = () => {
-        console.log(ddayDisableState)
+        console.log(ddayDisableState);
         if (ddayDisableState) {
             setTimeInfo({
                 ...timeInfo,
@@ -94,8 +95,7 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
             if (data.data.event.dday !== null) {
                 dday = new Date(data.data.event.dday);
                 setDdayDisableState(false);
-            }
-            else {
+            } else {
                 setDdayDisableState(true);
             }
             setTimeInfo({
@@ -114,7 +114,7 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
     }, [data]);
 
     useEffect(() => {
-        console.log(ddayDisableState)
+        console.log(ddayDisableState);
         if (ddayDisableState) {
             setTimeInfo({
                 ...timeInfo,
@@ -125,6 +125,9 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
 
     return (
         <Body>
+            <Head>
+                <title>{data.data.event.title} 수정하기 | meezzle</title>
+            </Head>
             <Navbar>
                 <></>
             </Navbar>

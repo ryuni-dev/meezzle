@@ -21,6 +21,7 @@ import { guestLogined } from "../../../states/guest";
 import { Convert4ResEventDays } from "../../../utils/converter";
 import ContainerToast from "../../../components/common/ContainerToast";
 import Body from "../../../styled-components/StyledBody";
+import Head from "next/head";
 
 const TitleBox = styled.div`
     display: flex;
@@ -180,13 +181,13 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
         if (data === 404) {
             router.push(`/event/${eid}/delete`);
         }
-    }
+    };
     errorHandler();
 
     useEffect(() => {
         errorHandler();
-    }, [])
-    
+    }, []);
+
     const ErrorPW = () =>
         toast.error(
             <span>
@@ -277,11 +278,11 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
 
     return (
         <Body>
-            {data === 404 ? null :
-            <>
-            <Navbar>
-                <ShareContainer>
-                    {/* <a id="kakaotalk-sharing-btn">
+            {data === 404 ? null : (
+                <>
+                    <Navbar>
+                        <ShareContainer>
+                            {/* <a id="kakaotalk-sharing-btn">
                         <img
                             src="https://developers.kakao.com/assets/img/about/logos/kakaotalksharing/kakaotalk_sharing_btn_medium.png"
                             alt="카카오톡 공유 보내기 버튼"
@@ -289,44 +290,51 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
                         <span> 공유하기</span>
                     </a> */}
 
-                    <ShareBtn onClick={onShare}>공유하기</ShareBtn>
-                </ShareContainer>
-            </Navbar>
-            {isLoading ? (
-                <LoaderBox>
-                    <HashLoader color="#3278DE" />
-                </LoaderBox>
-            ) : (
-                <>
-                    <TitleBox>
-                        <Highlight>
-                            <TitleLargeText>{event.event.title}</TitleLargeText>
-                            <TitleMediumText>
-                                에 가능한 시간을 입력해주세요
-                            </TitleMediumText>
-                        </Highlight>
-                    </TitleBox>
-                    <EventExplainDiv>{event.event.description}</EventExplainDiv>
-                    {!isLoggedIn && <VoteLogin></VoteLogin>}
-                    <Footer>
-                        <Btn
-                            text="가능한 시간 입력하러 가기!"
-                            color={true}
-                            useDisable={!isLoggedIn && true}
-                            Click={Click2Vote}
-                        ></Btn>
-                        <ContainerToast
-                            position="top-center"
-                            autoClose={1300}
-                            hideProgressBar
-                            newestOnTop={false}
-                            closeOnClick
-                            rtl={false}
-                            draggable
-                            pauseOnHover={false}
-                            theme="light"
-                        />
-                        {/* <ToastContainer
+                            <ShareBtn onClick={onShare}>공유하기</ShareBtn>
+                        </ShareContainer>
+                    </Navbar>
+                    {isLoading ? (
+                        <LoaderBox>
+                            <HashLoader color="#3278DE" />
+                        </LoaderBox>
+                    ) : (
+                        <>
+                            <Head>
+                                <title>{data.data.event.title} | meezzle</title>
+                            </Head>
+                            <TitleBox>
+                                <Highlight>
+                                    <TitleLargeText>
+                                        {event.event.title}
+                                    </TitleLargeText>
+                                    <TitleMediumText>
+                                        에 가능한 시간을 입력해주세요
+                                    </TitleMediumText>
+                                </Highlight>
+                            </TitleBox>
+                            <EventExplainDiv>
+                                {event.event.description}
+                            </EventExplainDiv>
+                            {!isLoggedIn && <VoteLogin></VoteLogin>}
+                            <Footer>
+                                <Btn
+                                    text="가능한 시간 입력하러 가기!"
+                                    color={true}
+                                    useDisable={!isLoggedIn && true}
+                                    Click={Click2Vote}
+                                ></Btn>
+                                <ContainerToast
+                                    position="top-center"
+                                    autoClose={1300}
+                                    hideProgressBar
+                                    newestOnTop={false}
+                                    closeOnClick
+                                    rtl={false}
+                                    draggable
+                                    pauseOnHover={false}
+                                    theme="light"
+                                />
+                                {/* <ToastContainer
                             position="bottom-center"
                             autoClose={2000}
                             hideProgressBar
@@ -338,24 +346,24 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
                             pauseOnHover={false}
                             theme="colored"
                         /> */}
-                        <Link
-                            href={{
-                                pathname: "/event/[eid]/view",
-                                query: { eid: eid },
-                            }}
-                        >
-                            <A>
-                                <Btn2
-                                    text="통계 바로 보기!"
-                                    color={false}
-                                ></Btn2>
-                            </A>
-                        </Link>
-                    </Footer>
+                                <Link
+                                    href={{
+                                        pathname: "/event/[eid]/view",
+                                        query: { eid: eid },
+                                    }}
+                                >
+                                    <A>
+                                        <Btn2
+                                            text="통계 바로 보기!"
+                                            color={false}
+                                        ></Btn2>
+                                    </A>
+                                </Link>
+                            </Footer>
+                        </>
+                    )}
                 </>
             )}
-            </>
-            }
         </Body>
     );
 };
