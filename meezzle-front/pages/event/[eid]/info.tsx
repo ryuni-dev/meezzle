@@ -148,7 +148,7 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
     const router = useRouter();
     const { eid } = params;
 
-    const { data, isLoading } = useEvent(eid);
+    const { data, isLoading, isError } = useEvent(eid);
     const event = isLoading ? null : data.data;
 
     const [now, setNow] = useRecoilState(voteNow);
@@ -176,6 +176,17 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
     //     }
     // };
 
+    const errorHandler = () => {
+        if (data === 404) {
+            router.push(`/event/${eid}/delete`);
+        }
+    }
+    errorHandler();
+
+    useEffect(() => {
+        errorHandler();
+    }, [])
+    
     const ErrorPW = () =>
         toast.error(
             <span>
@@ -266,6 +277,8 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
 
     return (
         <Body>
+            {data === 404 ? null :
+            <>
             <Navbar>
                 <ShareContainer>
                     {/* <a id="kakaotalk-sharing-btn">
@@ -341,6 +354,8 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
                     </Footer>
                 </>
             )}
+            </>
+            }
         </Body>
     );
 };

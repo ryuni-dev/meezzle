@@ -1,4 +1,5 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
+import { useRouter } from "next/router";
 
 export const getEvents = async () => {
     try {
@@ -32,8 +33,9 @@ export const getEvent = async (eventId: string) => {
         }
         return {};
     } catch (e) {
+        const { response } = e as unknown as AxiosError;
         console.log(e);
-        return {};
+        return response?.status;
     }
 };
 

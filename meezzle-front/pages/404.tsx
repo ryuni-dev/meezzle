@@ -8,7 +8,7 @@ import character from "../public/assets/character.svg";
 import Body from "../styled-components/StyledBody";
 
 
-const Error = () => {
+const Error404 = () => {
     const router = useRouter();
     return (
         <Body>
@@ -32,7 +32,7 @@ const Error = () => {
     )
 };
 
-export default Error;
+export default Error404;
 
 const SectionText = styled.p`
     font-family: "bitbit";

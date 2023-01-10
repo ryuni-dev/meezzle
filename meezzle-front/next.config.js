@@ -30,6 +30,11 @@ const nextConfig = {
             destination: '/event/:eid/info',
             permanent: false,
           },
+          {
+            source: '/event/:eid/delete',
+            destination: '/',
+            permanent: false,
+          },
         ];
       },
 };

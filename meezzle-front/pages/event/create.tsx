@@ -123,11 +123,11 @@ const CreatePage: NextPage = () => {
         explainRef.current && explainRef.current.focus();
       });
 
-      useEffect(() => {
+    useEffect(() => {
         if (stage === 0) {
             nameRef.current && nameRef.current.focus();
         }
-      }, [stage]);
+    }, [stage]);
 
     const handleSubmit = useCallback(
         async (data: string) => {
