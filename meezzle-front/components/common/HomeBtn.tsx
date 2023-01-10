@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const HomeBtn = styled.p`
-    margin-top: 20px;
+    margin-top: 15px;
     cursor: pointer;
     font-family: "Pretendard";
     font-weight: 500;

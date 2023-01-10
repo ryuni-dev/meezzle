@@ -38,11 +38,23 @@ function MyApp({
                     <Head>
                         <meta
                             name="viewport"
-                            content="width=device-width, initial-scale=1, user-scalable=no"
+                            content="width=device-width, initial-scale=1, user-scalable=no, viewport-fit=cover"
                         />
-                        <link rel="shortcut icon" type="image/x-icon" href="/logo.ico" />
-                        <link rel="sicon" type="image/x-icon" href="/logo.ico" />
-                        <link rel="apple-touch-icon-precomposed" type="image/x-icon" href="/logo.ico" />
+                        <link
+                            rel="shortcut icon"
+                            type="image/x-icon"
+                            href="/logo.ico"
+                        />
+                        <link
+                            rel="sicon"
+                            type="image/x-icon"
+                            href="/logo.ico"
+                        />
+                        <link
+                            rel="apple-touch-icon-precomposed"
+                            type="image/x-icon"
+                            href="/logo.ico"
+                        />
                     </Head>
                     <GlobalStyle />
                     <Component {...pageProps} />

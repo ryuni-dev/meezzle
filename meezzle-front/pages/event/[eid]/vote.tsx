@@ -80,7 +80,6 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
         setIsGuest(false);
         localStorage.removeItem("token");
         localStorage.removeItem("name");
-
     };
 
     const filterDisable = () => {
@@ -89,45 +88,47 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
 
     const submitGuest = useCallback(
         async (data: string) => {
-            await voteGuest.mutateAsync(data)
+            await voteGuest.mutateAsync(data);
             await router.push({
                 pathname: `/event/${eid}/congratulations`,
-                query: { voter: "false" },
+                query: { voter: "true" },
             });
-            },
-    [voteGuest])
+        },
+        [voteGuest]
+    );
 
     const submitHost = useCallback(
         async (data: string) => {
-            await voteHost.mutateAsync(data)
+            await voteHost.mutateAsync(data);
             await router.push({
-                    pathname: `/event/${eid}/congratulations`,
-                    query: { voter: "false" },
-                });
-            },
-    [voteHost])
+                pathname: `/event/${eid}/congratulations`,
+                query: { voter: "true" },
+            });
+        },
+        [voteHost]
+    );
 
     // 투표 제출시 발생하는 이벤트 핸들러
     const onVoteSubmit = () => {
-            filterDisable();
-            const voteData = JSON.stringify({
-                //@ts-ignore
-                ableDaysAndTimes: ConvertDays4Server(selectedTime),
-            });
-            console.log(voteData);
-            if (isGuest) {
-                // Guest 투표
-                submitGuest(voteData);
-            } else {
-                // Host 투표
-                // voteHost.mutate(voteData);
-                submitHost(voteData);
-            }
-            /* 제출 API 처리 필요 */
-            // router.push({
-            //     pathname: `/event/${eid}/congratulations`,
-            //     query: { voter: "true" },
-            // });
+        filterDisable();
+        const voteData = JSON.stringify({
+            //@ts-ignore
+            ableDaysAndTimes: ConvertDays4Server(selectedTime),
+        });
+        console.log(voteData);
+        if (isGuest) {
+            // Guest 투표
+            submitGuest(voteData);
+        } else {
+            // Host 투표
+            // voteHost.mutate(voteData);
+            submitHost(voteData);
+        }
+        /* 제출 API 처리 필요 */
+        // router.push({
+        //     pathname: `/event/${eid}/congratulations`,
+        //     query: { voter: "true" },
+        // });
     };
 
     useEffect(() => {
@@ -166,6 +167,13 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
         }
     };
     useEffect(() => {
+        // 마감일 지나면 투표 못하게
+        const dday = Date.parse(data.data.event.dday);
+
+        if (Date.now() > dday) {
+            alert("마감 기한이 지난 이벤트입니다.");
+            router.push(`/event/${eid}/info`);
+        }
         if (localStorage.getItem("token") === null) {
             alert("잘못된 로그인 정보입니다.");
             router.push(`/event/${eid}/info`);
@@ -269,19 +277,17 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
                 <Navbar>
                     <></>
                 </Navbar>
-                {
-                    voteGuest.isLoading || voteHost.isLoading
-                    ?
+                {voteGuest.isLoading || voteHost.isLoading ? (
                     <LoaderBox>
                         <HashLoader color="#3278DE" />
                     </LoaderBox>
-                    :
+                ) : (
                     <>
                         <DayBar></DayBar>
                         <TimeSelect></TimeSelect>
                         <Footer>{BtnPrint()}</Footer>
                     </>
-                }
+                )}
             </Body>
         </>
     );
