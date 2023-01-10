@@ -120,6 +120,9 @@ const CreatePage: NextPage = () => {
     }, []);
 
     useEffect(() => {
+        if (stage === 0) {
+            nameRef.current && nameRef.current.focus();
+        }
         explainRef.current && explainRef.current.focus();
       });
 
