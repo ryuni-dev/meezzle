@@ -6,30 +6,33 @@ import Navbar from "../components/common/Navbar";
 import OrangeBtn from "../components/common/OrangeBtn";
 import character from "../public/assets/character.svg";
 import Body from "../styled-components/StyledBody";
-
+import Head from "next/head";
 
 const Error500 = () => {
     const router = useRouter();
     return (
         <Body>
+            <Head>
+                <title>500 Server Error | meezzle</title>
+            </Head>
             <Navbar></Navbar>
             <Section>
-                    <Image src={character} />
-                    <SectionLargeText>500 Error!</SectionLargeText>
-                    <SectionText>서버에 문제가 생겼어요.</SectionText>
+                <Image src={character} />
+                <SectionLargeText>500 Error!</SectionLargeText>
+                <SectionText>서버에 문제가 생겼어요.</SectionText>
             </Section>
             <Footer>
                 <OrangeBtn
-                    style={{ filter: "none" }} 
-                    onClick={()=> {
+                    style={{ filter: "none" }}
+                    onClick={() => {
                         router.push("/");
                     }}
-                    >
+                >
                     홈으로 돌아갈래요!
                 </OrangeBtn>
             </Footer>
         </Body>
-    )
+    );
 };
 
 export default Error500;
@@ -50,7 +53,6 @@ const SectionLargeText = styled.p`
     color: #3278de;
     margin: 0;
     margin-top: 40px;
-
 `;
 const Section = styled.div`
     display: flex;

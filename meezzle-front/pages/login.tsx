@@ -7,6 +7,7 @@ import Script from "next/script";
 import styled from "styled-components";
 import character from "../public/assets/character.svg";
 import Body from "../styled-components/StyledBody";
+import Head from "next/head";
 
 type Props = { host: string | null };
 
@@ -31,6 +32,9 @@ const Login: NextPage<Props> = ({ host }) => {
                 async
                 defer
             ></Script>
+            <Head>
+                <title>Login | meezzle</title>
+            </Head>
             <NavContainer>
                 <Catchphrase>약속은 편하게 모임은 즐겁게</Catchphrase>
                 <Navbar />

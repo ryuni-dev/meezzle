@@ -11,6 +11,7 @@ import { HomeBtn } from "../../../components/common/HomeBtn";
 import ContainerToast from "../../../components/common/ContainerToast";
 import Body from "../../../styled-components/StyledBody";
 import { useEffect, useState } from "react";
+import Head from "next/head";
 
 interface Props {
     params: {
@@ -24,11 +25,10 @@ const Congratulations: NextPage<Props> = ({ params }) => {
     const [isGuest, setIsGuest] = useState(false);
 
     const onClickBtn = () => {
-        if(isGuest){
-            router.push('/login');
-        }
-        else{
-            router.push('/create')
+        if (isGuest) {
+            router.push("/login");
+        } else {
+            router.push("/create");
         }
     };
 
@@ -40,26 +40,28 @@ const Congratulations: NextPage<Props> = ({ params }) => {
         if (localStorage.getItem("token") === null) {
             setIsGuest(true);
         }
-    }, [])
-    
+    }, []);
 
     return (
         <Body>
+            <Head>
+                <title>삭제된 이벤트에요! | meezzle</title>
+            </Head>
             <Navbar>
                 <></>
             </Navbar>
             <Section>
                 <Image src={character} />
-                <SectionText>
-                    삭제된 이벤트예요!
-                </SectionText>
+                <SectionText>삭제된 이벤트예요!</SectionText>
             </Section>
             <Footer>
                 <FooterText>
-                    {isGuest ? 'meezzle에 가입해서 이벤트를 만들어보세요!' : null}
+                    {isGuest
+                        ? "meezzle에 가입해서 이벤트를 만들어보세요!"
+                        : null}
                 </FooterText>
                 <OrangeBtn style={{ filter: "none" }} onClick={onClickBtn}>
-                    {isGuest ? '가입하러 가기!' : '새로운 이벤트 만들기!' }
+                    {isGuest ? "가입하러 가기!" : "새로운 이벤트 만들기!"}
                 </OrangeBtn>
                 <HomeBtn onClick={goHome}>홈으로 돌아갈래요</HomeBtn>
             </Footer>

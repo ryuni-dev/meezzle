@@ -6,30 +6,33 @@ import Navbar from "../components/common/Navbar";
 import OrangeBtn from "../components/common/OrangeBtn";
 import character from "../public/assets/character.svg";
 import Body from "../styled-components/StyledBody";
-
+import Head from "next/head";
 
 const Error404 = () => {
     const router = useRouter();
     return (
         <Body>
+            <Head>
+                <title>404 Page Not Found | meezzle</title>
+            </Head>
             <Navbar></Navbar>
             <Section>
-                    <Image src={character} />
-                    <SectionLargeText>404 Error!</SectionLargeText>
-                    <SectionText>페이지를 찾을 수 없어요.</SectionText>
+                <Image src={character} />
+                <SectionLargeText>404 Error!</SectionLargeText>
+                <SectionText>페이지를 찾을 수 없어요.</SectionText>
             </Section>
             <Footer>
                 <OrangeBtn
-                    style={{ filter: "none" }} 
-                    onClick={()=> {
+                    style={{ filter: "none" }}
+                    onClick={() => {
                         router.push("/");
                     }}
-                    >
+                >
                     홈으로 돌아갈래요!
                 </OrangeBtn>
             </Footer>
         </Body>
-    )
+    );
 };
 
 export default Error404;
@@ -50,7 +53,6 @@ const SectionLargeText = styled.p`
     color: #3278de;
     margin: 0;
     margin-top: 40px;
-
 `;
 const Section = styled.div`
     display: flex;

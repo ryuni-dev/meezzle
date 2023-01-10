@@ -21,6 +21,7 @@ import { toast } from "react-toastify";
 import { HomeBtn } from "../../../components/common/HomeBtn";
 import ContainerToast from "../../../components/common/ContainerToast";
 import Body from "../../../styled-components/StyledBody";
+import Head from "next/head";
 
 type tableInfoType = {
     row: number;
@@ -183,6 +184,11 @@ const TableView: NextPage<Props> = ({ params }) => {
             )}
             {!isLoading && isAllDone && (
                 <>
+                    <Head>
+                        <title>
+                            {data.data.event.title} 투표 현황 | meezzle
+                        </title>
+                    </Head>
                     <Navbar>
                         <></>
                     </Navbar>

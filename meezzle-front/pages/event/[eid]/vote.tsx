@@ -23,6 +23,7 @@ import {
 import { guestLogined } from "../../../states/guest";
 import Body from "../../../styled-components/StyledBody";
 import { HashLoader } from "react-spinners";
+import Head from "next/head";
 
 const LoaderBox = styled.div`
     margin-top: 50vh;
@@ -283,6 +284,11 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
                     </LoaderBox>
                 ) : (
                     <>
+                        <Head>
+                            <title>
+                                {data.data.event.title} 투표하기 | meezzle
+                            </title>
+                        </Head>
                         <DayBar></DayBar>
                         <TimeSelect></TimeSelect>
                         <Footer>{BtnPrint()}</Footer>
