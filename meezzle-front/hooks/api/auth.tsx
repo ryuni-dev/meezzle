@@ -15,5 +15,5 @@ export const useKakaoToken = () => {
 };
 
 export const useGuestLogin = (eid: string | string[], user: user) => {
-    return useMutation(["guestLogin"], () => api.getGuestAuth(eid, user));
+    return useMutation(["guestLogin", eid, user], () => api.getGuestAuth(eid, user));
 };

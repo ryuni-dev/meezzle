@@ -16,7 +16,7 @@ import { btnDisable, ddayDisable, inputStage } from "../../states/eventCreate";
 import { eventInfo, eventTimeInfo } from "../../states/eventInfo";
 import { eventDaySelected } from "../../states/eventDayBox";
 import { Convert4ReqEvents } from "../../utils/converter";
-import { useEventCreate_test } from "../../hooks/api/events";
+import { useEventCreate } from "../../hooks/api/events";
 import Body from "../../styled-components/StyledBody";
 import { useRouter } from "next/router";
 import { HashLoader } from "react-spinners";
@@ -93,7 +93,7 @@ const CreatePage: NextPage = () => {
     const nameRef = useRef<HTMLInputElement>();
     const explainRef = useRef<HTMLTextAreaElement>();
 
-    const createEvent = useEventCreate_test();
+    const createEvent = useEventCreate();
 
     const ReverseStackJSX = (stage: number): JSX.Element => {
         return (
@@ -103,7 +103,7 @@ const CreatePage: NextPage = () => {
                 {stage > 2 ? <EventDue></EventDue> : null}
                 {stage > 1 ? <EventTime></EventTime> : null}
                 {stage > 0 ? <EventDay></EventDay> : null}
-                <EventName inputRef={nameRef}></EventName>
+                {stage === 0 ? <EventName inputRef={nameRef}></EventName> : null}
                 <BottomDiv></BottomDiv>
             </>
         );
@@ -123,6 +123,12 @@ const CreatePage: NextPage = () => {
         explainRef.current && explainRef.current.focus();
       });
 
+    useEffect(() => {
+        if (stage === 0) {
+            nameRef.current && nameRef.current.focus();
+        }
+    }, [stage]);
+
     const handleSubmit = useCallback(
         async (data: string) => {
             const res = await createEvent.mutateAsync(data);
@@ -141,7 +147,7 @@ const CreatePage: NextPage = () => {
             setStage((st) => st + 1);
         } 
         else if (stage === 5) {
-            setStage(0);
+            setStage(-1);
             console.log(ddayDisableState);
             if(ddayDisableState){
                 setTimeInfo({

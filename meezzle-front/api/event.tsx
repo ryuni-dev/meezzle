@@ -1,4 +1,5 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
+import { useRouter } from "next/router";
 
 export const getEvents = async () => {
     try {
@@ -32,12 +33,13 @@ export const getEvent = async (eventId: string) => {
         }
         return {};
     } catch (e) {
+        const { response } = e as unknown as AxiosError;
         console.log(e);
-        return {};
+        return response?.status;
     }
 };
 
-export const postCreate_test = async (data: string) => {
+export const postCreate = async (data: string) => {
     try {
         const res = await axios.post(
             process.env.NEXT_PUBLIC_API_EVENTS + "",
