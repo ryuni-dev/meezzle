@@ -59,7 +59,13 @@ const InputText = React.forwardRef<HTMLInputElement, Props>(({type, placeholder,
             value={input} 
             onChange={OnChange} 
             onKeyPress={OnKeyPress} 
-            ref={ref}
+            ref={
+                function (ref) {
+                    if (ref !== null) {
+                        ref.focus();
+                    }
+                }
+            }
         ></Input>
     )
 })
