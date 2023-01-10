@@ -37,7 +37,7 @@ export const getEvent = async (eventId: string) => {
     }
 };
 
-export const postCreate_test = async (data: string) => {
+export const postCreate = async (data: string) => {
     try {
         const res = await axios.post(
             process.env.NEXT_PUBLIC_API_EVENTS + "",

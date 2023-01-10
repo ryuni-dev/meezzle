@@ -16,7 +16,7 @@ import { btnDisable, ddayDisable, inputStage } from "../../states/eventCreate";
 import { eventInfo, eventTimeInfo } from "../../states/eventInfo";
 import { eventDaySelected } from "../../states/eventDayBox";
 import { Convert4ReqEvents } from "../../utils/converter";
-import { useEventCreate_test } from "../../hooks/api/events";
+import { useEventCreate } from "../../hooks/api/events";
 import Body from "../../styled-components/StyledBody";
 import { useRouter } from "next/router";
 import { HashLoader } from "react-spinners";
@@ -93,7 +93,7 @@ const CreatePage: NextPage = () => {
     const nameRef = useRef<HTMLInputElement>();
     const explainRef = useRef<HTMLTextAreaElement>();
 
-    const createEvent = useEventCreate_test();
+    const createEvent = useEventCreate();
 
     const ReverseStackJSX = (stage: number): JSX.Element => {
         return (

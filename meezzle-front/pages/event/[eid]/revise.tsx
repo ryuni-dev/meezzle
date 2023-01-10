@@ -93,6 +93,10 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
 
             if (data.data.event.dday !== null) {
                 dday = new Date(data.data.event.dday);
+                setDdayDisableState(false);
+            }
+            else {
+                setDdayDisableState(true);
             }
             setTimeInfo({
                 ...timeInfo,

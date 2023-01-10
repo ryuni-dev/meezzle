@@ -13,9 +13,9 @@ export const useEvents = () => {
     return useQuery(["event"], () => api.getEvents());
 };
 
-export const useEventCreate_test = () => {
+export const useEventCreate = () => {
     return useMutation(["eventCreate"], (data: string) =>
-        api.postCreate_test(data)
+        api.postCreate(data)
     );
 };
 
@@ -26,19 +26,19 @@ export const useEventDelete = () => {
 };
 
 export const useEventPatch = (eventId: string) => {
-    return useMutation(["eventPatch"], (data:string) =>
+    return useMutation(["eventPatch", eventId], (data:string) =>
         api.patchEvent(data, eventId)
     );
 };
 
 export const useEventVote4Host = (eventId: string) => {
-    return useMutation(["eventVote-user"], (data:string) =>
+    return useMutation(["eventVote-user", eventId], (data:string) =>
         api.voteEvent4Host(data, eventId)
     );
 };
 
 export const useEventVote4Guest = (eventId: string) => {
-    return useMutation(["eventVote-guest"], (data:string) =>
+    return useMutation(["eventVote-guest", eventId], (data:string) =>
         api.voteEvent4Guest(data, eventId)
     );
 };
