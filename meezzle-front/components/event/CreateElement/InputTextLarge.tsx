@@ -12,7 +12,7 @@ const InputLarge = styled.textarea`
     font-style: normal;
     font-weight: 400;
     font-size: 12px;
-    line-height: 150%;
+    // line-height: 150%;
     /* identical to box height, or 18px */
 
     letter-spacing: -0.011em;
@@ -20,15 +20,18 @@ const InputLarge = styled.textarea`
     /* gray300 */
 
     color: #333333;
-    text-indent: 15px;
-    line-height: 40px;
+    // text-indent: 15px;
+    line-height: 1.5;
+    padding-top: 11px;
+    padding-left: 15px;
+    padding-right: 15px;
 
     ::placeholder {
         font-family: "Pretendard";
         font-style: normal;
         font-weight: 400;
         font-size: 12px;
-        line-height: 150%;
+        // line-height: 150%;
         /* identical to box height, or 18px */
 
         letter-spacing: -0.011em;
@@ -36,8 +39,7 @@ const InputLarge = styled.textarea`
         /* gray300 */
 
         color: #a5a5a5;
-        text-indent: 15px;
-        line-height: 40px;
+        // text-indent: 15px;
     }
     :focus {
         outline: none;

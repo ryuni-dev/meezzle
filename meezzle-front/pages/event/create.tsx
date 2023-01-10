@@ -139,13 +139,14 @@ const CreatePage: NextPage = () => {
     const ChangeStage = () => {
         if (stage < 5) {
             setStage((st) => st + 1);
-        } else if (stage === 5) {
+        } 
+        else if (stage === 5) {
             setStage(0);
             console.log(ddayDisableState);
-            if (ddayDisableState) {
+            if(ddayDisableState){
                 setTimeInfo({
                     ...timeInfo,
-                    dueTime: null,
+                    dueTime: null
                 });
             }
             const data = JSON.stringify(
