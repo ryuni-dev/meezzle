@@ -12,13 +12,14 @@ type Props = { host: string | null };
 
 const Login: NextPage<Props> = ({ host }) => {
     const KakaoLogin = () => {
+
         if (host === "localhost:3000") {
             window.Kakao.Auth.authorize({
                 redirectUri: "http://localhost:3000/oauth/kakao",
             });
         } else {
             window.Kakao.Auth.authorize({
-                redirectUri: "https://meezzle.vercel.app/oauth/kakao",
+                redirectUri: "https://"+ host + "/oauth/kakao",
             });
         }
     };
