@@ -30,7 +30,7 @@ const Nav = styled.nav`
     justify-content: space-between;
     align-items: center;
     flex-direction: row;
-    margin-top: 40px;
+    margin-top: 20px;
     max-width: 400px;
     margin-left: auto;
     margin-right: auto;
