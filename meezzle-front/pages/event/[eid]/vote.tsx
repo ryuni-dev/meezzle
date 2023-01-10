@@ -91,7 +91,7 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
             await voteGuest.mutateAsync(data);
             await router.push({
                 pathname: `/event/${eid}/congratulations`,
-                query: { voter: "false" },
+                query: { voter: "true" },
             });
         },
         [voteGuest]
@@ -102,7 +102,7 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
             await voteHost.mutateAsync(data);
             await router.push({
                 pathname: `/event/${eid}/congratulations`,
-                query: { voter: "false" },
+                query: { voter: "true" },
             });
         },
         [voteHost]
