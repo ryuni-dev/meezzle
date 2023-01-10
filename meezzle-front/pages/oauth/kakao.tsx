@@ -17,10 +17,13 @@ const Kakao: NextPage<Props> = ({ host }) => {
     const [loginState, setLoginState] = useLogin();
     const router = useRouter();
     const { code: authCode, error: kakaoServerError } = router.query;
+    
     let requestUrl = "http://localhost:3000/oauth/kakao";
+
     if (host !== "localhost:3000") {
-        requestUrl = "https://meezzle.vercel.app/oauth/kakao";
+        requestUrl = "https://" + host + "/oauth/kakao";
     }
+
     const loginHandler = useCallback(
         async (code: string | string[]) => {
             try {
