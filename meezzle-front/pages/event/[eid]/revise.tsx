@@ -12,7 +12,6 @@ import EventTime from "../../../components/event/Create/EventTime";
 import EventDue from "../../../components/event/Create/EventDue";
 import EventColor from "../../../components/event/Create/EventColor";
 import EventExplain from "../../../components/event/Create/EventExplain";
-
 import LinkBtn from "../../../components/common/LinkBtn";
 import Navbar from "../../../components/common/Navbar";
 import {
@@ -30,6 +29,7 @@ import {
 } from "../../../utils/converter";
 import { ddayDisable } from "../../../states/eventCreate";
 import Body from "../../../styled-components/StyledBody";
+import { HashLoader } from "react-spinners";
 
 const Footer = styled.div`
     display: flex;
@@ -40,6 +40,13 @@ const Footer = styled.div`
     height: 120px;
     margin-right: 0px;
     padding-left: 2vw;
+`;
+
+const LoaderBox = styled.div`
+    margin-top: 60%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `;
 
 interface Props {
@@ -123,7 +130,11 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
         }
     }, [ddayDisableState]);
 
-    return (
+    return isLoading ? (
+        <LoaderBox>
+            <HashLoader color="#3278DE" />
+        </LoaderBox>
+    ) : (
         <Body>
             <Head>
                 <title>{data.data.event.title} 수정하기 | meezzle</title>
