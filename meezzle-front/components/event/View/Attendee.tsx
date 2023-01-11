@@ -22,8 +22,8 @@ const Attendee: React.FC<Props> = ({ clickedData }: Props) => {
                 </AttendeeNum>
             </FlexContainer>
             <FlexContainer>
-                <AttendeeBox>가능한 사람</AttendeeBox>
                 <AttendeeList>
+                    <AttendeeBox>가능한 사람</AttendeeBox>
                     {clickedData.attendee.map((el, idx) => {
                         return clickedData.attendee.length - 1 === idx
                             ? el
@@ -32,8 +32,8 @@ const Attendee: React.FC<Props> = ({ clickedData }: Props) => {
                 </AttendeeList>
             </FlexContainer>
             <FlexContainer>
-                <AttendeeBox>불가능한 사람</AttendeeBox>
                 <AttendeeList>
+                    <AttendeeBox>불가능한 사람</AttendeeBox>
                     {clickedData.absentee.map((el, idx) => {
                         return clickedData.absentee.length - 1 === idx
                             ? el
@@ -54,6 +54,7 @@ const FlexContainer = styled.div`
     margin-top: 2.5px;
     margin-bottom: 2.5px;
     font-family: "Pretendard";
+    word-wrap: break-word;
 `;
 
 const AttendeeNum = styled.p`
@@ -63,12 +64,16 @@ const AttendeeNum = styled.p`
     font-family: "Inter";
 `;
 
-const AttendeeBox = styled.div`
+const AttendeeBox = styled.span`
     font-size: 13px;
-    width: 90px;
+    margin-right: 16px;
+    /* width: 90px; */
 `;
 
 const AttendeeList = styled.p`
     margin: 0;
     font-size: 13px;
+    /* word-wrap: break-word; */
+    word-break: break-all;
+    white-space: pre-line;
 `;
