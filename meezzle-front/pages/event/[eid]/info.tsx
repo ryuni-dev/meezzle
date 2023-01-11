@@ -22,6 +22,10 @@ import { Convert4ResEventDays } from "../../../utils/converter";
 import ContainerToast from "../../../components/common/ContainerToast";
 import Body from "../../../styled-components/StyledBody";
 import Head from "next/head";
+import { useUser, useUserEnabled } from "../../../hooks/api/user";
+import sitCharacter from "../../../public/assets/sit_character.svg";
+import Image from "next/image";
+import Voter from "../../../components/common/Voter";
 
 const TitleBox = styled.div`
     display: flex;
@@ -61,6 +65,13 @@ const TitleMediumText = styled.text`
     color: #000000;
 `;
 
+const ImageContainer = styled.div`
+    position: fixed;
+    /* width: 400px; */
+    /* margin-right: 50%; */
+    bottom: 97px;
+`;
+
 const EventExplainDiv = styled.div`
     display: flex;
     width: 80%;
@@ -85,6 +96,10 @@ const EventExplainDiv = styled.div`
     color: #333333;
 `;
 
+const SectionContainer = styled.div`
+    margin-left: 2vw;
+`;
+
 const InputExplainDiv = styled.div`
     display: flex;
     flex-direction: column;
@@ -102,6 +117,11 @@ const Footer = styled.div`
     width: 100%;
     height: 120px;
     position: fixed;
+
+    max-width: 400px;
+    margin: 0 auto;
+
+    overflow-x: hidden;
     bottom: 0;
     // margin-left: 12%;
     // margin-right: 0px;
@@ -110,6 +130,35 @@ const A = styled.a`
     max-width: 340px;
     width: 80%;
     height: 59px;
+`;
+
+const DescriptionNotFound = styled.p`
+    margin: 12px auto 0px auto;
+    color: #8f8f8f;
+    font-size: 14px;
+    font-family: "Pretendard";
+    font-style: normal;
+    font-weight: 300;
+    line-height: 150%;
+    letter-spacing: -0.011em;
+`;
+
+const HostInfo = styled.div`
+    display: block;
+
+    margin: 0;
+    & > p {
+        font-family: "Pretendard";
+        font-style: normal;
+        font-weight: 300;
+        font-size: 12px;
+        line-height: 150%;
+        /* identical to box height, or 18px */
+
+        letter-spacing: -0.011em;
+
+        color: #8f8f8f;
+    }
 `;
 
 const ShareContainer = styled.div`
@@ -151,7 +200,6 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
 
     const { data, isLoading, isError } = useEvent(eid);
     const event = isLoading ? null : data.data;
-
     const [now, setNow] = useRecoilState(voteNow);
     const [selectedDay, setSelectedDay] = useRecoilState(eventDaySelected);
     const [isLoggedIn, setIsLoggedIn] = useLogin();
@@ -166,6 +214,12 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
     } = useGuestLogin(eid ? eid : "", user);
     // const participants = useParticipants();
     const [isGuest, setIsGuest] = useRecoilState(guestLogined);
+    const {
+        data: userData,
+        isLoading: userIsLoading,
+        isError: userIsError,
+    } = useUserEnabled(isLoggedIn);
+    const [isHost, setIsHost] = useState<boolean>(false);
 
     // if (!participants.isLoading) {
     //     console.log(participants.data[0].code);
@@ -176,6 +230,23 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
     //         return participants.data[0].code;
     //     }
     // };
+
+    useEffect(() => {
+        if (!isLoading && !userIsLoading && userData) {
+            //@ts-ignore
+            if (data.data.event.hostId && userData.data.id) {
+                setIsHost(true);
+            }
+        }
+    }, [isLoading, userIsLoading]);
+
+    useEffect(() => {
+        if (!isLoading) {
+            console.log(
+                event.eventParticipants.map((el: any) => [el.name, el.id])
+            );
+        }
+    });
 
     const errorHandler = () => {
         if (data === 404) {
@@ -277,7 +348,7 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
     };
 
     return (
-        <Body>
+        <Body style={{ display: "block" }}>
             {data === 404 ? null : (
                 <>
                     <Navbar>
@@ -302,21 +373,61 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
                             <Head>
                                 <title>{data.data.event.title} | meezzle</title>
                             </Head>
-                            <TitleBox>
-                                <Highlight>
-                                    <TitleLargeText>
-                                        {event.event.title}
-                                    </TitleLargeText>
-                                    <TitleMediumText>
-                                        에 가능한 시간을 입력해주세요
-                                    </TitleMediumText>
-                                </Highlight>
-                            </TitleBox>
-                            <EventExplainDiv>
-                                {event.event.description}
-                            </EventExplainDiv>
-                            {!isLoggedIn && <VoteLogin></VoteLogin>}
+                            <SectionContainer>
+                                <TitleBox>
+                                    <Highlight>
+                                        <TitleLargeText>
+                                            {event.event.title}
+                                        </TitleLargeText>
+                                        <TitleMediumText>
+                                            에 가능한 시간을 입력해주세요
+                                        </TitleMediumText>
+                                    </Highlight>
+                                </TitleBox>
+                                <EventExplainDiv>
+                                    {event.event.description ? (
+                                        event.event.description
+                                    ) : (
+                                        <DescriptionNotFound>
+                                            설명이 존재하지 않습니다.
+                                        </DescriptionNotFound>
+                                    )}
+                                </EventExplainDiv>
+                                {!isLoggedIn && <VoteLogin></VoteLogin>}
+                                {isHost && (
+                                    <HostInfo>
+                                        <Highlight style={{ width: "5.5rem" }}>
+                                            <TitleLargeText
+                                                style={{ marginRight: "0px" }}
+                                            >
+                                                투표 완료자
+                                            </TitleLargeText>
+                                        </Highlight>
+                                        <p style={{ marginTop: "8px" }}>
+                                            이벤트 생성자에게만 보이는
+                                            정보입니다.
+                                        </p>
+                                        {event.eventParticipants.map(
+                                            (el: any) => {
+                                                return (
+                                                    <Voter
+                                                        name={el.name}
+                                                        eid={eid}
+                                                        id={el.id}
+                                                        key={el.id}
+                                                    />
+                                                );
+                                            }
+                                        )}
+                                    </HostInfo>
+                                )}
+                            </SectionContainer>
                             <Footer>
+                                <div style={{ marginLeft: "160px" }}>
+                                    <ImageContainer>
+                                        <Image src={sitCharacter} />
+                                    </ImageContainer>
+                                </div>
                                 <Btn
                                     text="가능한 시간 입력하러 가기!"
                                     color={true}
@@ -334,18 +445,6 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
                                     pauseOnHover={false}
                                     theme="light"
                                 />
-                                {/* <ToastContainer
-                            position="bottom-center"
-                            autoClose={2000}
-                            hideProgressBar
-                            newestOnTop={false}
-                            closeOnClick
-                            rtl={false}
-                            pauseOnFocusLoss
-                            draggable
-                            pauseOnHover={false}
-                            theme="colored"
-                        /> */}
                                 <Link
                                     href={{
                                         pathname: "/event/[eid]/view",
