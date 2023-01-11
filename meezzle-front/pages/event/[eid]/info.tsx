@@ -118,6 +118,7 @@ const Footer = styled.div`
     width: 100%;
     height: 120px;
     position: fixed;
+    background-color: white;
 
     max-width: 400px;
     margin: 0 auto;

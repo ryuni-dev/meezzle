@@ -343,9 +343,10 @@ const Container = styled.div`
     display: inline-block;
     position: fixed;
     margin: 0 auto;
-    top: 85%;
+    top: 83%;
     border: 1px solid gray;
     border-radius: 5px;
+    z-index: 2;
 `;
 
 const LoaderBox = styled.div`
