@@ -99,7 +99,7 @@ const EventExplainDiv = styled.div`
 
 const SectionContainer = styled.div`
     display: flex;
-    margin-left: 8vw;
+    margin-left: 30px;
     flex-direction: column;
 `;
 
@@ -215,33 +215,9 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
         isSuccess,
         data: guestLoginData,
     } = useGuestLogin(eid ? eid : "", user);
-    // const participants = useParticipants();
+
     const [isGuest, setIsGuest] = useRecoilState(guestLogined);
-    const {
-        data: userData,
-        isLoading: userIsLoading,
-        isError: userIsError,
-    } = useUserEnabled(isLoggedIn);
     const [isHost, setIsHost] = useState<boolean>(false);
-
-    // if (!participants.isLoading) {
-    //     console.log(participants.data[0].code);
-    // }
-
-    // const LoginFunc = () => {
-    //     if (!participants.isLoading) {
-    //         return participants.data[0].code;
-    //     }
-    // };
-
-    useEffect(() => {
-        if (!isLoading && !userIsLoading && userData) {
-            //@ts-ignore
-            if (data.data.event.hostId && userData.data.id) {
-                setIsHost(true);
-            }
-        }
-    }, [isLoading, userIsLoading]);
 
     useEffect(() => {
         if (!isLoading) {
@@ -260,6 +236,9 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
 
     useEffect(() => {
         errorHandler();
+        if (localStorage.getItem("token") !== null){
+            setIsHost(true);
+        }
     }, []);
 
     const ErrorPW = () =>
