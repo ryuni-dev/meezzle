@@ -239,7 +239,7 @@ const TableView: NextPage<Props> = ({ params }) => {
                     <Navbar>
                         <></>
                     </Navbar>
-                    {!voterId && (
+                    {!isVoterFetched && (
                         <ContainerToast
                             position="top-center"
                             autoClose={1300}
@@ -252,14 +252,14 @@ const TableView: NextPage<Props> = ({ params }) => {
                             theme="light"
                         />
                     )}
-                    {voterId && (
+                    {isVoterFetched && (
                         <Highlight>
                             <TitleLargeText>
                                 {voterData[0].name}님의 투표 결과
                             </TitleLargeText>
                         </Highlight>
                     )}
-                    {!voterId && (
+                    {!isVoterFetched && (
                         <>
                             <H1>총 {participateData.length}명이 참여했어요!</H1>
                             <Tooltip>*시간을 클릭해보세요.</Tooltip>
@@ -273,16 +273,16 @@ const TableView: NextPage<Props> = ({ params }) => {
                         info={tableInfo}
                         setClickedTime={setClickedTime}
                         checkableTimes={checkableTimes}
-                        total={voterId ? 1 : participateData.length}
+                        total={isVoterFetched ? 1 : participateData.length}
                     />
                     {/* )} */}
-                    {clickedData && !voterId && (
+                    {clickedData && !isVoterFetched && (
                         <Container>
                             <Attendee clickedData={clickedData} />
                         </Container>
                     )}
-                    <Footer fixed={voterId ? true : false}>
-                        {voterId ? (
+                    <Footer fixed={isVoterFetched ? true : false}>
+                        {isVoterFetched ? (
                             <OrangeBtn
                                 style={{ filter: "none" }}
                                 onClick={goPrev}
@@ -297,13 +297,13 @@ const TableView: NextPage<Props> = ({ params }) => {
                                 공유하기
                             </OrangeBtn>
                         )}
-                        {!voterId && (
+                        {!isVoterFetched && (
                             <HomeBtn onClick={goHome}>
                                 홈으로 돌아갈래요
                             </HomeBtn>
                         )}
                     </Footer>
-                    {voterId && <div style={{ height: "12vh" }}></div>}
+                    {isVoterFetched && <div style={{ height: "12vh" }}></div>}
                 </>
             )}
         </Body>
@@ -343,9 +343,10 @@ const Container = styled.div`
     display: inline-block;
     position: fixed;
     margin: 0 auto;
-    top: 85%;
+    top: 83%;
     border: 1px solid gray;
     border-radius: 5px;
+    z-index: 2;
 `;
 
 const LoaderBox = styled.div`
