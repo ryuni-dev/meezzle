@@ -155,12 +155,6 @@ const CreatePage: NextPage = () => {
         } else if (stage === 5) {
             setStage(-1);
             console.log(ddayDisableState);
-            if (ddayDisableState) {
-                setTimeInfo({
-                    ...timeInfo,
-                    dueTime: null,
-                });
-            }
             const data = JSON.stringify(
                 //@ts-ignore
                 Convert4ReqEvents(event, timeInfo, selected)
@@ -170,6 +164,15 @@ const CreatePage: NextPage = () => {
             handleSubmit(data);
         }
     };
+
+    useEffect(() => {
+        if (ddayDisableState) {
+            setTimeInfo({
+                ...timeInfo,
+                dueTime: null,
+            });
+        }
+    }, [ddayDisableState]);
 
     return (
         <Body>
