@@ -59,20 +59,19 @@ export const postLeave = async () => {
 
 export const getUser = async (): Promise<User | {}> => {
     try {
-        const res = await axios.get(process.env.NEXT_PUTBLIC_API_USER+'/me', 
-            {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("token")}`,
-                }
-            });
+        const res = await axios.get(process.env.NEXT_PUBLIC_API_USER + "/me", {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+        });
         if (res.status === 200) {
             const data = await res.data;
             return data;
         }
-        return {};
+        return false;
     } catch (e) {
         console.log(e);
-        return {};
+        return false;
     }
 };
 

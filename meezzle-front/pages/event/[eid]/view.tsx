@@ -41,8 +41,17 @@ interface Props {
     };
 }
 
+interface VoterData {
+    id: string;
+    name: string;
+    ableDaysAndTimes: string[];
+}
+
 const TableView: NextPage<Props> = ({ params }) => {
     const router = useRouter();
+    const voterId = router.query.voter ? router.query.voter : "";
+    const [voterData, setVoterData] = useState<VoterData[]>([]);
+    const [isVoterFetched, setIsVoterFetched] = useState<boolean>(false);
     const { eid } = params;
     const { data, isLoading, isSuccess } = useParticipants(eid);
     const selectableTimes = isLoading
@@ -72,6 +81,21 @@ const TableView: NextPage<Props> = ({ params }) => {
         );
         return setClickedData(clicked);
     }, [clickedTime]);
+
+    useEffect(() => {
+        if (voterId && !isLoading) {
+            setVoterData(
+                participateData.filter((el: any) => {
+                    return el.id === voterId;
+                })
+            );
+            setIsVoterFetched(true);
+        }
+    }, [voterId, isLoading]);
+
+    useEffect(() => {
+        if (isVoterFetched) console.log(voterData[0]);
+    }, [isVoterFetched]);
 
     async function addAttendee(
         attendTimes: number[],
@@ -121,7 +145,7 @@ const TableView: NextPage<Props> = ({ params }) => {
     }
 
     useEffect(() => {
-        if (isSuccess) {
+        if (isSuccess && !isVoterFetched) {
             // 참여한 사람 순회
             let timeDataTemp: TimeDataType = [];
             const participleTimes = `${data.data.selectableParticipleTimes.beginTime}-${data.data.selectableParticipleTimes.endTime}`;
@@ -141,8 +165,24 @@ const TableView: NextPage<Props> = ({ params }) => {
             }
             addAbsentee(timeData, names);
             setIsTableDone(true);
+        } else if (isSuccess && isVoterFetched) {
+            let timeDataTemp: TimeDataType = [];
+            const participleTimes = `${data.data.selectableParticipleTimes.beginTime}-${data.data.selectableParticipleTimes.endTime}`;
+            const days = Convert4ResEventDays(
+                data.data.selectableParticipleTimes.selectedDayOfWeeks
+            );
+            setCheckableTimes(CheckAbleTime(participleTimes, days));
+
+            setNames([voterData[0].name]);
+            addAttendee(
+                ConvertDays4Client(voterData[0].ableDaysAndTimes),
+                voterData[0].name,
+                timeDataTemp
+            );
+
+            setIsTableDone(true);
         }
-    }, [isSuccess]);
+    }, [isSuccess, isVoterFetched]);
 
     useEffect(() => {
         if (isTableDone) {
@@ -175,6 +215,10 @@ const TableView: NextPage<Props> = ({ params }) => {
         router.push("/");
     };
 
+    const goPrev = () => {
+        router.push(`/event/${eid}/info`);
+    };
+
     return (
         <Body>
             {isLoading && (
@@ -186,43 +230,80 @@ const TableView: NextPage<Props> = ({ params }) => {
                 <>
                     <Head>
                         <title>
-                            {data.data.event.title} 투표 현황 | meezzle
+                            {isVoterFetched
+                                ? `${voterData[0].name}님의 투표 현황 | meezzle`
+                                : `${data.data.event.title}
+                            투표 현황 | meezzle`}
                         </title>
                     </Head>
                     <Navbar>
                         <></>
                     </Navbar>
-                    <ContainerToast
-                        position="top-center"
-                        autoClose={1300}
-                        hideProgressBar
-                        newestOnTop={false}
-                        closeOnClick
-                        rtl={false}
-                        draggable
-                        pauseOnHover={false}
-                        theme="light"
-                    />
-                    <H1>총 {participateData.length}명이 참여했어요!</H1>
-                    <Tooltip>*시간을 클릭해보세요.</Tooltip>
+                    {!voterId && (
+                        <ContainerToast
+                            position="top-center"
+                            autoClose={1300}
+                            hideProgressBar
+                            newestOnTop={false}
+                            closeOnClick
+                            rtl={false}
+                            draggable
+                            pauseOnHover={false}
+                            theme="light"
+                        />
+                    )}
+                    {voterId && (
+                        <Highlight>
+                            <TitleLargeText>
+                                {voterData[0].name}님의 투표 결과
+                            </TitleLargeText>
+                        </Highlight>
+                    )}
+                    {!voterId && (
+                        <>
+                            <H1>총 {participateData.length}명이 참여했어요!</H1>
+                            <Tooltip>*시간을 클릭해보세요.</Tooltip>
+                        </>
+                    )}
+                    {/* {voterId ? (
+                        <div></div>
+                    ) : ( */}
                     <ViewTable
                         timeData={timeData}
                         info={tableInfo}
                         setClickedTime={setClickedTime}
                         checkableTimes={checkableTimes}
-                        total={participateData.length}
+                        total={voterId ? 1 : participateData.length}
                     />
-                    {clickedData && (
+                    {/* )} */}
+                    {clickedData && !voterId && (
                         <Container>
                             <Attendee clickedData={clickedData} />
                         </Container>
                     )}
-                    <Footer>
-                        <OrangeBtn style={{ filter: "none" }} onClick={onShare}>
-                            공유하기
-                        </OrangeBtn>
-                        <HomeBtn onClick={goHome}>홈으로 돌아갈래요</HomeBtn>
+                    <Footer fixed={voterId ? true : false}>
+                        {voterId ? (
+                            <OrangeBtn
+                                style={{ filter: "none" }}
+                                onClick={goPrev}
+                            >
+                                이전으로
+                            </OrangeBtn>
+                        ) : (
+                            <OrangeBtn
+                                style={{ filter: "none" }}
+                                onClick={onShare}
+                            >
+                                공유하기
+                            </OrangeBtn>
+                        )}
+                        {!voterId && (
+                            <HomeBtn onClick={goHome}>
+                                홈으로 돌아갈래요
+                            </HomeBtn>
+                        )}
                     </Footer>
+                    {voterId && <div style={{ height: "12vh" }}></div>}
                 </>
             )}
         </Body>
@@ -244,10 +325,13 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 export default TableView;
 
-const Footer = styled.div`
+const Footer = styled.div<{ fixed: boolean }>`
     display: flex;
-    width: 80%;
-    margin-top: 45px;
+    position: ${(props) => (props.fixed ? "fixed" : "relative")};
+    top: ${(props) => (props.fixed ? "85%" : "")};
+    width: ${(props) => (props.fixed ? "320px" : "80%")};
+    margin-left: ${(props) => (props.fixed ? "16px" : "0px")};
+    margin-top: 30px;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -269,4 +353,23 @@ const LoaderBox = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+`;
+
+const Highlight = styled.div`
+    margin-bottom: 16px;
+    background: linear-gradient(to top, #e3efff 50%, transparent 50%);
+    z-index: -1;
+`;
+const TitleLargeText = styled.text`
+    margin-right: 5px;
+    font-family: "Pretendard";
+    font-style: normal;
+    font-weight: 600;
+    font-size: 19px;
+    line-height: 150%;
+    /* identical to box height, or 28px */
+
+    letter-spacing: -0.011em;
+
+    color: #000000;
 `;

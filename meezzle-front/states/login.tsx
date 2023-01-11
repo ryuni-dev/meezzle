@@ -3,12 +3,12 @@ import { recoilPersist } from "recoil-persist";
 import { useRecoilState } from "recoil";
 import { useState, useEffect } from "react";
 
-const sessionStorage =
-    typeof window !== "undefined" ? window.sessionStorage : undefined;
+const localStorage =
+    typeof window !== "undefined" ? window.localStorage : undefined;
 
 const { persistAtom } = recoilPersist({
     key: "login",
-    storage: sessionStorage,
+    storage: localStorage,
 });
 
 export const LoginState = atom<boolean>({
