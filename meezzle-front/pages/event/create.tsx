@@ -105,9 +105,7 @@ const CreatePage: NextPage = () => {
                 {stage > 2 ? <EventDue></EventDue> : null}
                 {stage > 1 ? <EventTime></EventTime> : null}
                 {stage > 0 ? <EventDay></EventDay> : null}
-                {stage === 0 ? (
-                    <EventName inputRef={nameRef}></EventName>
-                ) : null}
+                {stage >= 0 ? <EventName inputRef={nameRef}></EventName> : null}
                 <BottomDiv></BottomDiv>
             </>
         );
