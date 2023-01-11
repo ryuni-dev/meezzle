@@ -15,6 +15,7 @@ const VoterContainer = styled.div`
     flex-direction: row;
     justify-content: space-between;
     cursor: pointer;
+    margin-bottom: 5px;
     & > span {
         vertical-align: middle;
     }
