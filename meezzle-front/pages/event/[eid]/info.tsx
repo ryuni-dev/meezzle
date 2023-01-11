@@ -73,14 +73,15 @@ const ImageContainer = styled.div`
 `;
 
 const EventExplainDiv = styled.div`
-    display: flex;
+    display: inline-block;
     width: 80%;
     // height: 110px;
     margin-right: auto;
-    margin-left: 10%;
+    margin-left: 5%;
     margin-top: 23px;
     margin-bottom: 40px;
-    white-space: pre;
+    /* white-space: pre; */
+    word-break: break-all;
 
     font-family: "Pretendard";
     font-style: normal;
