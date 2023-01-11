@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { HomeBtn } from "../components/common/HomeBtn";
 import Navbar from "../components/common/Navbar";
 import OrangeBtn from "../components/common/OrangeBtn";
-import character from "../public/assets/character.svg";
+import character from "../public/assets/sad_character.svg";
 import Body from "../styled-components/StyledBody";
 import Head from "next/head";
 

@@ -105,9 +105,7 @@ const CreatePage: NextPage = () => {
                 {stage > 2 ? <EventDue></EventDue> : null}
                 {stage > 1 ? <EventTime></EventTime> : null}
                 {stage > 0 ? <EventDay></EventDay> : null}
-                {stage === 0 ? (
-                    <EventName inputRef={nameRef}></EventName>
-                ) : null}
+                {stage >= 0 ? <EventName inputRef={nameRef}></EventName> : null}
                 <BottomDiv></BottomDiv>
             </>
         );
@@ -155,12 +153,6 @@ const CreatePage: NextPage = () => {
         } else if (stage === 5) {
             setStage(-1);
             console.log(ddayDisableState);
-            if (ddayDisableState) {
-                setTimeInfo({
-                    ...timeInfo,
-                    dueTime: null,
-                });
-            }
             const data = JSON.stringify(
                 //@ts-ignore
                 Convert4ReqEvents(event, timeInfo, selected)
@@ -170,6 +162,15 @@ const CreatePage: NextPage = () => {
             handleSubmit(data);
         }
     };
+
+    useEffect(() => {
+        if (ddayDisableState) {
+            setTimeInfo({
+                ...timeInfo,
+                dueTime: null,
+            });
+        }
+    }, [ddayDisableState]);
 
     return (
         <Body>
