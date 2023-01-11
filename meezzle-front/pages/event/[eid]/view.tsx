@@ -281,7 +281,7 @@ const TableView: NextPage<Props> = ({ params }) => {
                             <Attendee clickedData={clickedData} />
                         </Container>
                     )}
-                    <Footer fixed={voterId ? true : false}>
+                    <Footer fixed={false}>
                         {voterId ? (
                             <OrangeBtn
                                 style={{ filter: "none" }}
