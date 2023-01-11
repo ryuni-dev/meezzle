@@ -235,7 +235,7 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
     useEffect(() => {
         if (!isLoading && !userIsLoading && userData) {
             //@ts-ignore
-            if (data.data.event.hostId && userData.data.id) {
+            if (data.data.event.hostId === userData.data.id) {
                 setIsHost(true);
             }
         }
