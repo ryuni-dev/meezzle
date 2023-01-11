@@ -335,6 +335,7 @@ const Footer = styled.div<{ fixed: boolean }>`
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    z-index: -1;
 `;
 
 const Container = styled.div`
