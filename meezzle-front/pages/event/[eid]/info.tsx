@@ -74,10 +74,10 @@ const ImageContainer = styled.div`
 
 const EventExplainDiv = styled.div`
     display: inline-block;
-    width: 80%;
+    width: 93%;
     // height: 110px;
     margin-right: auto;
-    margin-left: 5%;
+    /* margin-left: 5%; */
     margin-top: 23px;
     margin-bottom: 40px;
     /* white-space: pre; */
@@ -120,6 +120,7 @@ const Footer = styled.div`
     width: 100%;
     height: 120px;
     position: fixed;
+    background-color: white;
 
     max-width: 400px;
     margin: 0 auto;
@@ -149,7 +150,7 @@ const DescriptionNotFound = styled.p`
 const HostInfo = styled.div`
     display: block;
 
-    margin: 0;
+    margin: 0 0 180px 0;
     & > p {
         font-family: "Pretendard";
         font-style: normal;
@@ -218,6 +219,25 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
 
     const [isGuest, setIsGuest] = useRecoilState(guestLogined);
     const [isHost, setIsHost] = useState<boolean>(false);
+
+    // if (!participants.isLoading) {
+    //     console.log(participants.data[0].code);
+    // }
+
+    // const LoginFunc = () => {
+    //     if (!participants.isLoading) {
+    //         return participants.data[0].code;
+    //     }
+    // };
+
+    useEffect(() => {
+        if (!isLoading && !userIsLoading && userData) {
+            //@ts-ignore
+            if (data.data.event.hostId === userData.data.id) {
+                setIsHost(true);
+            }
+        }
+    }, [isLoading, userIsLoading]);
 
     useEffect(() => {
         if (!isLoading) {
