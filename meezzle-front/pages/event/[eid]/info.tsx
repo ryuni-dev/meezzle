@@ -98,17 +98,19 @@ const EventExplainDiv = styled.div`
 `;
 
 const SectionContainer = styled.div`
-    margin-left: 2vw;
+    display: flex;
+    margin-left: 8vw;
+    flex-direction: column;
 `;
 
-const InputExplainDiv = styled.div`
+const LoginContainer = styled.div`
     display: flex;
+    justify-content: center;
+    align-items: center;
     flex-direction: column;
-    margin-right: auto;
-    margin-left: 7%;
-    margin-top: 10px;
-    margin-bottom: 5px;
 `;
+
+
 
 const Footer = styled.div`
     display: flex;
@@ -394,7 +396,6 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
                                         </DescriptionNotFound>
                                     )}
                                 </EventExplainDiv>
-                                {!isLoggedIn && <VoteLogin></VoteLogin>}
                                 {isHost && (
                                     <HostInfo>
                                         <Highlight style={{ width: "5.5rem" }}>
@@ -423,6 +424,9 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
                                     </HostInfo>
                                 )}
                             </SectionContainer>
+                            <LoginContainer>
+                                {!isLoggedIn && <VoteLogin></VoteLogin>}
+                            </LoginContainer>
                             <Footer>
                                 <div style={{ marginLeft: "160px" }}>
                                     <ImageContainer>
