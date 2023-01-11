@@ -265,9 +265,6 @@ const TableView: NextPage<Props> = ({ params }) => {
                             <Tooltip>*시간을 클릭해보세요.</Tooltip>
                         </>
                     )}
-                    {/* {voterId ? (
-                        <div></div>
-                    ) : ( */}
                     <ViewTable
                         timeData={timeData}
                         info={tableInfo}
@@ -275,7 +272,6 @@ const TableView: NextPage<Props> = ({ params }) => {
                         checkableTimes={checkableTimes}
                         total={isVoterFetched ? 1 : participateData.length}
                     />
-                    {/* )} */}
                     {clickedData && !isVoterFetched && (
                         <Container>
                             <Attendee clickedData={clickedData} />
