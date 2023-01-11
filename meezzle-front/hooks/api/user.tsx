@@ -10,6 +10,12 @@ export const useUser = () => {
     return useQuery(["user"], () => api.getUser());
 };
 
+export const useUserEnabled = (enable: boolean) => {
+    return useQuery(["user"], () => api.getUser(), {
+        enabled: enable,
+    });
+};
+
 export const useUserLogout = () => {
     return useMutation(["user", "logout"], () => api.postLogout());
 };
