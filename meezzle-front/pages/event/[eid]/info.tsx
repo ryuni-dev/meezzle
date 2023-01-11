@@ -216,6 +216,11 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
         isSuccess,
         data: guestLoginData,
     } = useGuestLogin(eid ? eid : "", user);
+    const {
+        data: userData,
+        isLoading: userIsLoading,
+        isError: userIsError,
+    } = useUserEnabled(isLoggedIn);
 
     const [isGuest, setIsGuest] = useRecoilState(guestLogined);
     const [isHost, setIsHost] = useState<boolean>(false);
