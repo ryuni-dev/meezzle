@@ -12,6 +12,7 @@ import {
 
 const Container = styled.div`
     display: flex;
+    overscroll-behavior-x: none; // 아이폰 스와이프 방지
     flex-direction: column;
     justify-content: center;
     align-items: center;

@@ -154,6 +154,7 @@ const TimeRow = styled.p`
 
 const Container = styled.div`
     width: 97%;
+    overscroll-behavior-x: none; // 아이폰 스와이프 방지
     margin: 0 auto;
     font-weight: 300;
     font-family: "Pretendard";
