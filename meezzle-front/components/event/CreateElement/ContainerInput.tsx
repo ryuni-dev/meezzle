@@ -4,7 +4,7 @@ const Div = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
-    width: 375px;
+    max-width: 375px;
     height: auto;
     margin-top: 1.5rem;
     // margin-left: 16px;

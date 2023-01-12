@@ -7,7 +7,7 @@ const Container = styled.div`
     justify-content: center;
     align-items: center;
     padding: 0px;
-    padding-left: 8.5%;
+    // padding-left: 8.5%;
     margin: 0px;
     width: 100%;
     height: 100%;
@@ -22,7 +22,7 @@ const BodyDiv = styled.div`
     width: 100%;
     height: auto;
     // margin-top: 20px;
-    padding-left: 2vw;
+    // padding-left: 2vw;
 `;
 interface EventCreateProps {
     text: string;
