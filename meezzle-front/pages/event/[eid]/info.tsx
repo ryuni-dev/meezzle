@@ -36,8 +36,10 @@ const TitleBox = styled.div`
 
 const Highlight = styled.div`
     display: flex;
+    max-width: 330px;
     background: linear-gradient(to top, #e3efff 50%, transparent 50%);
     z-index: -1;
+    flex-wrap: wrap;
 `;
 const TitleLargeText = styled.text`
     margin-right: 5px;
@@ -234,13 +236,13 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
         }
     }, [isLoading, userIsLoading]);
 
-    useEffect(() => {
-        if (!isLoading) {
-            console.log(
-                event.eventParticipants.map((el: any) => [el.name, el.id])
-            );
-        }
-    });
+    // useEffect(() => {
+    //     if (!isLoading) {
+    //         console.log(
+    //             event.eventParticipants.map((el: any) => [el.name, el.id])
+    //         );
+    //     }
+    // });
 
     const errorHandler = () => {
         if (data === 404) {
