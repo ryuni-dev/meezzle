@@ -38,6 +38,7 @@ const Highlight = styled.div`
     display: inline;
     background: linear-gradient(to top, #e3efff 50%, transparent 50%);
     z-index: -1;
+    flex-wrap: wrap;
 `;
 const TitleLargeText = styled.span`
     margin-right: 5px;
@@ -225,16 +226,6 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
     const [isGuest, setIsGuest] = useRecoilState(guestLogined);
     const [isHost, setIsHost] = useState<boolean>(false);
 
-    // if (!participants.isLoading) {
-    //     console.log(participants.data[0].code);
-    // }
-
-    // const LoginFunc = () => {
-    //     if (!participants.isLoading) {
-    //         return participants.data[0].code;
-    //     }
-    // };
-
     useEffect(() => {
         if (!isLoading && !userIsLoading && userData) {
             //@ts-ignore
@@ -244,13 +235,13 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
         }
     }, [isLoading, userIsLoading]);
 
-    useEffect(() => {
-        if (!isLoading) {
-            console.log(
-                event.eventParticipants.map((el: any) => [el.name, el.id])
-            );
-        }
-    });
+    // useEffect(() => {
+    //     if (!isLoading) {
+    //         console.log(
+    //             event.eventParticipants.map((el: any) => [el.name, el.id])
+    //         );
+    //     }
+    // });
 
     const errorHandler = () => {
         if (data === 404) {

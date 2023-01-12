@@ -18,6 +18,14 @@ interface EventContainerProps {
 
 export const EventBox = ({ userNum, eid, title, color, dday }: Props) => {
 
+    const checkTitle = (title: string) => {
+        if(title.length > 17){
+            return title.slice(0, 15) + "...";
+        }else {
+            return title
+        }
+    }
+
     const checkDday = (dday:string) => {
         if (dday === null) {
             return '설정 되어있지 않아요!'
@@ -45,7 +53,7 @@ export const EventBox = ({ userNum, eid, title, color, dday }: Props) => {
                 </Link>
             </IconContainer>
             <Clear />
-            <TitleContainer>{title}</TitleContainer>
+            <TitleContainer>{checkTitle(title)}</TitleContainer>
             <DueContainer>
                 마감 <DueDate>{checkDday(dday)}</DueDate>
             </DueContainer>

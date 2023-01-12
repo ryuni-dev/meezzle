@@ -152,13 +152,11 @@ const CreatePage: NextPage = () => {
             setStage((st) => st + 1);
         } else if (stage === 5) {
             setStage(-1);
-            console.log(ddayDisableState);
             const data = JSON.stringify(
                 //@ts-ignore
                 Convert4ReqEvents(event, timeInfo, selected)
                 // type 수정 필요
             );
-            console.log(data);
             handleSubmit(data);
         }
     };

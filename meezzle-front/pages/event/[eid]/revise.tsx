@@ -61,7 +61,6 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
     const { eid } = params;
     const router = useRouter();
     const { data, isLoading } = useEvent(eid);
-    console.log(data);
     const [days, setDays] = useRecoilState(eventDaySelected);
     const [event, setEvent] = useRecoilState(eventInfo);
     const [timeInfo, setTimeInfo] = useRecoilState(eventTimeInfo);
@@ -71,7 +70,7 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
     const patchEvent = useEventPatch(eid);
 
     const DeleteEvent = () => {
-        if(confirm("이벤트를 삭제하면 되돌릴 수 없어요! 정말 삭제하실 건가요?")===true){
+        if(confirm("이벤트를 삭제하면 되돌릴 수 없어요! \n 정말 삭제하실 건가요?")===true){
             deleteEvent.mutate(eid);
             alert("삭제되었어요!");
             router.push('/');
@@ -80,7 +79,6 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
     };
 
     const PatchEvent = () => {
-        console.log(ddayDisableState);
         if (ddayDisableState) {
             setTimeInfo({
                 ...timeInfo,
@@ -133,7 +131,6 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
     }, [data]);
 
     useEffect(() => {
-        console.log(ddayDisableState);
         if (ddayDisableState) {
             setTimeInfo({
                 ...timeInfo,

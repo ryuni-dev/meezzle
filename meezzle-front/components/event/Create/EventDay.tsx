@@ -75,7 +75,6 @@ interface LinearProps {
     end: string;
 }
 const CalcLinear = (linear:LinearProps): number[] => {
-    // console.log(linear)
     const Items: number[] = [];
     if(linear.start === null || linear.end === null){
         return Items;
@@ -119,7 +118,7 @@ const EventDay: NextComponentType = ()=> {
     IsDisable();
 
     useEffect(() => {
-        // console.log(selected)
+
     },[selected, curr, removeMode]);
 
     const UpdateCurrent = (start: string, end: string) => {
@@ -127,8 +126,6 @@ const EventDay: NextComponentType = ()=> {
             setEnd(end)
             //@ts-ignore
             setCurr([...CalcLinear({start, end})]);
-            // console.log('cur: ', curr);
-            // setCurr(...new Set(curr));
         }
     }
     const TouchStartEvent = useCallback((
@@ -144,9 +141,7 @@ const EventDay: NextComponentType = ()=> {
                 const targetElement = e.currentTarget.getAttribute("data-day");
                 //@ts-ignore
                 setStart(targetElement);
-                // console.log('st', start)
                 selected.find(s => parseInt(start) === s) ? setRemoveMode(true) : setRemoveMode(false);
-                console.log(removeMode)
                 //@ts-ignore
                 setEnd(targetElement);
                 //@ts-ignore
@@ -162,8 +157,6 @@ const EventDay: NextComponentType = ()=> {
     const ClickEvent = (e: React.MouseEvent, index: number) => {
         try{
             const targetElement = e.currentTarget.getAttribute("data-day");
-            //@ts-ignore
-            // console.log(selected.find(s => parseInt(targetElement) === s))
             //@ts-ignore
             if(selected.find(s => parseInt(targetElement) === s)){
                 setSelected(selected.filter(se => se !== (index+1)))
@@ -220,10 +213,6 @@ const EventDay: NextComponentType = ()=> {
         // document.body.style.userSelect="";
         IsDisable();
         setCurr([...[]]);
-        // setSelected(Array.from(new Set(selected)))
-        // console.log(Array.from(new Set(selected)))
-        // setSelected([...Array.from(new Set(selected))]);
-        // console.log('se', selected);
         setClick(false);
         setRemoveMode(false);
     },
@@ -241,7 +230,6 @@ const EventDay: NextComponentType = ()=> {
 
     const FindSelected = (idx: number): boolean => {
         if (selected.find(s => s === idx)){
-            // console.log('find: ', idx);
             return true;
         }
         else {
@@ -271,11 +259,9 @@ const EventDay: NextComponentType = ()=> {
                                 key={index + 1} 
                                 data-day={index + 1}
                                 selected={
-                                    // selected.find(s => s === index) || false
                                     FindSelected(index + 1)
                                 }
                                 current={
-                                    // curr.find(c => c === index) || false
                                     FindCurrent(index + 1)
                                 }
                                 removeMode={removeMode}

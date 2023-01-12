@@ -26,7 +26,6 @@ export const getAuth = async () => {
 export const getAuth2 = async () => {
     try {
         const code = new URL(window.location.href).searchParams.get("code");
-        console.log(code);
         const res = await axios.get(
             process.env.NEXT_PUBLIC_KAKAO_LOGIN_REDIRECT + "",
             {

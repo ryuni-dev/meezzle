@@ -5,10 +5,10 @@ const DivH1 = styled.div`
     display: flex;
 
     width: 100%;
+    max-width: 340px;
     height: 44px;
     align-items: center;
     margin-top: 25px;
-    // padding-left: 0%;
 `;
 type Props = {
     text: string;
