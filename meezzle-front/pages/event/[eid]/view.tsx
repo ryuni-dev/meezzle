@@ -94,7 +94,7 @@ const TableView: NextPage<Props> = ({ params }) => {
     }, [voterId, isLoading]);
 
     useEffect(() => {
-        if (isVoterFetched) console.log(voterData[0]);
+        // if (isVoterFetched) console.log(voterData[0]);
     }, [isVoterFetched]);
 
     async function addAttendee(

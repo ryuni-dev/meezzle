@@ -19,23 +19,6 @@ const InputExplainDiv = styled.div`
 const VoteLogin = () => {
     const [user, setUser] = useRecoilState(participant);
     const [disable, setDisable] = useRecoilState(btnDisable);
-    // const {data, isLoading} = useParticipants();
-
-    // const LoginFunc = () => {
-    //     if(!isLoading){
-    //         return data[0].code;
-    //     }
-    // }
-
-    // const Click2Vote = () => {
-    //     const loginInfo = LoginFunc();
-    //     if (loginInfo === 'SUCCESS'){
-    //         setNow(event.days[0]);
-    //         setSelectedDay(event.days);
-    //         resetTime();
-    //         console.log("click!!")
-    //     }
-    // }
 
     const IsDisableBtn = () => {
         if (user.name === "") {

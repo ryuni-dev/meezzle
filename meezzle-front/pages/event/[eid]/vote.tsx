@@ -116,7 +116,6 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
             //@ts-ignore
             ableDaysAndTimes: ConvertDays4Server(selectedTime),
         });
-        console.log(voteData);
         if (isGuest) {
             // Guest 투표
             submitGuest(voteData);
@@ -155,13 +154,10 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
 
     const FindData = () => {
         const eventParticipants = data.data.eventParticipants;
-        // console.log(user)
-        console.log(localStorage.getItem("name"));
 
         for (let i = 0; i < eventParticipants.length; i++) {
             if (eventParticipants[i].name === localStorage.getItem("name")) {
                 const ableDaysAndTimes = eventParticipants[i].ableDaysAndTimes;
-                console.log(ableDaysAndTimes);
                 const convertedData = ConvertDays4Client(ableDaysAndTimes);
                 setSelectedTime(convertedData);
             }

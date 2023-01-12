@@ -61,7 +61,6 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
     const { eid } = params;
     const router = useRouter();
     const { data, isLoading } = useEvent(eid);
-    console.log(data);
     const [days, setDays] = useRecoilState(eventDaySelected);
     const [event, setEvent] = useRecoilState(eventInfo);
     const [timeInfo, setTimeInfo] = useRecoilState(eventTimeInfo);
@@ -80,7 +79,6 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
     };
 
     const PatchEvent = () => {
-        console.log(ddayDisableState);
         if (ddayDisableState) {
             setTimeInfo({
                 ...timeInfo,
@@ -133,7 +131,6 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
     }, [data]);
 
     useEffect(() => {
-        console.log(ddayDisableState);
         if (ddayDisableState) {
             setTimeInfo({
                 ...timeInfo,

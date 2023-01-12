@@ -48,8 +48,7 @@ const EventColor = ()=> {
             ...event,
             color: bgColor,
     });
-        // setColor(bgColor);
-        // console.log(color);
+    
     }
     return (
         <ContainerInput>

@@ -225,16 +225,6 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
     const [isGuest, setIsGuest] = useRecoilState(guestLogined);
     const [isHost, setIsHost] = useState<boolean>(false);
 
-    // if (!participants.isLoading) {
-    //     console.log(participants.data[0].code);
-    // }
-
-    // const LoginFunc = () => {
-    //     if (!participants.isLoading) {
-    //         return participants.data[0].code;
-    //     }
-    // };
-
     useEffect(() => {
         if (!isLoading && !userIsLoading && userData) {
             //@ts-ignore
