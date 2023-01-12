@@ -35,13 +35,12 @@ const TitleBox = styled.div`
 `;
 
 const Highlight = styled.div`
-    display: flex;
-    max-width: 330px;
+    display: inline;
     background: linear-gradient(to top, #e3efff 50%, transparent 50%);
     z-index: -1;
     flex-wrap: wrap;
 `;
-const TitleLargeText = styled.text`
+const TitleLargeText = styled.span`
     margin-right: 5px;
     font-family: "Pretendard";
     font-style: normal;
@@ -54,7 +53,7 @@ const TitleLargeText = styled.text`
 
     color: #000000;
 `;
-const TitleMediumText = styled.text`
+const TitleMediumText = styled.span`
     font-family: "Pretendard";
     font-style: normal;
     font-weight: 400;
@@ -374,14 +373,16 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
                             </Head>
                             <SectionContainer>
                                 <TitleBox>
-                                    <Highlight>
-                                        <TitleLargeText>
+                                    <TitleLargeText>
+                                        <Highlight>
                                             {event.event.title}
-                                        </TitleLargeText>
+                                        </Highlight>
                                         <TitleMediumText>
-                                            에 가능한 시간을 입력해주세요
+                                            <Highlight>
+                                                에 가능한 시간을 입력해주세요
+                                            </Highlight>
                                         </TitleMediumText>
-                                    </Highlight>
+                                    </TitleLargeText>
                                 </TitleBox>
                                 <EventExplainDiv>
                                     {event.event.description ? (
