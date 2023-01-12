@@ -1,9 +1,14 @@
-import type { NextComponentType } from "next"
-import styled from 'styled-components';
+import type { NextComponentType } from "next";
+import styled from "styled-components";
 import React, { useCallback, useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { btnDisable } from "../../../states/eventCreate";
-import { timeSelected, timeCurrent, voteNow, ableTime } from "../../../states/eventVote";
+import {
+    timeSelected,
+    timeCurrent,
+    voteNow,
+    ableTime,
+} from "../../../states/eventVote";
 
 const Container = styled.div`
     display: flex;
@@ -12,8 +17,7 @@ const Container = styled.div`
     align-items: center;
     width: 100%;
     height: auto;
-
-`
+`;
 const RowDiv = styled.div`
     display: flex;
     flex-direction: row;
@@ -24,15 +28,14 @@ const RowDiv = styled.div`
     height: auto;
     margin-top: 7px;
     // margin-left: 5%;
-`
+`;
 const DayText = styled.text`
     margin-right: auto;
     margin-left: 10px;
 
     /* Home_title_semi_15 */
 
-
-    font-family: 'Pretendard';
+    font-family: "Pretendard";
     font-style: normal;
     font-weight: 600;
     font-size: 15px;
@@ -44,7 +47,7 @@ const DayText = styled.text`
     /* gray600 */
 
     color: #626262;
-`
+`;
 
 const TimeText = styled.div`
     // margin-right: 15px;
@@ -52,7 +55,7 @@ const TimeText = styled.div`
     // margin-left: 10px;
     /* Create_placeholder_re_12 */
 
-    font-family: 'Pretendard';
+    font-family: "Pretendard";
     font-style: normal;
     font-weight: 400;
     font-size: 12px;
@@ -62,8 +65,8 @@ const TimeText = styled.div`
     letter-spacing: -0.011em;
     /* gray200 */
 
-    color: #A3A3A3;
-`
+    color: #a3a3a3;
+`;
 
 const TimeBox = styled.div`
     display: flex;
@@ -72,62 +75,62 @@ const TimeBox = styled.div`
     width: 28px;
     height: 48px;
     margin-bottom: 23px;
-    border-left: 1px solid #FFFFFF;
-    background-color: ${(props:BoxProps) => {
-        if(props.disable){
+    border-left: 1px solid #ffffff;
+    background-color: ${(props: BoxProps) => {
+        if (props.disable) {
             return "#686868";
-        }
-        else{
+        } else {
             if (props.current) {
                 if (!props.removeMode) {
                     return "#3278DE";
+                } else {
+                    return "#F2F2F2;";
                 }
-                else {
-                    return  "#F2F2F2;";
-                }
-            }
-            else if (props.selected){
+            } else if (props.selected) {
                 return "#3278DE";
-            }
-            else {
-                return  "#F2F2F2;";
+            } else {
+                return "#F2F2F2;";
             }
         }
     }};
-`
+    background-image: ${(props: BoxProps) => {
+        if (props.disable) {
+            return `url("/assets/disable_box.svg")`;
+        }
+    }};
+`;
 interface BoxProps {
     selected: boolean;
     current: boolean;
     removeMode: boolean;
-    disable: boolean; 
+    disable: boolean;
 }
 interface LinearProps {
     start: string;
     end: string;
 }
-const CalcLinear = (linear:LinearProps): number[] => {
+const CalcLinear = (linear: LinearProps): number[] => {
     const Items: number[] = [];
-    if(linear.start === null || linear.end === null){
+    if (linear.start === null || linear.end === null) {
         return Items;
     }
     const startTime: number = parseInt(linear.start);
     const endTime: number = parseInt(linear.end);
 
     if (startTime <= endTime) {
-        for(let i = startTime; i <= endTime; i++){
-                Items.push(i);
+        for (let i = startTime; i <= endTime; i++) {
+            Items.push(i);
+        }
+    } else {
+        for (let i = endTime; i <= startTime; i++) {
+            Items.push(i);
         }
     }
-    else {
-        for(let i = endTime; i <= startTime; i++){
-            Items.push(i);
-    }
-    }
     return Items;
-}
+};
 
-const TimeSelect: NextComponentType = ()=> {
-    const time:number[] = [];
+const TimeSelect: NextComponentType = () => {
+    const time: number[] = [];
     for (let i = 0; i < 6; ++i) {
         time.push(i);
     }
@@ -137,8 +140,8 @@ const TimeSelect: NextComponentType = ()=> {
     }
 
     const [click, setClick] = useState<boolean>(false);
-    const [start, setStart] = useState<string>('');
-    const [end, setEnd] = useState<string>('');
+    const [start, setStart] = useState<string>("");
+    const [end, setEnd] = useState<string>("");
     const [removeMode, setRemoveMode] = useState<boolean>(false);
     const [selected, setSelected] = useRecoilState(timeSelected);
     const [curr, setCurr] = useRecoilState(timeCurrent);
@@ -149,288 +152,290 @@ const TimeSelect: NextComponentType = ()=> {
     const ableTimes = useRecoilValue(ableTime);
 
     const IsDisable = () => {
-        if(selected.length === 0){
+        if (selected.length === 0) {
             setDisable(true);
-        }
-        else {
+        } else {
             setDisable(false);
         }
-    }
+    };
     IsDisable();
 
-    useEffect(() => {
-    },[selected, curr, removeMode]);
+    useEffect(() => {}, [selected, curr, removeMode]);
 
     const UpdateCurrent = (start: string, end: string) => {
-        if(click){
-            setEnd(end)
-            setCurr([...CalcLinear({start, end})]);
+        if (click) {
+            setEnd(end);
+            setCurr([...CalcLinear({ start, end })]);
         }
-    }
-    const TouchStartEvent = useCallback((
-        e:React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>
+    };
+    const TouchStartEvent = useCallback(
+        (
+            e:
+                | React.MouseEvent<HTMLDivElement>
+                | React.TouchEvent<HTMLDivElement>
         ): void => {
-            document.body.style.overflow="hidden";
-            document.body.style.touchAction="none";
-            document.body.style.userSelect="none";
+            document.body.style.overflow = "hidden";
+            document.body.style.touchAction = "none";
+            document.body.style.userSelect = "none";
 
-            setClick(true)
+            setClick(true);
 
-            try{
+            try {
                 const targetElement = e.currentTarget.getAttribute("data-time");
-                const targetDisable = e.currentTarget.getAttribute("data-disalbe");
-                if ((targetElement !== null) && !targetDisable) {
+                const targetDisable =
+                    e.currentTarget.getAttribute("data-disalbe");
+                if (targetElement !== null && !targetDisable) {
                     setStart(targetElement);
-                    selected.find(s => parseInt(start) === s) ? setRemoveMode(true) : setRemoveMode(false);   
+                    selected.find((s) => parseInt(start) === s)
+                        ? setRemoveMode(true)
+                        : setRemoveMode(false);
                     setEnd(targetElement);
-                    UpdateCurrent(start, targetElement)
+                    UpdateCurrent(start, targetElement);
                 }
+            } catch {
+                console.log("getAtrribute Error!");
             }
-            catch{
-                console.log('getAtrribute Error!');
-            }
-    },
-    [click, start, end, removeMode, selected]);
+        },
+        [click, start, end, removeMode, selected]
+    );
 
     const ClickEvent = (e: React.MouseEvent, index: number) => {
-        try{
+        try {
             const targetElement = e.currentTarget.getAttribute("data-time");
             const targetDisable = e.currentTarget.getAttribute("data-disalbe");
-            if ((targetElement !== null) && !targetDisable) {
-                if(selected.find(s => parseInt(targetElement) === s)){
-                    setSelected(selected.filter(se => se !== (index)))
-                }
-                else {
-                    setSelected([...selected, index])
+            if (targetElement !== null && !targetDisable) {
+                if (selected.find((s) => parseInt(targetElement) === s)) {
+                    setSelected(selected.filter((se) => se !== index));
+                } else {
+                    setSelected([...selected, index]);
                 }
             }
+        } catch {
+            console.log("getAtrribute Error!");
         }
-        catch{
-            console.log('getAtrribute Error!');
-        }
-    }
-    const MouseMoveEvent = useCallback((
-        e:React.MouseEvent<HTMLDivElement>): void => {
+    };
+    const MouseMoveEvent = useCallback(
+        (e: React.MouseEvent<HTMLDivElement>): void => {
             try {
                 const targetElement = e.currentTarget.getAttribute("data-time");
                 if (targetElement !== null) {
                     UpdateCurrent(start, targetElement);
                 }
+            } catch {
+                console.log("getAtrribute Error!");
             }
-            catch{
-                console.log('getAtrribute Error!');
-            }
-    },
-    [end, curr, click, start]);
+        },
+        [end, curr, click, start]
+    );
 
-    const TouchMoveEvent = useCallback((
-        e:React.TouchEvent<HTMLDivElement>): void => {
-            try{
+    const TouchMoveEvent = useCallback(
+        (e: React.TouchEvent<HTMLDivElement>): void => {
+            try {
                 const { touches } = e;
                 if (touches && touches.length != 0) {
-                    const { clientX, clientY } = touches[0]
+                    const { clientX, clientY } = touches[0];
                     //@ts-ignore
-                    const targetElement:any = document.elementFromPoint(clientX, clientY).getAttribute("data-time");
-                    if((parseInt(targetElement) > 100) && (parseInt(targetElement) < 749)){
+                    const targetElement: any = document
+                        .elementFromPoint(clientX, clientY)
+                        .getAttribute("data-time");
+                    if (
+                        parseInt(targetElement) > 100 &&
+                        parseInt(targetElement) < 749
+                    ) {
                         UpdateCurrent(start, targetElement);
                     }
-                }            
+                }
+            } catch {
+                console.log("getAtrribute Error!");
             }
-            catch{
-                console.log('getAtrribute Error!');
-            }
-    },
-    [end, curr, click, start]);
+        },
+        [end, curr, click, start]
+    );
 
     const TouchEndEvent = useCallback((): void => {
-        click ? 
-        (!removeMode
-            ? setSelected([...selected, ...curr]) 
-            : setSelected(selected.filter(se => !curr.includes(se))))
-        : null;
-        document.body.style.overflow="";
-        document.body.style.touchAction="";
+        click
+            ? !removeMode
+                ? setSelected([...selected, ...curr])
+                : setSelected(selected.filter((se) => !curr.includes(se)))
+            : null;
+        document.body.style.overflow = "";
+        document.body.style.touchAction = "";
         // document.body.style.userSelect="";
         IsDisable();
         setCurr([...[]]);
         setClick(false);
         setRemoveMode(false);
-    },
-    [selected, curr, click, removeMode]);
-
+    }, [selected, curr, click, removeMode]);
 
     const FindCurrent = (idx: number): boolean => {
-        if(curr.find(c => c === idx)){
+        if (curr.find((c) => c === idx)) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     };
 
     const FindSelected = (idx: number): boolean => {
-        if (selected.find(s => s === idx)){
+        if (selected.find((s) => s === idx)) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     };
 
     const FindIsDisable = (idx: number): boolean => {
-        if (ableTimes.find(t => t === idx)){
-            return false
-        }
-        else{
+        if (ableTimes.find((t) => t === idx)) {
+            return false;
+        } else {
             return true;
         }
-    }
-    useEffect(()=> {
+    };
+    useEffect(() => {
         TouchEndEvent();
-    },[selected]);
+    }, [selected]);
 
     return (
         <Container>
             <DayText>{"오전"}</DayText>
             <RowDiv>
-                {time.map((index: number) =>
+                {time.map((index: number) => (
                     <>
-                        <TimeText>{("0"+index+":00")}</TimeText>
+                        <TimeText>{"0" + index + ":00"}</TimeText>
                     </>
-                )}
+                ))}
             </RowDiv>
             <RowDiv>
-                {boxList.map((index: number) =>
+                {boxList.map((index: number) => (
                     <>
                         <TimeBox
-                        key={nowDay * 100 + index}
-                        data-time={nowDay * 100 + index}
-                        selected={
-                            FindSelected(nowDay * 100 + index)
-                        }
-                        current={
-                            FindCurrent(nowDay * 100 + index)
-                        }
-                        removeMode={removeMode}
-                        disable={FindIsDisable(nowDay * 100 + index)}
-                        data-disable={FindIsDisable(nowDay * 100 + index)}
-                        onMouseDown={TouchStartEvent}
-                        onMouseMove={MouseMoveEvent}
-                        onMouseUp={TouchEndEvent}
-                        onTouchStart={TouchStartEvent}
-                        onTouchMove={TouchMoveEvent}
-                        onTouchEnd={TouchEndEvent}
-                        onTouchCancel={TouchEndEvent}
-                        onClick={(e)=> {ClickEvent(e, nowDay * 100 + index)}}
+                            key={nowDay * 100 + index}
+                            data-time={nowDay * 100 + index}
+                            selected={FindSelected(nowDay * 100 + index)}
+                            current={FindCurrent(nowDay * 100 + index)}
+                            removeMode={removeMode}
+                            disable={FindIsDisable(nowDay * 100 + index)}
+                            data-disable={FindIsDisable(nowDay * 100 + index)}
+                            onMouseDown={TouchStartEvent}
+                            onMouseMove={MouseMoveEvent}
+                            onMouseUp={TouchEndEvent}
+                            onTouchStart={TouchStartEvent}
+                            onTouchMove={TouchMoveEvent}
+                            onTouchEnd={TouchEndEvent}
+                            onTouchCancel={TouchEndEvent}
+                            onClick={(e) => {
+                                ClickEvent(e, nowDay * 100 + index);
+                            }}
                         ></TimeBox>
                     </>
-                )}
+                ))}
             </RowDiv>
             <RowDiv>
-                {time.map((index: number) =>
+                {time.map((index: number) => (
                     <>
-                        <TimeText>{(('00'+(index+6)).slice(-2)+":00")}</TimeText>
+                        <TimeText>
+                            {("00" + (index + 6)).slice(-2) + ":00"}
+                        </TimeText>
                     </>
-                )}
+                ))}
             </RowDiv>
             <RowDiv>
-                {boxList.map((index: number) =>
+                {boxList.map((index: number) => (
                     <>
                         <TimeBox
-                        key={nowDay * 100 + index+12}
-                        data-time={nowDay * 100 + index+12}
-                        selected={
-                            FindSelected(nowDay * 100 + index+12)
-                        }
-                        current={
-                            FindCurrent(nowDay * 100 + index+12)
-                        }
-                        removeMode={removeMode}
-                        disable={FindIsDisable(nowDay * 100 + index+12)}
-                        data-disable={FindIsDisable(nowDay * 100 + index+12)}
-                        onMouseDown={TouchStartEvent}
-                        onMouseMove={MouseMoveEvent}
-                        onMouseUp={TouchEndEvent}
-                        onTouchStart={TouchStartEvent}
-                        onTouchMove={TouchMoveEvent}
-                        onTouchEnd={TouchEndEvent}
-                        onTouchCancel={TouchEndEvent}
-                        onClick={(e)=> {ClickEvent(e, nowDay * 100 + index+12)}}
+                            key={nowDay * 100 + index + 12}
+                            data-time={nowDay * 100 + index + 12}
+                            selected={FindSelected(nowDay * 100 + index + 12)}
+                            current={FindCurrent(nowDay * 100 + index + 12)}
+                            removeMode={removeMode}
+                            disable={FindIsDisable(nowDay * 100 + index + 12)}
+                            data-disable={FindIsDisable(
+                                nowDay * 100 + index + 12
+                            )}
+                            onMouseDown={TouchStartEvent}
+                            onMouseMove={MouseMoveEvent}
+                            onMouseUp={TouchEndEvent}
+                            onTouchStart={TouchStartEvent}
+                            onTouchMove={TouchMoveEvent}
+                            onTouchEnd={TouchEndEvent}
+                            onTouchCancel={TouchEndEvent}
+                            onClick={(e) => {
+                                ClickEvent(e, nowDay * 100 + index + 12);
+                            }}
                         ></TimeBox>
                     </>
-                )}
+                ))}
             </RowDiv>
             <DayText>{"오후"}</DayText>
             <RowDiv>
-                {time.map((index: number) =>
+                {time.map((index: number) => (
                     <>
-                        <TimeText>{(index+12+":00")}</TimeText>
+                        <TimeText>{index + 12 + ":00"}</TimeText>
                     </>
-                )}
+                ))}
             </RowDiv>
             <RowDiv>
-                {boxList.map((index: number) =>
+                {boxList.map((index: number) => (
                     <>
                         <TimeBox
-                        key={nowDay * 100 + index+24}
-                        data-time={nowDay * 100 + index+24}
-                        selected={
-                            FindSelected(nowDay * 100 + index+24)
-                        }
-                        current={
-                            FindCurrent(nowDay * 100 + index+24)
-                        }
-                        removeMode={removeMode}
-                        disable={FindIsDisable(nowDay * 100 + index+24)}
-                        data-disable={FindIsDisable(nowDay * 100 + index+24)}
-                        onMouseDown={TouchStartEvent}
-                        onMouseMove={MouseMoveEvent}
-                        onMouseUp={TouchEndEvent}
-                        onTouchStart={TouchStartEvent}
-                        onTouchMove={TouchMoveEvent}
-                        onTouchEnd={TouchEndEvent}
-                        onTouchCancel={TouchEndEvent}
-                        onClick={(e)=> {ClickEvent(e, nowDay * 100 + index+24)}}
+                            key={nowDay * 100 + index + 24}
+                            data-time={nowDay * 100 + index + 24}
+                            selected={FindSelected(nowDay * 100 + index + 24)}
+                            current={FindCurrent(nowDay * 100 + index + 24)}
+                            removeMode={removeMode}
+                            disable={FindIsDisable(nowDay * 100 + index + 24)}
+                            data-disable={FindIsDisable(
+                                nowDay * 100 + index + 24
+                            )}
+                            onMouseDown={TouchStartEvent}
+                            onMouseMove={MouseMoveEvent}
+                            onMouseUp={TouchEndEvent}
+                            onTouchStart={TouchStartEvent}
+                            onTouchMove={TouchMoveEvent}
+                            onTouchEnd={TouchEndEvent}
+                            onTouchCancel={TouchEndEvent}
+                            onClick={(e) => {
+                                ClickEvent(e, nowDay * 100 + index + 24);
+                            }}
                         ></TimeBox>
                     </>
-                )}
+                ))}
             </RowDiv>
             <RowDiv>
-                {time.map((index: number) =>
+                {time.map((index: number) => (
                     <>
-                        <TimeText>{(index+18+":00")}</TimeText>
+                        <TimeText>{index + 18 + ":00"}</TimeText>
                     </>
-                )}
+                ))}
             </RowDiv>
             <RowDiv>
-                {boxList.map((index: number) =>
+                {boxList.map((index: number) => (
                     <>
                         <TimeBox
-                        key={nowDay * 100 + index+36}
-                        data-time={nowDay * 100 + index+36}
-                        selected={
-                            FindSelected(nowDay * 100 + index+36)
-                        }
-                        current={
-                            FindCurrent(nowDay * 100 + index+36)
-                        }
-                        removeMode={removeMode}
-                        disable={FindIsDisable(nowDay * 100 + index+36)}
-                        data-disable={FindIsDisable(nowDay * 100 + index+36)}
-                        onMouseDown={TouchStartEvent}
-                        onMouseMove={MouseMoveEvent}
-                        onMouseUp={TouchEndEvent}
-                        onTouchStart={TouchStartEvent}
-                        onTouchMove={TouchMoveEvent}
-                        onTouchEnd={TouchEndEvent}
-                        onTouchCancel={TouchEndEvent}
-                        onClick={(e)=> {ClickEvent(e, nowDay * 100 + index+36)}}
+                            key={nowDay * 100 + index + 36}
+                            data-time={nowDay * 100 + index + 36}
+                            selected={FindSelected(nowDay * 100 + index + 36)}
+                            current={FindCurrent(nowDay * 100 + index + 36)}
+                            removeMode={removeMode}
+                            disable={FindIsDisable(nowDay * 100 + index + 36)}
+                            data-disable={FindIsDisable(
+                                nowDay * 100 + index + 36
+                            )}
+                            onMouseDown={TouchStartEvent}
+                            onMouseMove={MouseMoveEvent}
+                            onMouseUp={TouchEndEvent}
+                            onTouchStart={TouchStartEvent}
+                            onTouchMove={TouchMoveEvent}
+                            onTouchEnd={TouchEndEvent}
+                            onTouchCancel={TouchEndEvent}
+                            onClick={(e) => {
+                                ClickEvent(e, nowDay * 100 + index + 36);
+                            }}
                         ></TimeBox>
                     </>
-                )}
+                ))}
             </RowDiv>
         </Container>
     );
-}
+};
 
 export default TimeSelect;
