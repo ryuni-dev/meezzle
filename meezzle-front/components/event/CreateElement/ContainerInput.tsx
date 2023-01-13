@@ -1,9 +1,9 @@
 import styled from "styled-components";
 
 const Div = styled.div`
-    display: flex;
+    /* display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: center; */
     max-width: 375px;
     height: auto;
     margin-top: 1.5rem;

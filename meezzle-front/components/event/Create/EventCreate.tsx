@@ -11,14 +11,8 @@ const Container = styled.div`
     margin-bottom: 3%;
 `;
 const BodyDiv = styled.div`
-    /* display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center; */
-
     width: 100%;
     height: auto;
-    // margin-top: 20px;
     padding-left: 16px;
 `;
 interface EventCreateProps {
