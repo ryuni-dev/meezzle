@@ -40,6 +40,11 @@ function MyApp({
                             name="viewport"
                             content="width=device-width, initial-scale=1, user-scalable=no, viewport-fit=cover"
                         />
+                        <meta
+                            property="og:url"
+                            content="https://meezzle.xyz/"
+                        />
+
                         <link
                             rel="shortcut icon"
                             type="image/x-icon"
