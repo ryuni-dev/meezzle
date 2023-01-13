@@ -41,7 +41,6 @@ const Footer = styled.div`
     width: 100%;
     height: 120px;
     margin-right: 0px;
-    padding-left: 2vw;
 `;
 
 const LoaderBox = styled.div`
@@ -70,12 +69,15 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
     const patchEvent = useEventPatch(eid);
 
     const DeleteEvent = () => {
-        if(confirm("이벤트를 삭제하면 되돌릴 수 없어요! \n 정말 삭제하실 건가요?")===true){
+        if (
+            confirm(
+                "이벤트를 삭제하면 되돌릴 수 없어요! \n 정말 삭제하실 건가요?"
+            ) === true
+        ) {
             deleteEvent.mutate(eid);
             alert("삭제되었어요!");
-            router.push('/');
+            router.push("/");
         }
-
     };
 
     const PatchEvent = () => {
@@ -90,9 +92,9 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
             Convert4ReqEvents(event, timeInfo, days) // type 수정 필요
         );
         patchEvent.mutate(data);
-        if (!patchEvent.isLoading){
+        if (!patchEvent.isLoading) {
             alert("수정되었어요!");
-            router.push('/');
+            router.push("/");
         }
     };
 
