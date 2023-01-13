@@ -8,6 +8,7 @@ const Container = styled.div`
     align-items: center;
     width: 100%;
     height: 100%;
+    padding-left: 1vw;
     margin-bottom: 3%;
 `;
 const BodyDiv = styled.div`
