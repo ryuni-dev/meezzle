@@ -41,7 +41,6 @@ const Footer = styled.div`
     width: 100%;
     height: 120px;
     margin-right: 0px;
-    padding-left: 1vw;
 `;
 
 const LoaderBox = styled.div`

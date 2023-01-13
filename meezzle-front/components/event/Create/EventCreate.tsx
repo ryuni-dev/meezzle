@@ -2,19 +2,17 @@ import styled from "styled-components";
 import Header from "../CreateElement/Header";
 
 const Container = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
+    width: 340px;
     height: 100%;
-    padding-left: 1vw;
     margin-bottom: 3%;
 `;
 const BodyDiv = styled.div`
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
     height: auto;
-    padding-left: 16px;
 `;
 interface EventCreateProps {
     text: string;
