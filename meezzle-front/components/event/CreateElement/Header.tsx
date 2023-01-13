@@ -3,10 +3,9 @@ import TextBlackLarge from "../../common/TextBlackLarge";
 
 const DivH1 = styled.div`
     display: flex;
-
     padding-left: 16px;
     width: 100%;
-    max-width: 340px;
+    max-width: 400px;
     height: 44px;
     align-items: center;
     margin-top: 25px;
