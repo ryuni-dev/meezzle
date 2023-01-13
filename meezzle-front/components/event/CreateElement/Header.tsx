@@ -4,6 +4,7 @@ import TextBlackLarge from "../../common/TextBlackLarge";
 const DivH1 = styled.div`
     display: flex;
 
+    padding-left: 16px;
     width: 100%;
     max-width: 340px;
     height: 44px;
@@ -12,7 +13,7 @@ const DivH1 = styled.div`
 `;
 type Props = {
     text: string;
-    children: React.ReactNode;
+    children?: React.ReactNode;
 };
 const Header: React.FC<Props> = ({ text }) => {
     return (
