@@ -38,6 +38,7 @@ const Highlight = styled.div`
     display: inline;
     background: linear-gradient(to top, #e3efff 50%, transparent 50%);
     z-index: -1;
+    flex-wrap: wrap;
 `;
 const TitleLargeText = styled.span`
     margin-right: 5px;
@@ -98,17 +99,19 @@ const EventExplainDiv = styled.div`
 `;
 
 const SectionContainer = styled.div`
-    margin-left: 2vw;
+    display: flex;
+    margin-left: 30px;
+    flex-direction: column;
 `;
 
-const InputExplainDiv = styled.div`
+const LoginContainer = styled.div`
     display: flex;
+    justify-content: center;
+    align-items: center;
     flex-direction: column;
-    margin-right: auto;
-    margin-left: 7%;
-    margin-top: 10px;
-    margin-bottom: 5px;
 `;
+
+
 
 const Footer = styled.div`
     display: flex;
@@ -214,24 +217,14 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
         isSuccess,
         data: guestLoginData,
     } = useGuestLogin(eid ? eid : "", user);
-    // const participants = useParticipants();
-    const [isGuest, setIsGuest] = useRecoilState(guestLogined);
     const {
         data: userData,
         isLoading: userIsLoading,
         isError: userIsError,
     } = useUserEnabled(isLoggedIn);
+
+    const [isGuest, setIsGuest] = useRecoilState(guestLogined);
     const [isHost, setIsHost] = useState<boolean>(false);
-
-    // if (!participants.isLoading) {
-    //     console.log(participants.data[0].code);
-    // }
-
-    // const LoginFunc = () => {
-    //     if (!participants.isLoading) {
-    //         return participants.data[0].code;
-    //     }
-    // };
 
     useEffect(() => {
         if (!isLoading && !userIsLoading && userData) {
@@ -242,13 +235,13 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
         }
     }, [isLoading, userIsLoading]);
 
-    useEffect(() => {
-        if (!isLoading) {
-            console.log(
-                event.eventParticipants.map((el: any) => [el.name, el.id])
-            );
-        }
-    });
+    // useEffect(() => {
+    //     if (!isLoading) {
+    //         console.log(
+    //             event.eventParticipants.map((el: any) => [el.name, el.id])
+    //         );
+    //     }
+    // });
 
     const errorHandler = () => {
         if (data === 404) {
@@ -259,6 +252,9 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
 
     useEffect(() => {
         errorHandler();
+        if (localStorage.getItem("token") !== null){
+            setIsHost(true);
+        }
     }, []);
 
     const ErrorPW = () =>
@@ -397,7 +393,6 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
                                         </DescriptionNotFound>
                                     )}
                                 </EventExplainDiv>
-                                {!isLoggedIn && <VoteLogin></VoteLogin>}
                                 {isHost && (
                                     <HostInfo>
                                         <Highlight style={{ width: "5.5rem" }}>
@@ -426,6 +421,9 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
                                     </HostInfo>
                                 )}
                             </SectionContainer>
+                            <LoginContainer>
+                                {!isLoggedIn && <VoteLogin></VoteLogin>}
+                            </LoginContainer>
                             <Footer>
                                 <div style={{ marginLeft: "160px" }}>
                                     <ImageContainer>

@@ -6,10 +6,10 @@ const DivH1 = styled.div`
 
     padding-left: 16px;
     width: 100%;
+    max-width: 340px;
     height: 44px;
     align-items: center;
     margin-top: 25px;
-    // padding-left: 0%;
 `;
 type Props = {
     text: string;

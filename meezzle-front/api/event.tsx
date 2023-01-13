@@ -53,7 +53,7 @@ export const postCreate = async (data: string) => {
         );
         if (res.status === 200) {
             const data = await res.data;
-            console.log(data);
+
             return data;
         }
         // return {};
@@ -75,7 +75,7 @@ export const deleteEvent = async (eventId: string) => {
         );
         if (res.status === 200) {
             const data = await res.data;
-            console.log(data);
+
             return data;
         }
 
@@ -99,7 +99,7 @@ export const patchEvent = async (data: string, eventId: string) => {
         );
         if (res.status === 200) {
             const data = await res.data;
-            console.log(data);
+
             return data;
         }
         // return {};
@@ -123,7 +123,7 @@ export const voteEvent4Host = async (data: string, eventId: string) => {
         );
         if (res.status === 200) {
             const data = await res.data;
-            console.log(data);
+
             return data;
         }
         // return {};
@@ -147,7 +147,7 @@ export const voteEvent4Guest = async (data: string, eventId: string) => {
         );
         if (res.status === 200) {
             const data = await res.data;
-            console.log(data);
+
             return data;
         }
         // return {};

@@ -94,7 +94,7 @@ const TableView: NextPage<Props> = ({ params }) => {
     }, [voterId, isLoading]);
 
     useEffect(() => {
-        if (isVoterFetched) console.log(voterData[0]);
+        // if (isVoterFetched) console.log(voterData[0]);
     }, [isVoterFetched]);
 
     async function addAttendee(
@@ -277,7 +277,7 @@ const TableView: NextPage<Props> = ({ params }) => {
                             <Attendee clickedData={clickedData} />
                         </Container>
                     )}
-                    <Footer fixed={isVoterFetched ? true : false}>
+                    <Footer fixed={false}>
                         {isVoterFetched ? (
                             <OrangeBtn
                                 style={{ filter: "none" }}

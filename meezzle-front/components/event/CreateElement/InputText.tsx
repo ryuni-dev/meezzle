@@ -50,10 +50,9 @@ type Props = {
     input?: string;
     OnChange?(e: React.ChangeEvent<HTMLInputElement>): void;
     OnKeyPress?(e: React.KeyboardEvent<HTMLInputElement>): void;
-    autoFocus?: boolean;
 };
 const InputText = React.forwardRef<HTMLInputElement, Props>(
-    ({ type, placeholder, input, OnChange, OnKeyPress, autoFocus }) => {
+    ({ type, placeholder, input, OnChange, OnKeyPress }, ref) => {
         return (
             <Input
                 type={type}
@@ -61,15 +60,7 @@ const InputText = React.forwardRef<HTMLInputElement, Props>(
                 value={input}
                 onChange={OnChange}
                 onKeyPress={OnKeyPress}
-                ref={
-                    autoFocus
-                        ? function (ref) {
-                              if (ref !== null) {
-                                  ref.focus();
-                              }
-                          }
-                        : null
-                }
+                ref={ref}
             ></Input>
         );
     }

@@ -30,6 +30,8 @@ import {
 import { ddayDisable } from "../../../states/eventCreate";
 import Body from "../../../styled-components/StyledBody";
 import { HashLoader } from "react-spinners";
+import Btn from "../../../components/common/Btn";
+import { useRouter } from "next/router";
 
 const Footer = styled.div`
     display: flex;
@@ -57,8 +59,8 @@ interface Props {
 
 const ReviseEvent: NextPage<Props> = ({ params }) => {
     const { eid } = params;
+    const router = useRouter();
     const { data, isLoading } = useEvent(eid);
-    console.log(data);
     const [days, setDays] = useRecoilState(eventDaySelected);
     const [event, setEvent] = useRecoilState(eventInfo);
     const [timeInfo, setTimeInfo] = useRecoilState(eventTimeInfo);
@@ -68,11 +70,15 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
     const patchEvent = useEventPatch(eid);
 
     const DeleteEvent = () => {
-        deleteEvent.mutate(eid);
+        if(confirm("이벤트를 삭제하면 되돌릴 수 없어요! \n 정말 삭제하실 건가요?")===true){
+            deleteEvent.mutate(eid);
+            alert("삭제되었어요!");
+            router.push('/');
+        }
+
     };
 
     const PatchEvent = () => {
-        console.log(ddayDisableState);
         if (ddayDisableState) {
             setTimeInfo({
                 ...timeInfo,
@@ -84,6 +90,10 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
             Convert4ReqEvents(event, timeInfo, days) // type 수정 필요
         );
         patchEvent.mutate(data);
+        if (!patchEvent.isLoading){
+            alert("수정되었어요!");
+            router.push('/');
+        }
     };
 
     useEffect(() => {
@@ -121,7 +131,6 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
     }, [data]);
 
     useEffect(() => {
-        console.log(ddayDisableState);
         if (ddayDisableState) {
             setTimeInfo({
                 ...timeInfo,
@@ -151,18 +160,18 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
                 <EventExplain></EventExplain>
             </EventCreate>
             <Footer>
-                <LinkBtn
+                <Btn
                     text="수정 완료!"
-                    href="/"
                     color={true}
+                    useDisable={true}
                     Click={PatchEvent}
-                ></LinkBtn>
-                <LinkBtn
+                ></Btn>
+                <Btn
                     text="이벤트 삭제하기"
-                    href="/"
+                    useDisable={true}
                     color={false}
                     Click={DeleteEvent}
-                ></LinkBtn>
+                ></Btn>
             </Footer>
         </Body>
     );
