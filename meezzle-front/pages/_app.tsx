@@ -44,6 +44,19 @@ function MyApp({
                             property="og:url"
                             content="https://meezzle.xyz/"
                         />
+                        <meta property="og:type" content="website" />
+                        <meta
+                            property="og:title"
+                            content="약속은 편하게 모임은 즐겁게 meezzle!"
+                        />
+                        <meta
+                            property="og:description"
+                            content="meezzle에서 약속 시간을 편리하게 정해보세요!"
+                        />
+                        <meta
+                            property="og:image"
+                            content="https://www.meezzle.xyz/_next/static/media/character.820c8bb7.svg"
+                        />
 
                         <link
                             rel="shortcut icon"

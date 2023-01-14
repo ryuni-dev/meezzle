@@ -111,8 +111,6 @@ const LoginContainer = styled.div`
     flex-direction: column;
 `;
 
-
-
 const Footer = styled.div`
     display: flex;
     justify-content: center;
@@ -252,7 +250,7 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
 
     useEffect(() => {
         errorHandler();
-        if (localStorage.getItem("token") !== null){
+        if (localStorage.getItem("token") !== null) {
             setIsHost(true);
         }
     }, []);
@@ -369,6 +367,10 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
                     ) : (
                         <>
                             <Head>
+                                <meta
+                                    property="og:description"
+                                    content="링크를 타고 나의 참여 가능한 시간을 입력해보세요!"
+                                />
                                 <title>{data.data.event.title} | meezzle</title>
                             </Head>
                             <SectionContainer>

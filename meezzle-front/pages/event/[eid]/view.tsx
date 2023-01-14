@@ -230,6 +230,10 @@ const TableView: NextPage<Props> = ({ params }) => {
                 <>
                     <Head>
                         <title>
+                            <meta
+                                property="og:description"
+                                content="링크를 타고 참가자들의 투표 현황을 살펴보세요!"
+                            />
                             {isVoterFetched
                                 ? `${voterData[0].name}님의 투표 현황 | meezzle`
                                 : `${data.data.event.title}
