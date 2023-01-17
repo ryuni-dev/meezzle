@@ -149,7 +149,7 @@ const ViewTable = ({
 export default ViewTable;
 
 const TimeRow = styled.p`
-    margin: 8px 0 14.325px 0;
+    margin: 8px 0 13px 0;
 `;
 
 const Container = styled.div`
