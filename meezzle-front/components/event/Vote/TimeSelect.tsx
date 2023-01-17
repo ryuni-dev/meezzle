@@ -24,15 +24,29 @@ const RowDiv = styled.div`
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    max-width: 336px;
-    width: 336px;
+    max-width: 360px;
+    width: 360px;
     height: auto;
     margin-top: 7px;
     // margin-left: 5%;
 `;
+
+const TimeDiv = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    max-width: 360px;
+    width: 360px;
+    margin-left: -25px;
+    height: auto;
+    margin-top: 7px;
+    // margin-left: 5%;
+`;
+
 const DayText = styled.text`
     margin-right: auto;
-    margin-left: 10px;
+    margin-left: 2vw;
 
     /* Home_title_semi_15 */
 
@@ -298,13 +312,13 @@ const TimeSelect: NextComponentType = () => {
     return (
         <Container>
             <DayText>{"오전"}</DayText>
-            <RowDiv>
+            <TimeDiv>
                 {time.map((index: number) => (
                     <>
                         <TimeText>{"0" + index + ":00"}</TimeText>
                     </>
                 ))}
-            </RowDiv>
+            </TimeDiv>
             <RowDiv>
                 {boxList.map((index: number) => (
                     <>
@@ -330,7 +344,7 @@ const TimeSelect: NextComponentType = () => {
                     </>
                 ))}
             </RowDiv>
-            <RowDiv>
+            <TimeDiv>
                 {time.map((index: number) => (
                     <>
                         <TimeText>
@@ -338,7 +352,7 @@ const TimeSelect: NextComponentType = () => {
                         </TimeText>
                     </>
                 ))}
-            </RowDiv>
+            </TimeDiv>
             <RowDiv>
                 {boxList.map((index: number) => (
                     <>
@@ -367,13 +381,13 @@ const TimeSelect: NextComponentType = () => {
                 ))}
             </RowDiv>
             <DayText>{"오후"}</DayText>
-            <RowDiv>
+            <TimeDiv>
                 {time.map((index: number) => (
                     <>
                         <TimeText>{index + 12 + ":00"}</TimeText>
                     </>
                 ))}
-            </RowDiv>
+            </TimeDiv>
             <RowDiv>
                 {boxList.map((index: number) => (
                     <>
@@ -401,13 +415,13 @@ const TimeSelect: NextComponentType = () => {
                     </>
                 ))}
             </RowDiv>
-            <RowDiv>
+            <TimeDiv>
                 {time.map((index: number) => (
                     <>
                         <TimeText>{index + 18 + ":00"}</TimeText>
                     </>
                 ))}
-            </RowDiv>
+            </TimeDiv>
             <RowDiv>
                 {boxList.map((index: number) => (
                     <>

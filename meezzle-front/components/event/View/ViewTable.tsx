@@ -96,7 +96,7 @@ const ViewTable = ({
             return (
                 <div key={r}>
                     {info.col.names.map((_: string, idx: number) => {
-                        const key = (idx + 1) * 100 + r;
+                        const key = (idx + 1) * 100 + r - 1;
                         const colorWeight = getAttendeePercent(key, total);
                         const disabled = checkableTimes.includes(key)
                             ? false

@@ -71,7 +71,7 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
     const DeleteEvent = () => {
         if (
             confirm(
-                "이벤트를 삭제하면 되돌릴 수 없어요! \n 정말 삭제하실 건가요?"
+                "이벤트를 삭제하면 되돌릴 수 없어요! \n정말 삭제하실 건가요?"
             ) === true
         ) {
             deleteEvent.mutate(eid);
