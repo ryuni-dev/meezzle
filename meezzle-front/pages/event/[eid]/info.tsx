@@ -241,16 +241,9 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
     //     }
     // });
 
-    const errorHandler = () => {
+    useEffect(() => {
         if (data === 404) {
             router.push(`/event/${eid}/delete`);
-        }
-    };
-
-    useEffect(() => {
-        errorHandler();
-        if (localStorage.getItem("token") !== null) {
-            setIsLoggedIn(true);
         }
     }, [data]);
 
