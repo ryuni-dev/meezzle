@@ -246,14 +246,13 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
             router.push(`/event/${eid}/delete`);
         }
     };
-    errorHandler();
 
     useEffect(() => {
         errorHandler();
         if (localStorage.getItem("token") !== null) {
-            setIsHost(true);
+            setIsLoggedIn(true);
         }
-    }, []);
+    }, [data]);
 
     const ErrorPW = () =>
         toast.error(
