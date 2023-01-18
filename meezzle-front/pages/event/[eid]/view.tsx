@@ -53,7 +53,8 @@ const TableView: NextPage<Props> = ({ params }) => {
     const [voterData, setVoterData] = useState<VoterData[]>([]);
     const [isVoterFetched, setIsVoterFetched] = useState<boolean>(false);
     const { eid } = params;
-    const { data, isLoading, isSuccess } = useParticipants(eid);
+    const { data, isLoading, isSuccess, isRefetching, refetch } =
+        useParticipants(eid);
     const selectableTimes = isLoading
         ? null
         : data.data.selectableParticipleTimes.selectedDayOfWeeks;
@@ -83,7 +84,11 @@ const TableView: NextPage<Props> = ({ params }) => {
     }, [clickedTime]);
 
     useEffect(() => {
-        if (voterId && !isLoading) {
+        refetch();
+    }, []);
+
+    useEffect(() => {
+        if (voterId && !isLoading && !isRefetching) {
             setVoterData(
                 participateData.filter((el: any) => {
                     return el.id === voterId;
@@ -91,7 +96,7 @@ const TableView: NextPage<Props> = ({ params }) => {
             );
             setIsVoterFetched(true);
         }
-    }, [voterId, isLoading]);
+    }, [voterId, isLoading, isRefetching]);
 
     useEffect(() => {
         // if (isVoterFetched) console.log(voterData[0]);
@@ -145,7 +150,7 @@ const TableView: NextPage<Props> = ({ params }) => {
     }
 
     useEffect(() => {
-        if (isSuccess && !isVoterFetched) {
+        if (isSuccess && !isVoterFetched && !isRefetching) {
             // 참여한 사람 순회
             let timeDataTemp: TimeDataType = [];
             const participleTimes = `${data.data.selectableParticipleTimes.beginTime}-${data.data.selectableParticipleTimes.endTime}`;
@@ -165,7 +170,7 @@ const TableView: NextPage<Props> = ({ params }) => {
             }
             addAbsentee(timeData, names);
             setIsTableDone(true);
-        } else if (isSuccess && isVoterFetched) {
+        } else if (isSuccess && isVoterFetched && !isRefetching) {
             let timeDataTemp: TimeDataType = [];
             const participleTimes = `${data.data.selectableParticipleTimes.beginTime}-${data.data.selectableParticipleTimes.endTime}`;
             const days = Convert4ResEventDays(
@@ -182,7 +187,7 @@ const TableView: NextPage<Props> = ({ params }) => {
 
             setIsTableDone(true);
         }
-    }, [isSuccess, isVoterFetched]);
+    }, [isSuccess, isVoterFetched, isRefetching]);
 
     useEffect(() => {
         if (isTableDone) {
