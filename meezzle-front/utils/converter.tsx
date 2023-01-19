@@ -250,7 +250,6 @@ export const CheckAbleTime = (
     for (let i = 0; i < ableDayOfWeeks.length; i++) {
         const day = ableDayOfWeeks[i];
         try {
-            console.log("checkable");
             const times = participleTimes;
             const time = times.split("-");
             const startTime =
