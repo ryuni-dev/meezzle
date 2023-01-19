@@ -87,6 +87,7 @@ const TableView: NextPage<Props> = ({ params }) => {
         refetch();
     }, []);
 
+    // 투표자 개별 통계 전처리
     useEffect(() => {
         if (voterId && !isLoading && !isRefetching) {
             setVoterData(
@@ -97,10 +98,6 @@ const TableView: NextPage<Props> = ({ params }) => {
             setIsVoterFetched(true);
         }
     }, [voterId, isLoading, isRefetching]);
-
-    useEffect(() => {
-        // if (isVoterFetched) console.log(voterData[0]);
-    }, [isVoterFetched]);
 
     async function addAttendee(
         attendTimes: number[],
@@ -150,42 +147,36 @@ const TableView: NextPage<Props> = ({ params }) => {
     }
 
     useEffect(() => {
-        if (isSuccess && !isVoterFetched && !isRefetching) {
-            // 참여한 사람 순회
+        if (isSuccess && !isRefetching) {
             let timeDataTemp: TimeDataType = [];
             const participleTimes = `${data.data.selectableParticipleTimes.beginTime}-${data.data.selectableParticipleTimes.endTime}`;
             const days = Convert4ResEventDays(
                 data.data.selectableParticipleTimes.selectedDayOfWeeks
             );
             setCheckableTimes(CheckAbleTime(participleTimes, days));
-            for (let i = 0; i < participateData.length; i++) {
-                setNames((cur) => {
-                    return [...cur, participateData[i].name];
-                });
+
+            if (!isVoterFetched) {
+                for (let i = 0; i < participateData.length; i++) {
+                    setNames((cur) => {
+                        return [...cur, participateData[i].name];
+                    });
+                    addAttendee(
+                        ConvertDays4Client(participateData[i].ableDaysAndTimes),
+                        participateData[i].name,
+                        timeDataTemp
+                    );
+                }
+                addAbsentee(timeData, names);
+                setIsTableDone(true);
+            } else {
+                setNames([voterData[0].name]);
                 addAttendee(
-                    ConvertDays4Client(participateData[i].ableDaysAndTimes),
-                    participateData[i].name,
+                    ConvertDays4Client(voterData[0].ableDaysAndTimes),
+                    voterData[0].name,
                     timeDataTemp
                 );
+                setIsTableDone(true);
             }
-            addAbsentee(timeData, names);
-            setIsTableDone(true);
-        } else if (isSuccess && isVoterFetched && !isRefetching) {
-            let timeDataTemp: TimeDataType = [];
-            const participleTimes = `${data.data.selectableParticipleTimes.beginTime}-${data.data.selectableParticipleTimes.endTime}`;
-            const days = Convert4ResEventDays(
-                data.data.selectableParticipleTimes.selectedDayOfWeeks
-            );
-            setCheckableTimes(CheckAbleTime(participleTimes, days));
-
-            setNames([voterData[0].name]);
-            addAttendee(
-                ConvertDays4Client(voterData[0].ableDaysAndTimes),
-                voterData[0].name,
-                timeDataTemp
-            );
-
-            setIsTableDone(true);
         }
     }, [isSuccess, isVoterFetched, isRefetching]);
 
