@@ -250,16 +250,17 @@ export const CheckAbleTime = (
     for (let i = 0; i < ableDayOfWeeks.length; i++) {
         const day = ableDayOfWeeks[i];
         try {
+            console.log("checkable");
             const times = participleTimes;
             const time = times.split("-");
             const startTime =
                 100 * day +
                 2 * Number(time[0].split(":")[0]) +
-                parseInt(`${Number(time[0].split(":")[1]) / 30}`);
+                Math.floor(Number(time[0].split(":")[1]) / 30);
             const endTime =
                 100 * day +
                 2 * Number(time[1].split(":")[0]) +
-                parseInt(`${Number(time[1].split(":")[1]) / 30}`) -
+                Math.floor(Number(time[1].split(":")[1]) / 30) -
                 1;
             for (let t = startTime; t <= endTime; t++) {
                 timeArr.push(t);
