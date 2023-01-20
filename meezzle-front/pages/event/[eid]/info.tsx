@@ -225,35 +225,19 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
     const [isHost, setIsHost] = useState<boolean>(false);
 
     useEffect(() => {
-        if (!isLoading && !userIsLoading && userData) {
+        (function errorHandler() {
+            if (data === 404) {
+                router.push(`/event/${eid}/delete`);
+            }
+        })();
+
+        if (!isLoading && !userIsLoading && userData && data !== 404) {
             //@ts-ignore
             if (data.data.event.hostId === userData.data.id) {
                 setIsHost(true);
             }
         }
     }, [isLoading, userIsLoading]);
-
-    // useEffect(() => {
-    //     if (!isLoading) {
-    //         console.log(
-    //             event.eventParticipants.map((el: any) => [el.name, el.id])
-    //         );
-    //     }
-    // });
-
-    const errorHandler = () => {
-        if (data === 404) {
-            router.push(`/event/${eid}/delete`);
-        }
-    };
-    errorHandler();
-
-    useEffect(() => {
-        errorHandler();
-        if (localStorage.getItem("token") !== null) {
-            setIsHost(true);
-        }
-    }, []);
 
     const ErrorPW = () =>
         toast.error(

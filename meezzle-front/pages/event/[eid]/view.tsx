@@ -53,7 +53,8 @@ const TableView: NextPage<Props> = ({ params }) => {
     const [voterData, setVoterData] = useState<VoterData[]>([]);
     const [isVoterFetched, setIsVoterFetched] = useState<boolean>(false);
     const { eid } = params;
-    const { data, isLoading, isSuccess } = useParticipants(eid);
+    const { data, isLoading, isSuccess, isRefetching, refetch } =
+        useParticipants(eid);
     const selectableTimes = isLoading
         ? null
         : data.data.selectableParticipleTimes.selectedDayOfWeeks;
@@ -83,7 +84,12 @@ const TableView: NextPage<Props> = ({ params }) => {
     }, [clickedTime]);
 
     useEffect(() => {
-        if (voterId && !isLoading) {
+        refetch();
+    }, []);
+
+    // 투표자 개별 통계 전처리
+    useEffect(() => {
+        if (voterId && !isLoading && !isRefetching) {
             setVoterData(
                 participateData.filter((el: any) => {
                     return el.id === voterId;
@@ -91,11 +97,7 @@ const TableView: NextPage<Props> = ({ params }) => {
             );
             setIsVoterFetched(true);
         }
-    }, [voterId, isLoading]);
-
-    useEffect(() => {
-        // if (isVoterFetched) console.log(voterData[0]);
-    }, [isVoterFetched]);
+    }, [voterId, isLoading, isRefetching]);
 
     async function addAttendee(
         attendTimes: number[],
@@ -145,44 +147,38 @@ const TableView: NextPage<Props> = ({ params }) => {
     }
 
     useEffect(() => {
-        if (isSuccess && !isVoterFetched) {
-            // 참여한 사람 순회
+        if (isSuccess && !isRefetching) {
             let timeDataTemp: TimeDataType = [];
             const participleTimes = `${data.data.selectableParticipleTimes.beginTime}-${data.data.selectableParticipleTimes.endTime}`;
             const days = Convert4ResEventDays(
                 data.data.selectableParticipleTimes.selectedDayOfWeeks
             );
             setCheckableTimes(CheckAbleTime(participleTimes, days));
-            for (let i = 0; i < participateData.length; i++) {
-                setNames((cur) => {
-                    return [...cur, participateData[i].name];
-                });
+
+            if (!isVoterFetched) {
+                for (let i = 0; i < participateData.length; i++) {
+                    setNames((cur) => {
+                        return [...cur, participateData[i].name];
+                    });
+                    addAttendee(
+                        ConvertDays4Client(participateData[i].ableDaysAndTimes),
+                        participateData[i].name,
+                        timeDataTemp
+                    );
+                }
+                addAbsentee(timeData, names);
+                setIsTableDone(true);
+            } else {
+                setNames([voterData[0].name]);
                 addAttendee(
-                    ConvertDays4Client(participateData[i].ableDaysAndTimes),
-                    participateData[i].name,
+                    ConvertDays4Client(voterData[0].ableDaysAndTimes),
+                    voterData[0].name,
                     timeDataTemp
                 );
+                setIsTableDone(true);
             }
-            addAbsentee(timeData, names);
-            setIsTableDone(true);
-        } else if (isSuccess && isVoterFetched) {
-            let timeDataTemp: TimeDataType = [];
-            const participleTimes = `${data.data.selectableParticipleTimes.beginTime}-${data.data.selectableParticipleTimes.endTime}`;
-            const days = Convert4ResEventDays(
-                data.data.selectableParticipleTimes.selectedDayOfWeeks
-            );
-            setCheckableTimes(CheckAbleTime(participleTimes, days));
-
-            setNames([voterData[0].name]);
-            addAttendee(
-                ConvertDays4Client(voterData[0].ableDaysAndTimes),
-                voterData[0].name,
-                timeDataTemp
-            );
-
-            setIsTableDone(true);
         }
-    }, [isSuccess, isVoterFetched]);
+    }, [isSuccess, isVoterFetched, isRefetching]);
 
     useEffect(() => {
         if (isTableDone) {
