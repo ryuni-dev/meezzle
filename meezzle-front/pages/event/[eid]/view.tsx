@@ -189,7 +189,7 @@ const TableView: NextPage<Props> = ({ params }) => {
 
     const onShare = () => {
         navigator.clipboard
-            .writeText(window.location.href)
+            .writeText(window.location.href.replace("view", "info"))
             .then(() => {
                 toast("링크가 복사되었습니다.", {
                     position: "top-center",
