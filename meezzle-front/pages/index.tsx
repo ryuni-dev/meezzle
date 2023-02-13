@@ -12,12 +12,25 @@ import Head from "next/head";
 import styled from "styled-components";
 import { useUserLogout } from "../hooks/api/user";
 import Body from "../styled-components/StyledBody";
+import { useTotalUse } from "../hooks/api/landing";
+
+export interface IntroProps {
+    data: {
+        code: string;
+        message: string;
+        data: {
+            eventCount: number;
+        };
+    };
+}
 
 const Home: NextPage = () => {
     const [visible, setVisible] = useState<Boolean>(false);
     const [isLoggedIn, setIsLoggedIn] = useLogin();
     const logout = useUserLogout();
     const [csr, setCsr] = useState(false);
+
+    const { data, isLoading, isError } = useTotalUse();
 
     // 프로필 클릭 시 메뉴 나오기
     const handleCilck = () => {
@@ -78,8 +91,10 @@ const Home: NextPage = () => {
                         )}
                     </Navbar>
                 )}
-                {csr && !isLoggedIn && <LandingPageIntro />}
-                {csr && !isLoggedIn && <LandingPageFooter />}
+                {csr && !isLoading && !isLoggedIn && (
+                    <LandingPageIntro {...data} />
+                )}
+                {csr && !isLoading && !isLoggedIn && <LandingPageFooter />}
                 {csr && isLoggedIn && <LandingPageSection />}
             </Body>
         </>
