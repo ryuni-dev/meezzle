@@ -22,7 +22,7 @@ import {
 } from "../../../hooks/api/events";
 import { eventInfo, eventTimeInfo } from "../../../states/eventInfo";
 import { eventDaySelected } from "../../../states/eventDayBox";
-import { useEffect } from "react";
+import { useEffect, useCallback } from "react";
 import {
     Convert4ReqEvents,
     Convert4ResEventDays,
@@ -70,37 +70,40 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
     const deleteEvent = useEventDelete();
     const patchEvent = useEventPatch(eid);
 
-    const DeleteEvent = () => {
+    const DeleteEvent = useCallback( 
+        async () => {
         if (
             confirm(
                 "이벤트를 삭제하면 되돌릴 수 없어요! \n정말 삭제하실 건가요?"
             ) === true
         ) {
-            deleteEvent.mutate(eid);
+            await deleteEvent.mutate(eid);
             alert("삭제되었어요!");
-            eventsQuery.refetch();
+            await eventsQuery.refetch();
             router.push("/");
         }
-    };
+    },[deleteEvent, eventsQuery])
 
-    const PatchEvent = () => {
-        if (ddayDisableState) {
-            setTimeInfo({
-                ...timeInfo,
-                dueTime: null,
-            });
-        }
-        const data = JSON.stringify(
-            //@ts-ignore
-            Convert4ReqEvents(event, timeInfo, days) // type 수정 필요
-        );
-        patchEvent.mutate(data);
-        if (!patchEvent.isLoading) {
-            eventsQuery.refetch();
-            alert("수정되었어요!");
-            router.push("/");
-        }
-    };
+    const PatchEvent = useCallback(
+        async () => {
+            if (ddayDisableState) {
+                setTimeInfo({
+                    ...timeInfo,
+                    dueTime: null,
+                });
+            }
+            const data = JSON.stringify(
+                //@ts-ignore
+                Convert4ReqEvents(event, timeInfo, days) // type 수정 필요
+                );
+                await patchEvent.mutate(data);
+                if (!patchEvent.isLoading) {
+                    alert("수정되었어요!");
+                    await eventsQuery.refetch();
+                    router.push("/");
+                }
+        },[patchEvent, eventsQuery]
+    )
 
     useEffect(() => {
         if (isLoading) {
