@@ -16,6 +16,7 @@ import LinkBtn from "../../../components/common/LinkBtn";
 import Navbar from "../../../components/common/Navbar";
 import {
     useEvent,
+    useEvents,
     useEventDelete,
     useEventPatch,
 } from "../../../hooks/api/events";
@@ -65,6 +66,7 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
     const [timeInfo, setTimeInfo] = useRecoilState(eventTimeInfo);
     const [ddayDisableState, setDdayDisableState] = useRecoilState(ddayDisable);
 
+    const eventsQuery = useEvents();
     const deleteEvent = useEventDelete();
     const patchEvent = useEventPatch(eid);
 
@@ -76,6 +78,7 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
         ) {
             deleteEvent.mutate(eid);
             alert("삭제되었어요!");
+            eventsQuery.refetch();
             router.push("/");
         }
     };
@@ -93,6 +96,7 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
         );
         patchEvent.mutate(data);
         if (!patchEvent.isLoading) {
+            eventsQuery.refetch();
             alert("수정되었어요!");
             router.push("/");
         }
