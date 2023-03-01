@@ -16,7 +16,7 @@ import { btnDisable, ddayDisable, inputStage } from "../../states/eventCreate";
 import { eventInfo, eventTimeInfo } from "../../states/eventInfo";
 import { eventDaySelected } from "../../states/eventDayBox";
 import { Convert4ReqEvents } from "../../utils/converter";
-import { useEventCreate } from "../../hooks/api/events";
+import { useEventCreate, useEvents } from "../../hooks/api/events";
 import Body from "../../styled-components/StyledBody";
 import { useRouter } from "next/router";
 import { HashLoader } from "react-spinners";
@@ -90,6 +90,8 @@ const CreatePage: NextPage = () => {
     const [selected, setSelected] = useRecoilState(eventDaySelected);
     const ddayDisableState = useRecoilValue(ddayDisable);
 
+    const eventsQuery = useEvents();
+
     const nameRef = useRef<HTMLInputElement>();
     const explainRef = useRef<HTMLTextAreaElement>();
 
@@ -139,6 +141,7 @@ const CreatePage: NextPage = () => {
             const res = await createEvent.mutateAsync(data);
             const resultData = await res.data;
             const eid = await resultData.event.id;
+            eventsQuery.refetch();
             router.push({
                 pathname: `/event/${eid}/congratulations`,
                 query: { voter: "false" },
