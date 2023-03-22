@@ -157,6 +157,7 @@ const CreatePage: NextPage = () => {
                 Convert4ReqEvents(event, timeInfo, selected)
                 // type 수정 필요
             );
+
             handleSubmit(data);
         }
     };
