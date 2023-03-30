@@ -149,10 +149,13 @@ const ViewTable = ({
 export default ViewTable;
 
 const TimeRow = styled.p`
-    margin: 8px 0 14px 0;
+    height: 26px;
+    padding-bottom: 14px;
+    margin: 0;
 `;
 
 const Container = styled.div`
+    display: flex;
     width: 97%;
     overscroll-behavior-x: none; // 아이폰 스와이프 방지
     margin: 0 auto;
@@ -165,7 +168,7 @@ const Container = styled.div`
 `;
 
 const Table = styled.div`
-    display: inline-block;
+    display: block;
     width: 90%;
     vertical-align: top;
 `;
@@ -212,10 +215,12 @@ const TimeBlock = styled.span<{
 `;
 
 const Time = styled.div`
-    display: inline-block;
+    display: block;
     width: 8%;
+    height: 646px;
+
     font-size: 9px;
-    margin-top: 6px;
+    margin-top: 14px;
     text-align: right;
     margin-right: 3px;
 `;
