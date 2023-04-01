@@ -202,8 +202,8 @@ const TimeSelect: NextComponentType = () => {
                 if (targetElement !== null && !targetDisable) {
                     setStart(targetElement);
                     selected.find((s) => parseInt(start) === s)
-                        ? setRemoveMode(true)
-                        : setRemoveMode(false);
+                    ? setRemoveMode(true)
+                    : setRemoveMode(false);
                     setEnd(targetElement);
                     UpdateCurrent(start, targetElement);
                 }
