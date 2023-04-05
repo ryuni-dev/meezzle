@@ -6,8 +6,11 @@
 </p>
 
 <p align="center">
-<a href="https://www.meezzle.xyz/event/11edd358-e891-9161-865c-59daa71530f1/info?voter=false"> Test Link </a>
-<a> (테스트 링크입니다! 이 링크에서 자유롭게 체험해 보세요!)</a>
+  <img src="assets/test_link_QR.jpg" title="QR" width="120">
+</p>
+<p align="center">
+  <a href="https://www.meezzle.xyz/event/11edd358-e891-9161-865c-59daa71530f1/info?voter=false"> Test Link </a>
+  <a> (테스트 링크입니다! 위의 QR 코드로 모바일에서도 사용해 보세요!)</a>
 </p>
 
 ## 💡 서비스 소개
