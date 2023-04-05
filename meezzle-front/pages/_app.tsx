@@ -3,6 +3,10 @@ import "../public/fonts/pretendard.css";
 import type { AppProps } from "next/app";
 import { RecoilRoot } from "recoil";
 import Head from "next/head";
+import * as gtag from "../utils/gtag";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
+
 import {
     DehydratedState,
     Hydrate,
@@ -24,6 +28,17 @@ function MyApp({
     pageProps,
 }: AppProps<{ dehydratedState: DehydratedState }>) {
     const [queryClient] = React.useState(() => new QueryClient());
+    const router = useRouter();
+
+    useEffect(() => {
+        const handleRouteChange = (url: URL) => {
+            gtag.pageview(url);
+        };
+        router.events.on("routeChangeComplete", handleRouteChange);
+        return () => {
+            router.events.off("routeChangeComplete", handleRouteChange);
+        };
+    }, [router.events]);
 
     function kakaoInit() {
         // 페이지가 로드되면 실행
