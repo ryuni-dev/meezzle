@@ -161,29 +161,27 @@ const TimeSelect: NextComponentType = () => {
     const [selected, setSelected] = useRecoilState(timeSelected);
     const [curr, setCurr] = useRecoilState(timeCurrent);
 
-    const setDisable = useSetRecoilState(btnDisable);
-
     const [nowDay, setNowDay] = useRecoilState(voteNow);
     const ableTimes = useRecoilValue(ableTime);
 
-    const IsDisable = () => {
-        if (selected.length === 0) {
-            setDisable(true);
-        } else {
-            setDisable(false);
-        }
-    };
-    IsDisable();
-
-    useEffect(() => {}, [selected, curr, removeMode]);
-
     const UpdateCurrent = (start: string, end: string) => {
         if (click) {
-            setEnd(end);
-            setCurr([...CalcLinear({ start, end })]);
+            setEnd(() => end);
+            setCurr(() => [...CalcLinear({ start, end })]);
         }
     };
-    const TouchStartEvent = useCallback(
+
+    const CheckRemoveMode = (start: string) => {
+        if (
+            selected.find((s) => parseInt(start) === s)
+        ){
+            return true
+        }
+        else{
+            return false
+        }
+    }
+    const TouchStartEvent =
         (
             e:
                 | React.MouseEvent<HTMLDivElement>
@@ -193,94 +191,99 @@ const TimeSelect: NextComponentType = () => {
             document.body.style.touchAction = "none";
             document.body.style.userSelect = "none";
 
-            setClick(true);
-
             try {
                 const targetElement = e.currentTarget.getAttribute("data-time");
                 const targetDisable =
-                    e.currentTarget.getAttribute("data-disalbe");
-                if (targetElement !== null && !targetDisable) {
-                    setStart(targetElement);
-                    selected.find((s) => parseInt(start) === s)
-                    ? setRemoveMode(true)
-                    : setRemoveMode(false);
-                    setEnd(targetElement);
+                    e.currentTarget.getAttribute("data-disable");
+
+                if (targetElement !== null && targetDisable == 'false') {
+                    setClick(() => true);
+                    setStart(() => targetElement);
+                    setRemoveMode(CheckRemoveMode(start))
+                    setEnd(() => targetElement);
                     UpdateCurrent(start, targetElement);
                 }
             } catch {
                 console.log("getAtrribute Error!");
             }
-        },
-        [click, start, end, removeMode, selected]
-    );
+        };
 
     const ClickEvent = (e: React.MouseEvent, index: number) => {
         try {
             const targetElement = e.currentTarget.getAttribute("data-time");
-            const targetDisable = e.currentTarget.getAttribute("data-disalbe");
-            if (targetElement !== null && !targetDisable) {
+            const targetDisable = e.currentTarget.getAttribute("data-disable");
+
+            if (targetElement !== null && targetDisable == 'false') {
                 if (selected.find((s) => parseInt(targetElement) === s)) {
-                    setSelected(selected.filter((se) => se !== index));
+                    setSelected(() => selected.filter((se) => se !== index));
                 } else {
-                    setSelected([...selected, index]);
+                    setSelected(() => [...selected, index]);
                 }
             }
         } catch {
             console.log("getAtrribute Error!");
         }
     };
-    const MouseMoveEvent = useCallback(
+
+    const MouseMoveEvent = 
         (e: React.MouseEvent<HTMLDivElement>): void => {
             try {
-                const targetElement = e.currentTarget.getAttribute("data-time");
-                if (targetElement !== null) {
-                    UpdateCurrent(start, targetElement);
-                }
-            } catch {
-                console.log("getAtrribute Error!");
-            }
-        },
-        [end, curr, click, start]
-    );
-
-    const TouchMoveEvent = useCallback(
-        (e: React.TouchEvent<HTMLDivElement>): void => {
-            try {
-                const { touches } = e;
-                if (touches && touches.length != 0) {
-                    const { clientX, clientY } = touches[0];
-                    //@ts-ignore
-                    const targetElement: any = document
-                        .elementFromPoint(clientX, clientY)
-                        .getAttribute("data-time");
-                    if (
-                        parseInt(targetElement) > 100 &&
-                        parseInt(targetElement) < 749
-                    ) {
+                if (click) {
+                    setRemoveMode(CheckRemoveMode(start))
+                    const targetElement = e.currentTarget.getAttribute("data-time");
+                    if (targetElement !== null) {
                         UpdateCurrent(start, targetElement);
                     }
                 }
             } catch {
                 console.log("getAtrribute Error!");
             }
-        },
-        [end, curr, click, start]
-    );
+        };
 
-    const TouchEndEvent = useCallback((): void => {
-        click
-            ? !removeMode
-                ? setSelected([...selected, ...curr])
-                : setSelected(selected.filter((se) => !curr.includes(se)))
-            : null;
-        document.body.style.overflow = "";
-        document.body.style.touchAction = "";
-        // document.body.style.userSelect="";
-        IsDisable();
-        setCurr([...[]]);
-        setClick(false);
-        setRemoveMode(false);
-    }, [selected, curr, click, removeMode]);
+    const TouchMoveEvent = 
+        (e: React.TouchEvent<HTMLDivElement>): void => {
+            try {
+                if (click){
+                    setRemoveMode(CheckRemoveMode(start))
+                    const { touches } = e;
+                    if (touches && touches.length != 0) {
+                        const { clientX, clientY } = touches[0];
+                        //@ts-ignore
+                        const targetElement: any = document
+                        .elementFromPoint(clientX, clientY)
+                        .getAttribute("data-time");
+                        if (
+                            parseInt(targetElement) > 100 &&
+                            parseInt(targetElement) < 749
+                            ) {
+                                UpdateCurrent(start, targetElement);
+                            }
+                        }
+                }
+            } catch {
+                console.log("getAtrribute Error!");
+            }
+        };
+
+    const TouchEndEvent = () => {
+        if (click) {
+            setRemoveMode(CheckRemoveMode(start))
+            if(!removeMode){
+                setSelected(() => [...selected, ...curr])
+            }
+            else {
+                setSelected(() => selected.filter((se) => !curr.includes(se)))
+            }
+            // : null;
+            document.body.style.overflow = "";
+            document.body.style.touchAction = "";
+            // document.body.style.userSelect="";
+            // IsDisable();
+            setCurr(() => [...[]]);
+            setClick(() => false);
+        }
+        // setRemoveMode(() => false);
+    };
 
     const FindCurrent = (idx: number): boolean => {
         if (curr.find((c) => c === idx)) {
@@ -305,9 +308,9 @@ const TimeSelect: NextComponentType = () => {
             return true;
         }
     };
-    useEffect(() => {
-        TouchEndEvent();
-    }, [selected]);
+    // useEffect(() => {
+    //     TouchEndEvent();
+    // }, [selected]);
 
     return (
         <Container>
@@ -331,7 +334,7 @@ const TimeSelect: NextComponentType = () => {
                             disable={FindIsDisable(nowDay * 100 + index)}
                             data-disable={FindIsDisable(nowDay * 100 + index)}
                             onMouseDown={TouchStartEvent}
-                            onMouseMove={MouseMoveEvent}
+                            onMouseEnter={MouseMoveEvent}
                             onMouseUp={TouchEndEvent}
                             onTouchStart={TouchStartEvent}
                             onTouchMove={TouchMoveEvent}
@@ -367,7 +370,7 @@ const TimeSelect: NextComponentType = () => {
                                 nowDay * 100 + index + 12
                             )}
                             onMouseDown={TouchStartEvent}
-                            onMouseMove={MouseMoveEvent}
+                            onMouseEnter={MouseMoveEvent}
                             onMouseUp={TouchEndEvent}
                             onTouchStart={TouchStartEvent}
                             onTouchMove={TouchMoveEvent}
@@ -402,7 +405,7 @@ const TimeSelect: NextComponentType = () => {
                                 nowDay * 100 + index + 24
                             )}
                             onMouseDown={TouchStartEvent}
-                            onMouseMove={MouseMoveEvent}
+                            onMouseEnter={MouseMoveEvent}
                             onMouseUp={TouchEndEvent}
                             onTouchStart={TouchStartEvent}
                             onTouchMove={TouchMoveEvent}
@@ -436,7 +439,7 @@ const TimeSelect: NextComponentType = () => {
                                 nowDay * 100 + index + 36
                             )}
                             onMouseDown={TouchStartEvent}
-                            onMouseMove={MouseMoveEvent}
+                            onMouseEnter={MouseMoveEvent}
                             onMouseUp={TouchEndEvent}
                             onTouchStart={TouchStartEvent}
                             onTouchMove={TouchMoveEvent}
