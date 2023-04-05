@@ -5,6 +5,10 @@
 <a> (모바일에서 접속하는 것을 추천드려요😃)</a>
 </p>
 
+<p align="center">
+<a href="https://www.meezzle.xyz/event/11edd358-e891-9161-865c-59daa71530f1/info?voter=false"> Test Link </a>
+<a> (테스트 링크입니다! 이 링크에서 자유롭게 체험해 보세요!)</a>
+</p>
 
 ## 💡 서비스 소개
 
