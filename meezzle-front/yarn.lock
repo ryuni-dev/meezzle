@@ -288,6 +288,11 @@
     "@tanstack/query-core" "4.18.0"
     "use-sync-external-store" "^1.2.0"
 
+"@types/gtag.js@^0.0.12":
+  "integrity" "sha512-YQV9bUsemkzG81Ea295/nF/5GijnD2Af7QhEofh7xu+kvCN6RdodgNwwGWXB5GMI3NoyvQo0odNctoH/qLMIpg=="
+  "resolved" "https://registry.npmjs.org/@types/gtag.js/-/gtag.js-0.0.12.tgz"
+  "version" "0.0.12"
+
 "@types/hoist-non-react-statics@*":
   "integrity" "sha512-iMIqiko6ooLrTh1joXodJK5X9xeEALT1kM5G3ZLhD3hszxBdIEd5C75U834D9mLcINgD4OyZf5uQXjkuYydWvA=="
   "resolved" "https://registry.npmjs.org/@types/hoist-non-react-statics/-/hoist-non-react-statics-3.3.1.tgz"
