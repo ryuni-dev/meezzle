@@ -3,6 +3,11 @@ import "../public/fonts/pretendard.css";
 import type { AppProps } from "next/app";
 import { RecoilRoot } from "recoil";
 import Head from "next/head";
+import * as gtag from "../utils/gtag";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
+import { GA_TRACKING_ID } from "../utils/gtag";
+
 import {
     DehydratedState,
     Hydrate,
@@ -24,6 +29,17 @@ function MyApp({
     pageProps,
 }: AppProps<{ dehydratedState: DehydratedState }>) {
     const [queryClient] = React.useState(() => new QueryClient());
+    const router = useRouter();
+
+    useEffect(() => {
+        const handleRouteChange = (url: URL) => {
+            gtag.pageview(url);
+        };
+        router.events.on("routeChangeComplete", handleRouteChange);
+        return () => {
+            router.events.off("routeChangeComplete", handleRouteChange);
+        };
+    }, [router.events]);
 
     function kakaoInit() {
         // 페이지가 로드되면 실행
@@ -73,6 +89,23 @@ function MyApp({
                             type="image/x-icon"
                             href="/logo.ico"
                         />
+                         {/* Global Site Tag (gtag.js) - Google Analytics */}
+          <script
+            async
+            src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
+          />
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', '${GA_TRACKING_ID}', {
+                page_path: window.location.pathname,
+              });
+          `
+            }}
+          />
                     </Head>
                     <GlobalStyle />
                     <Component {...pageProps} />
