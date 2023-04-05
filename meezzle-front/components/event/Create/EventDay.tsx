@@ -109,114 +109,131 @@ const EventDay: NextComponentType = ()=> {
 
     const IsDisable = () => {
         if(selected.length === 0){
-            setDisable(true);
+            setDisable(() => true);
         }
         else {
-            setDisable(false);
+            setDisable(() => false);
         }
     }
     IsDisable();
 
-    useEffect(() => {
+    // useEffect(() => {
 
-    },[selected, curr, removeMode]);
+    // },[selected, curr, removeMode]);
+
+    const CheckRemoveMode = (start: string) => {
+        if (
+            selected.find((s) => parseInt(start) === s)
+        ){
+            return true
+        }
+        else{
+            return false
+        }
+    }
 
     const UpdateCurrent = (start: string, end: string) => {
         if(click){
-            setEnd(end)
+            setEnd(() => end)
             //@ts-ignore
-            setCurr([...CalcLinear({start, end})]);
+            setCurr(() => [...CalcLinear({start, end})]);
         }
     }
-    const TouchStartEvent = useCallback((
+    const TouchStartEvent = (
         e:React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>
         ): void => {
             document.body.style.overflow="hidden";
             document.body.style.touchAction="none";
             document.body.style.userSelect="none";
-
-            setClick(() => true)
-
             try{
                 const targetElement = e.currentTarget.getAttribute("data-day");
+                setClick(() => true)
                 //@ts-ignore
-                setStart(targetElement);
-                selected.find(s => parseInt(start) === s) ? setRemoveMode(true) : setRemoveMode(false);
+                setStart(() => targetElement);
+                setRemoveMode(CheckRemoveMode(start))
+                // selected.find(s => parseInt(start) === s) ? setRemoveMode(true) : setRemoveMode(false);
                 //@ts-ignore
-                setEnd(targetElement);
+                setEnd(() => targetElement);
                 //@ts-ignore
                 UpdateCurrent(start, targetElement)
             }
             catch{
+                setClick(() => false)
                 console.log('getAtrribute Error!');
             }
-            // 여기서 뭔가 오류가 있음
-    },
-    [click, start, end, removeMode, selected]);
+    };
 
     const ClickEvent = (e: React.MouseEvent, index: number) => {
         try{
             const targetElement = e.currentTarget.getAttribute("data-day");
             //@ts-ignore
             if(selected.find(s => parseInt(targetElement) === s)){
-                setSelected(selected.filter(se => se !== (index+1)))
+                setSelected(() => selected.filter(se => se !== (index+1)))
             }
             else {
                 //@ts-ignore
-                setSelected([...selected, index+1])
+                setSelected(() => [...selected, index+1])
             }
         }
         catch{
             console.log('getAtrribute Error!');
         }
     }
-    const MouseMoveEvent = useCallback((
+
+    const MouseMoveEvent = (
         e:React.MouseEvent<HTMLDivElement>): void => {
             try {
-                const targetElement = e.currentTarget.getAttribute("data-day");
-                //@ts-ignore
-                UpdateCurrent(start, targetElement);
+                if (click){
+                    setRemoveMode(CheckRemoveMode(start))
+                    const targetElement = e.currentTarget.getAttribute("data-day");
+                    //@ts-ignore
+                    UpdateCurrent(start, targetElement);
+                }
             }
             catch{
                 console.log('getAtrribute Error!');
             }
-    },
-    [end, curr, click, start]);
+    };
 
-    const TouchMoveEvent = useCallback((
+    const TouchMoveEvent = (
         e:React.TouchEvent<HTMLDivElement>): void => {
             try{
-                const { touches } = e;
-                if (touches && touches.length != 0) {
-                    const { clientX, clientY } = touches[0]
-                    //@ts-ignore
-                    const targetElement:any = document.elementFromPoint(clientX, clientY).getAttribute("data-day");
-                    if((parseInt(targetElement) > 0) && (parseInt(targetElement) < 8)){
-                        UpdateCurrent(start, targetElement);
-                    }
-                }            
+                if (click) {
+                    setRemoveMode(CheckRemoveMode(start))
+                    const { touches } = e;
+                    if (touches && touches.length != 0) {
+                        const { clientX, clientY } = touches[0]
+                        //@ts-ignore
+                        const targetElement:any = document.elementFromPoint(clientX, clientY).getAttribute("data-day");
+                        if((parseInt(targetElement) > 0) && (parseInt(targetElement) < 8)){
+                            UpdateCurrent(start, targetElement);
+                        }
+                    }            
+                }
             }
             catch{
                 console.log('getAtrribute Error!');
             }
-    },
-    [end, curr, click, start]);
+    };
 
-    const TouchEndEvent = useCallback((): void => {
-        click ? 
-        (!removeMode
-            ? setSelected([...selected, ...curr]) 
-            : setSelected(selected.filter(se => !curr.includes(se))))
-        : null;
-        document.body.style.overflow="";
-        document.body.style.touchAction="";
-        // document.body.style.userSelect="";
-        IsDisable();
-        setCurr([...[]]);
-        setClick(false);
-        setRemoveMode(false);
-    },
-    [selected, curr, click, removeMode]);
+    const TouchEndEvent = () => {
+        if (click) {
+            setRemoveMode(CheckRemoveMode(start))
+            if (!removeMode){
+                setSelected(() => [...selected, ...curr]) 
+            }
+            else {
+                setSelected(() => selected.filter(se => !curr.includes(se)))
+            }
+            document.body.style.overflow="";
+            document.body.style.touchAction="";
+            // document.body.style.userSelect="";
+            IsDisable();
+            setCurr(() => [...[]]);
+            setClick(() => false);
+            // setRemoveMode(false);
+        } 
+    };
 
 
     const FindCurrent = (idx: number): boolean => {
@@ -236,9 +253,9 @@ const EventDay: NextComponentType = ()=> {
             return false;
         }
     };
-    useEffect(()=> {
-        TouchEndEvent();
-    },[selected]);
+    // useEffect(()=> {
+    //     TouchEndEvent();
+    // },[selected]);
 
     return (
         <ContainerInput>
