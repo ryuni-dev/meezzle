@@ -253,9 +253,15 @@ const EventDay: NextComponentType = ()=> {
             return false;
         }
     };
-    // useEffect(()=> {
-    //     TouchEndEvent();
-    // },[selected]);
+
+    useEffect(() => {
+        if(click){
+            document.addEventListener('mouseup', TouchEndEvent);
+            return () => {
+                document.removeEventListener('mouseup', TouchEndEvent)
+            }
+        }
+    }, [curr]);
 
     return (
         <ContainerInput>
