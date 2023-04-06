@@ -308,9 +308,13 @@ const TimeSelect: NextComponentType = () => {
             return true;
         }
     };
-    // useEffect(() => {
-    //     TouchEndEvent();
-    // }, [selected]);
+    
+    useEffect(() => {
+        document.addEventListener('mouseup', TouchEndEvent);
+        return () => {
+            document.removeEventListener('mouseup', TouchEndEvent)
+        }
+    }, [curr]);
 
     return (
         <Container>
