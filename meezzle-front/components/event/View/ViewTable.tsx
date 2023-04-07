@@ -88,9 +88,9 @@ const ViewTable = ({
     };
 
     const ref = useRef<boolean>(false);
-
+    const timeBlockStart: number = checkableTimes[0] % 100; // 선택 가능한 최초 시간대
+    const timeBlockEnd: number = Math.max(...checkableTimes) % 100; // 선택 가능한 최후 시간대
     useEffect(() => {
-        const timeBlockStart: number = checkableTimes[0] % 100; // 선택 가능한 최초 시간대
         const makeRows = (info: any, r: number) => {
             return (
                 <div key={r}>
@@ -101,7 +101,14 @@ const ViewTable = ({
                             ? false
                             : true;
 
-                        return key % 100 >= timeBlockStart ? (
+                        if (
+                            key % 100 < timeBlockStart ||
+                            key % 100 > timeBlockEnd ||
+                            isNaN(timeBlockStart)
+                        )
+                            return false;
+
+                        return (
                             <TimeBlock
                                 col={info.col.length}
                                 key={key}
@@ -116,8 +123,6 @@ const ViewTable = ({
                                 colorWeight={colorWeight}
                                 disabled={disabled}
                             ></TimeBlock>
-                        ) : (
-                            false
                         );
                     })}
                 </div>
@@ -132,14 +137,19 @@ const ViewTable = ({
             })
         );
 
+        const startTime: number = Math.floor(timeBlockStart / 2);
+        const isHalfTime: number = timeBlockStart % 2;
+        const min: number | string = isHalfTime ? 30 : "00";
+        const endTime: number = isHalfTime
+            ? Math.floor(timeBlockEnd / 2)
+            : Math.ceil(timeBlockEnd / 2);
+
         const makeTimeRow = (hour: number) => {
-            const startTime: number = Math.floor(timeBlockStart / 2);
-            const isHalfTime: number = timeBlockStart % 2;
-            const min: number | string = isHalfTime ? 30 : "00";
+            console.log(startTime, endTime, timeBlockEnd);
 
             if (hour === 24 && min === 30) return false; // 24:30 제외
 
-            if (hour >= startTime) {
+            if (hour >= startTime && hour <= endTime) {
                 return (
                     <TimeRow key={hour}>
                         {hour}:{min}
@@ -147,7 +157,6 @@ const ViewTable = ({
                 );
             } else return false;
         };
-
         for (let i = 0; i <= 24; i++) {
             setTime((time) => [...time, makeTimeRow(i)]);
         }
