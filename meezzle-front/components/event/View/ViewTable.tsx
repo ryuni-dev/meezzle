@@ -145,8 +145,6 @@ const ViewTable = ({
             : Math.ceil(timeBlockEnd / 2);
 
         const makeTimeRow = (hour: number) => {
-            console.log(startTime, endTime, timeBlockEnd);
-
             if (hour === 24 && min === 30) return false; // 24:30 제외
 
             if (hour >= startTime && hour <= endTime) {
