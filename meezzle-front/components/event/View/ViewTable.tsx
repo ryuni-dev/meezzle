@@ -90,8 +90,7 @@ const ViewTable = ({
     const ref = useRef<boolean>(false);
 
     useEffect(() => {
-        // 가상의 fetch
-        // setRows([]);
+        const timeBlockStart: number = checkableTimes[0] % 100; // 선택 가능한 최초 시간대
         const makeRows = (info: any, r: number) => {
             return (
                 <div key={r}>
@@ -102,7 +101,7 @@ const ViewTable = ({
                             ? false
                             : true;
 
-                        return (
+                        return key % 100 >= timeBlockStart ? (
                             <TimeBlock
                                 col={info.col.length}
                                 key={key}
@@ -117,6 +116,8 @@ const ViewTable = ({
                                 colorWeight={colorWeight}
                                 disabled={disabled}
                             ></TimeBlock>
+                        ) : (
+                            false
                         );
                     })}
                 </div>
@@ -130,8 +131,25 @@ const ViewTable = ({
                 return <div key={idx}>{e}</div>;
             })
         );
+
+        const makeTimeRow = (hour: number) => {
+            const startTime: number = Math.floor(timeBlockStart / 2);
+            const isHalfTime: number = timeBlockStart % 2;
+            const min: number | string = isHalfTime ? 30 : "00";
+
+            if (hour === 24 && min === 30) return false; // 24:30 제외
+
+            if (hour >= startTime) {
+                return (
+                    <TimeRow key={hour}>
+                        {hour}:{min}
+                    </TimeRow>
+                );
+            } else return false;
+        };
+
         for (let i = 0; i <= 24; i++) {
-            setTime((time) => [...time, <TimeRow key={i}>{i}:00</TimeRow>]);
+            setTime((time) => [...time, makeTimeRow(i)]);
         }
     }, []);
 
@@ -217,7 +235,6 @@ const TimeBlock = styled.span<{
 const Time = styled.div`
     display: block;
     width: 8%;
-    height: 646px;
 
     font-size: 9px;
     margin-top: 14px;
