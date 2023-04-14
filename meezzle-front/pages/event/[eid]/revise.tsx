@@ -77,10 +77,16 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
                 "이벤트를 삭제하면 되돌릴 수 없어요! \n정말 삭제하실 건가요?"
             ) === true
         ) {
-            await deleteEvent.mutate(eid);
-            alert("삭제되었어요!");
-            await eventsQuery.refetch();
-            router.push("/");
+            deleteEvent.mutate(eid, {
+                onSuccess: () => {
+                    alert("삭제되었어요!");
+                    eventsQuery.refetch();
+                    router.push("/");
+                },
+                onError: () => {
+                    alert("잠시 오류가 생겼어요:( \n다시 제출해 주세요!");
+                }
+            });
         }
     },[deleteEvent, eventsQuery])
 
@@ -96,12 +102,16 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
                 //@ts-ignore
                 Convert4ReqEvents(event, timeInfo, days) // type 수정 필요
                 );
-                await patchEvent.mutate(data);
-                if (!patchEvent.isLoading) {
-                    alert("수정되었어요!");
-                    await eventsQuery.refetch();
-                    router.push("/");
-                }
+                patchEvent.mutate(data, {
+                    onSuccess: () => {
+                        alert("수정되었어요!");
+                        eventsQuery.refetch();
+                        router.push("/");
+                    },
+                    onError: () => {
+                        alert("잠시 오류가 생겼어요:( \n다시 제출해 주세요!");
+                    }
+                });
         },[patchEvent, eventsQuery]
     )
 
