@@ -138,14 +138,20 @@ const CreatePage: NextPage = () => {
 
     const handleSubmit = useCallback(
         async (data: string) => {
-            const res = await createEvent.mutateAsync(data);
-            const resultData = await res.data;
-            const eid = await resultData.event.id;
-            eventsQuery.refetch();
-            router.push({
-                pathname: `/event/${eid}/congratulations`,
-                query: { voter: "false" },
-            });
+            createEvent.mutate(data, {
+                onSuccess: (data) => {
+                    const resultData = data.data;
+                    const eid = resultData.event.id;
+                    eventsQuery.refetch();
+                    router.push({
+                        pathname: `/event/${eid}/congratulations`,
+                        query: { voter: "false" },
+                    });
+                },
+                onError: () => {
+                    alert("잠시 오류가 생겼어요:( \n다시 제출해 주세요!");
+                }
+            })
         },
         [createEvent]
     );

@@ -89,22 +89,30 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
 
     const submitGuest = useCallback(
         async (data: string) => {
-            await voteGuest.mutateAsync(data);
-            await router.push({
-                pathname: `/event/${eid}/congratulations`,
-                query: { voter: "true" },
-            });
+            voteGuest.mutate(data, {
+                onSuccess: () => router.push({
+                        pathname: `/event/${eid}/congratulations`,
+                        query: { voter: "true" },
+                    }),
+                onError: () => {
+                    alert("잠시 오류가 생겼어요:( \n다시 제출해 주세요!");
+                }
+            })
         },
         [voteGuest]
     );
 
     const submitHost = useCallback(
         async (data: string) => {
-            await voteHost.mutateAsync(data);
-            await router.push({
-                pathname: `/event/${eid}/congratulations`,
-                query: { voter: "true" },
-            });
+            voteHost.mutate(data, {
+                onSuccess: () => router.push({
+                    pathname: `/event/${eid}/congratulations`,
+                    query: { voter: "true" },
+                }),
+                onError: () => {
+                    alert("잠시 오류가 생겼어요:( \n다시 제출해 주세요!");
+                }
+            })
         },
         [voteHost]
     );
@@ -121,14 +129,8 @@ const ReviseEvent: NextPage<Props> = ({ params }) => {
             submitGuest(voteData);
         } else {
             // Host 투표
-            // voteHost.mutate(voteData);
             submitHost(voteData);
         }
-        /* 제출 API 처리 필요 */
-        // router.push({
-        //     pathname: `/event/${eid}/congratulations`,
-        //     query: { voter: "true" },
-        // });
     };
 
     useEffect(() => {
