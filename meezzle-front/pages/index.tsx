@@ -1,4 +1,4 @@
-import type { NextPage } from "next";
+import type { GetStaticProps, NextPage } from "next";
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import Navbar from "../components/common/Navbar";
@@ -13,6 +13,8 @@ import styled from "styled-components";
 import { useUserLogout } from "../hooks/api/user";
 import Body from "../styled-components/StyledBody";
 import { useTotalUse } from "../hooks/api/landing";
+import { dehydrate, QueryClient, useQuery } from "@tanstack/react-query";
+import { getTotalUse } from "../api/landing";
 
 export interface IntroProps {
     data: {
@@ -29,8 +31,7 @@ const Home: NextPage = () => {
     const [isLoggedIn, setIsLoggedIn] = useLogin();
     const logout = useUserLogout();
     const [csr, setCsr] = useState(false);
-
-    const { data, isLoading, isError } = useTotalUse();
+    const { data, isLoading } = useTotalUse();
 
     // 프로필 클릭 시 메뉴 나오기
     const handleCilck = () => {
@@ -102,3 +103,23 @@ const Home: NextPage = () => {
 };
 
 export default Home;
+
+export const getStaticProps: GetStaticProps = async () => {
+    const queryClient = new QueryClient();
+
+    try {
+        await queryClient.prefetchQuery(["totalUse"], () => getTotalUse());
+        return {
+            props: {
+                dehydratedState: dehydrate(queryClient),
+            },
+            revalidate: 60,
+        };
+    } catch (e) {
+        return {
+            props: {},
+        };
+    } finally {
+        queryClient.clear();
+    }
+};
