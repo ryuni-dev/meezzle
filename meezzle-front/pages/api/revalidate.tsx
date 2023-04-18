@@ -10,7 +10,6 @@ export default async function handler(
 
     try {
         await response.revalidate("/");
-        console.log("Revalidate");
         return response.json({ revalidated: true });
     } catch (err) {
         return response.status(500).send("Error revalidating");
