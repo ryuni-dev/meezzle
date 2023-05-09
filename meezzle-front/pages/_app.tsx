@@ -7,6 +7,7 @@ import * as gtag from "../utils/gtag";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { GA_TRACKING_ID } from "../utils/gtag";
+import { Analytics } from '@vercel/analytics/react';
 
 import {
     DehydratedState,
@@ -99,19 +100,20 @@ function MyApp({
                         <script
                             dangerouslySetInnerHTML={{
                                 __html: `
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', '${GA_TRACKING_ID}', {
-                page_path: window.location.pathname,
-              });
-          `,
+                                    window.dataLayer = window.dataLayer || [];
+                                    function gtag(){dataLayer.push(arguments);}
+                                    gtag('js', new Date());
+                                    gtag('config', '${GA_TRACKING_ID}', {
+                                        page_path: window.location.pathname,
+                                    });
+                                `,
                             }}
                         />
                     </Head>
 
                     <GlobalStyle />
                     <Component {...pageProps} />
+                    <Analytics/>
                     <Script
                         src="https://t1.kakaocdn.net/kakao_js_sdk/2.1.0/kakao.min.js"
                         onLoad={kakaoInit}
