@@ -88,10 +88,9 @@ const ViewTable = ({
     };
 
     const ref = useRef<boolean>(false);
-
+    const timeBlockStart: number = checkableTimes[0] % 100; // 선택 가능한 최초 시간대
+    const timeBlockEnd: number = Math.max(...checkableTimes) % 100; // 선택 가능한 최후 시간대
     useEffect(() => {
-        // 가상의 fetch
-        // setRows([]);
         const makeRows = (info: any, r: number) => {
             return (
                 <div key={r}>
@@ -101,6 +100,13 @@ const ViewTable = ({
                         const disabled = checkableTimes.includes(key)
                             ? false
                             : true;
+
+                        if (
+                            key % 100 < timeBlockStart ||
+                            key % 100 > timeBlockEnd ||
+                            isNaN(timeBlockStart)
+                        )
+                            return false;
 
                         return (
                             <TimeBlock
@@ -130,8 +136,27 @@ const ViewTable = ({
                 return <div key={idx}>{e}</div>;
             })
         );
+
+        const startTime: number = Math.floor(timeBlockStart / 2);
+        const isHalfTime: number = timeBlockStart % 2;
+        const min: number | string = isHalfTime ? 30 : "00";
+        const endTime: number = isHalfTime
+            ? Math.floor(timeBlockEnd / 2)
+            : Math.ceil(timeBlockEnd / 2);
+
+        const makeTimeRow = (hour: number) => {
+            if (hour === 24 && min === 30) return false; // 24:30 제외
+
+            if (hour >= startTime && hour <= endTime) {
+                return (
+                    <TimeRow key={hour}>
+                        {hour}:{min}
+                    </TimeRow>
+                );
+            } else return false;
+        };
         for (let i = 0; i <= 24; i++) {
-            setTime((time) => [...time, <TimeRow key={i}>{i}:00</TimeRow>]);
+            setTime((time) => [...time, makeTimeRow(i)]);
         }
     }, []);
 
@@ -217,7 +242,6 @@ const TimeBlock = styled.span<{
 const Time = styled.div`
     display: block;
     width: 8%;
-    height: 646px;
 
     font-size: 9px;
     margin-top: 14px;
